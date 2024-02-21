@@ -26,14 +26,14 @@ export type UserHubErrorOptions =
   | BaseOptionsWithStatus;
 
 export class UserHubError extends Error {
-  private readonly _apiCode?: Code;
-  private readonly _message: string;
-  private readonly _reason?: string;
-  private readonly _param?: string;
-  private readonly _metadata?: Record<string, string>;
-  private readonly _call?: string;
-  private readonly _cause?: Error;
-  private readonly _statusCode?: number;
+  public readonly apiCode?: Code;
+  public readonly apiMessage: string;
+  public readonly reason?: string;
+  public readonly param?: string;
+  public readonly metadata: Record<string, string>;
+  public readonly call?: string;
+  public readonly cause?: Error;
+  public readonly statusCode?: number;
 
   constructor(init: string | UserHubErrorOptions) {
     const opts: UserHubErrorOptions =
@@ -43,6 +43,7 @@ export class UserHubError extends Error {
     if (status) {
       if (!opts.apiCode && status.code) opts.apiCode = status.code as Code;
       if (!opts.message && status.message) opts.message = status.message;
+      if (!opts.param && status.param) opts.param = status.param;
       if (!opts.reason && status.reason) opts.reason = status.reason;
       if (!opts.metadata && status.metadata) opts.metadata = status.metadata;
     }
@@ -70,49 +71,17 @@ export class UserHubError extends Error {
 
     super(message);
 
-    this._message = apiMessage;
-
-    if (opts.apiCode) this._apiCode = opts.apiCode;
-    if (opts.reason) this._reason = opts.reason;
-    if (opts.param) this._param = opts.param;
-    if (opts.metadata) this._metadata = opts.metadata;
+    this.apiMessage = apiMessage;
+    this.apiCode = opts.apiCode || Code.Unknown;
+    if (opts.reason) this.reason = opts.reason;
+    if (opts.param) this.param = opts.param;
+    this.metadata = opts.metadata || {};
+    if (opts.call) this.call = opts.call;
     if (opts.cause && opts.cause instanceof Error) {
-      this._cause = opts.cause;
+      this.cause = opts.cause;
       this.stack = opts.cause.stack;
     }
-    if (opts.statusCode) this._statusCode = opts.statusCode;
-  }
-
-  public get apiCode(): Code {
-    return this._apiCode || Code.Unknown;
-  }
-
-  public get apiMessage(): string {
-    return this._message;
-  }
-
-  public get reason(): string {
-    return this._reason || "";
-  }
-
-  public get param(): string {
-    return this._param || "";
-  }
-
-  public get metadata(): Record<string, string> {
-    return { ...this._metadata };
-  }
-
-  public get call(): string {
-    return this._call || "";
-  }
-
-  public get cause(): Error | undefined {
-    return this._cause;
-  }
-
-  public get statusCode(): number | null {
-    return this._statusCode || null;
+    if (opts.statusCode) this.statusCode = opts.statusCode;
   }
 
   public toJSON() {

@@ -166,6 +166,8 @@ test("API error", async () => {
       code: "NOT_FOUND",
       message: "Not Found",
       metadata: {},
+      reason: "USER_NOT_FOUND",
+      param: "userId",
     },
     statusCode: 404,
   });
@@ -184,10 +186,13 @@ test("API error", async () => {
   if (!(error instanceof UserHubError)) return;
 
   expect(error.message).equal(
-    "Not Found (call: admin.users.get, apiCode: NOT_FOUND)",
+    "Not Found (call: admin.users.get, apiCode: NOT_FOUND, reason: USER_NOT_FOUND, param: userId)",
   );
   expect(error.apiMessage).equal("Not Found");
   expect(error.apiCode).equal(Code.NotFound);
+  expect(error.reason).equal("USER_NOT_FOUND");
+  expect(error.param).equal("userId");
+  expect(error.call).equal("admin.users.get");
   expect(error.statusCode).equal(404);
 });
 
