@@ -5,6 +5,8 @@ Stability: alpha
 ### Requirements
 
 - Node 18 or later
+- Deno 1.28 or later
+- Bun 1 or later
 
 ### Getting Started
 
@@ -31,3 +33,5 @@ async function main() {
 
 main().catch(console.error);
 ```
+
+See the `examples` directory for more examples.
