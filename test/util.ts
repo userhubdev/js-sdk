@@ -1,4 +1,4 @@
-import { expect, test } from "vitest";
+import { test } from "vitest";
 
 export const ADMIN_KEY = process.env.TEST_ADMIN_KEY || "";
 export const USER_KEY = process.env.TEST_USER_KEY || "";
