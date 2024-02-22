@@ -46,7 +46,7 @@ export interface FlowsChanged {
   /**
    * The flow.
    */
-  flow?: adminv1.Flow | null;
+  flow: adminv1.Flow;
 }
 
 /**
@@ -56,11 +56,11 @@ export interface MembersChanged {
   /**
    * The organization.
    */
-  organization?: adminv1.Organization | null;
+  organization: adminv1.Organization;
   /**
    * The member.
    */
-  member?: adminv1.Member | null;
+  member: adminv1.Member;
 }
 
 /**
@@ -70,7 +70,7 @@ export interface OrganizationsChanged {
   /**
    * The organization.
    */
-  organization?: adminv1.Organization | null;
+  organization: adminv1.Organization;
 }
 
 /**
@@ -80,7 +80,7 @@ export interface SubscriptionsChanged {
   /**
    * The subscription.
    */
-  subscription?: adminv1.Subscription | null;
+  subscription: adminv1.Subscription;
 }
 
 /**
@@ -90,5 +90,5 @@ export interface UsersChanged {
   /**
    * The user.
    */
-  user?: adminv1.User | null;
+  user: adminv1.User;
 }

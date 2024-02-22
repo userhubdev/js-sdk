@@ -17,7 +17,7 @@ async function main() {
 
   const res = await adminApi.users.list({ pageSize: 5 });
 
-  for (const user of res?.users ?? []) {
+  for (const user of res.users) {
     if (user.disabled) {
       continue;
     }

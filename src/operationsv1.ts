@@ -44,9 +44,9 @@ export interface OperationError {
   /**
    * The error code.
    */
-  code?: string | null;
+  code?: string;
   /**
    * The error message.
    */
-  message?: string | null;
+  message?: string;
 }
