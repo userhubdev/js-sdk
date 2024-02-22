@@ -34,6 +34,16 @@ export const RETRY_OVERHEAD_MS = 100;
 export const TLS_TIMEOUT_MS = 10000;
 export const WRITE_TIMEOUT_MS = 30000;
 
+export const IS_BROWSER =
+  typeof window !== "undefined" && typeof window.document !== "undefined";
+
+export const IS_WEB_WORKER =
+  typeof self === "object" &&
+  self.constructor &&
+  self.constructor.name === "DedicatedWorkerGlobalScope";
+
+export const IS_SERVER_SIDE = !IS_BROWSER && !IS_WEB_WORKER;
+
 export const RETRY_ERROR_CODES = [
   "ECONNRESET",
   "ECONNREFUSED",

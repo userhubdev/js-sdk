@@ -23,7 +23,10 @@ export class HttpTransport implements Transport {
   constructor(options: HttpTransportOptions) {
     this.baseUrl = options.baseUrl || constants.API_BASE_URL;
     this.headers = options.headers;
-    this.headers.set("user-agent", constants.USER_AGENT);
+
+    if (constants.IS_SERVER_SIDE) {
+      this.headers.set("user-agent", constants.USER_AGENT);
+    }
   }
 
   private setupExecute(req: TransportRequest): FetchInput {
