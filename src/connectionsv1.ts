@@ -8,7 +8,7 @@ export interface Challenge {
   /**
    * The challenge string.
    */
-  challenge?: string | null;
+  challenge?: string;
 }
 
 /**
@@ -24,35 +24,35 @@ export interface CustomUser {
    *
    * The maximum length is 200 characters.
    */
-  displayName?: string | null;
+  displayName?: string;
   /**
    * The email address of the user.
    *
    * The maximum length is 320 characters.
    */
-  email?: string | null;
+  email?: string;
   /**
    * Whether the user's email address has been verified.
    */
-  emailVerified?: boolean | null;
+  emailVerified?: boolean;
   /**
    * The E164 phone number for the user (e.g. `+12125550123`).
    */
-  phoneNumber?: string | null;
+  phoneNumber?: string;
   /**
    * Whether the user's phone number has been verified.
    */
-  phoneNumberVerified?: boolean | null;
+  phoneNumberVerified?: boolean;
   /**
    * The photo/avatar URL of the user.
    *
    * The maximum length is 2000 characters.
    */
-  imageUrl?: string | null;
+  imageUrl?: string;
   /**
    * Whether the user is disabled.
    */
-  disabled?: boolean | null;
+  disabled?: boolean;
 }
 
 /**
@@ -62,7 +62,7 @@ export interface DeleteCustomUserRequest {
   /**
    * The external identifier for the user.
    */
-  id?: string | null;
+  id?: string;
 }
 
 /**
@@ -76,7 +76,7 @@ export interface ErrorResponse {
   /**
    * A user-facing error message.
    */
-  message?: string | null;
+  message?: string;
 }
 
 /**
@@ -86,7 +86,7 @@ export interface GetCustomUserRequest {
   /**
    * The external identifier for the user.
    */
-  id?: string | null;
+  id?: string;
 }
 
 /**
@@ -97,14 +97,14 @@ export interface ListCustomUsersRequest {
    * The maximum number of users to return. The webhook is allowed to
    * return fewer than this value, but it should never return more.
    */
-  pageSize?: number | null;
+  pageSize?: number;
   /**
    * A page token, this is from the response of the previous list
    * request.
    *
    * This should be used to determine the next page of results.
    */
-  pageToken?: string | null;
+  pageToken?: string;
 }
 
 /**
@@ -114,7 +114,7 @@ export interface ListCustomUsersResponse {
   /**
    * The list of users.
    */
-  users?: CustomUser[];
+  users: CustomUser[];
   /**
    * A token the webhook can set to indicate it has more results.
    *
@@ -123,5 +123,5 @@ export interface ListCustomUsersResponse {
    *
    * It must be encoded as a string.
    */
-  nextPageToken?: string | null;
+  nextPageToken?: string;
 }

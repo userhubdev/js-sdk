@@ -12,7 +12,7 @@ export interface OperationInfo {
   /**
    * The message name of the primary return type for this operation.
    */
-  responseType?: string | null;
+  responseType?: string;
 }
 
 /**
@@ -22,23 +22,23 @@ export interface Status {
   /**
    * The general error code (e.g. `INVALID_ARGUMENT`).
    */
-  code?: string | null;
+  code?: string;
   /**
    * A developer-facing error message.
    */
-  message?: string | null;
+  message?: string;
   /**
    * A reason code for the error (e.g. `USER_PENDING_DELETION`).
    */
-  reason?: string | null;
+  reason?: string;
   /**
    * The parameter path related to the error (e.g. `member.userId`).
    */
-  param?: string | null;
+  param?: string;
   /**
    * Additional metadata related to the error.
    */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
 }
 
 /**
@@ -49,13 +49,13 @@ export interface StatusDetails {
   /**
    * A reason code for the error (e.g. `PENDING_DELETION`).
    */
-  reason?: string | null;
+  reason?: string;
   /**
    * The parameter path related to the error (e.g. `member.userId`).
    */
-  param?: string | null;
+  param?: string;
   /**
    * Additional metadata related to the error.
    */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
 }

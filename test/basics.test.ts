@@ -34,10 +34,12 @@ test("Model", () => {
       {
         externalId: "test",
         state,
+        paymentMethods: [],
         createTime: now,
         updateTime: now,
       },
     ],
+    memberships: [],
     createTime: now,
     updateTime: now,
   };

@@ -7,23 +7,23 @@ export interface Address {
   /**
    * The address lines.
    */
-  lines: string[];
+  lines?: string[];
   /**
    * The city, district, suburb, town, or village.
    */
-  city?: string | null;
+  city?: string;
   /**
    * The state, country, province, or region.
    */
-  state?: string | null;
+  state?: string;
   /**
    * The ZIP or postal code.
    */
-  postalCode?: string | null;
+  postalCode?: string;
   /**
    * The 2-letter country code.
    */
-  country?: string | null;
+  country?: string;
 }
 
 /**
@@ -33,7 +33,7 @@ export interface Any {
   /**
    * The type of the serialized message.
    */
-  objectType?: string | null;
+  "@type"?: string;
 }
 
 /**
@@ -43,11 +43,11 @@ export interface Email {
   /**
    * The email address (e.g. `jane@example.com`).
    */
-  address?: string | null;
+  address?: string;
   /**
    * The email name (e.g. `Jane Doe`).
    */
-  displayName?: string | null;
+  displayName?: string;
 }
 
 /**

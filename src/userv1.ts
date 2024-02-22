@@ -8,11 +8,11 @@ export interface AccountSubscription {
   /**
    * The system-assigned identifier of the subscription.
    */
-  id?: string | null;
+  id: string;
   /**
    * The state of the subscription.
    */
-  state?: string | null;
+  state: string;
   /**
    * The anchor time of the billing cycle.
    */
@@ -37,11 +37,11 @@ export interface AccountSubscriptionPlan {
   /**
    * The identifier of the plan.
    */
-  id?: string | null;
+  id: string;
   /**
    * The human-readable display name of the plan.
    */
-  displayName?: string | null;
+  displayName: string;
   /**
    * The plan product.
    */
@@ -65,7 +65,7 @@ export interface BillingAccount {
   /**
    * The status of the billing account.
    */
-  state?: string | null;
+  state?: string;
   /**
    * The balance amount for the account.
    *
@@ -75,11 +75,11 @@ export interface BillingAccount {
    * A positive value indicates an amount which will be added to the next
    * invoice (debt).
    */
-  balanceAmount?: string | null;
+  balanceAmount?: string;
   /**
    * The ISO-4217 currency code for the account (e.g. `USD`).
    */
-  currencyCode?: string | null;
+  currencyCode?: string;
   /**
    * The default and latest 10 payment methods for the account.
    */
@@ -97,7 +97,7 @@ export interface CardPaymentMethod {
   /**
    * The brand of the card (e.g. `VISA`).
    */
-  brand?: string | null;
+  brand?: string;
   /**
    * The expiration date of the card.
    */
@@ -105,11 +105,11 @@ export interface CardPaymentMethod {
   /**
    * The last for digits of the card.
    */
-  last4?: string | null;
+  last4?: string;
   /**
    * The funding method for the card (e.g. `DEBIT`)
    */
-  fundingType?: string | null;
+  fundingType?: string;
 }
 
 /**
@@ -119,11 +119,11 @@ export interface CardPaymentMethodExpiration {
   /**
    * The expiration year.
    */
-  year?: number | null;
+  year?: number;
   /**
    * The expiration month.
    */
-  month?: number | null;
+  month?: number;
 }
 
 /**
@@ -141,7 +141,7 @@ export interface Flow {
   /**
    * The code that best describes the reason for the state.
    */
-  stateReason?: string | null;
+  stateReason?: string;
   /**
    * The flow type.
    */
@@ -159,7 +159,7 @@ export interface Flow {
    */
   creator?: User | null;
   /**
-   * The time the flow will expires.
+   * The time the flow will expire.
    */
   expireTime: Date;
   /**
@@ -195,15 +195,15 @@ export interface Invoice {
   /**
    * The invoice number.
    */
-  number?: string | null;
+  number?: string;
   /**
    * The currency code for the invoice (e.g. `USD`).
    */
-  currencyCode?: string | null;
+  currencyCode?: string;
   /**
    * The user facing description for the invoice.
    */
-  description?: string | null;
+  description?: string;
   /**
    * The contact information associated with the invoice.
    */
@@ -221,13 +221,13 @@ export interface Invoice {
    *
    * This includes item-level discounts.
    */
-  subtotalAmount?: string | null;
+  subtotalAmount?: string;
   /**
    * The invoice-level discount amount.
    *
    * This does not include item level discounts.
    */
-  discountAmount?: string | null;
+  discountAmount?: string;
   /**
    * The starting and ending account balance as
    * of the time the invoice was finalized.
@@ -239,20 +239,20 @@ export interface Invoice {
    * This is for rendering purposes only and is
    * not the reported tax amount.
    */
-  taxAmount?: string | null;
+  taxAmount?: string;
   /**
    * The total amount for the invoice.
    */
-  totalAmount?: string | null;
+  totalAmount?: string;
   /**
    * The total amount minus any credits automatically
    * associated with the invoice.
    */
-  dueAmount?: string | null;
+  dueAmount?: string;
   /**
    * The due amount minus the amount already paid.
    */
-  remainingDueAmount?: string | null;
+  remainingDueAmount?: string;
   /**
    * The time the invoice must be paid by.
    */
@@ -260,11 +260,11 @@ export interface Invoice {
   /**
    * The amount already paid towards the invoice.
    */
-  paidAmount?: string | null;
+  paidAmount?: string;
   /**
    * The status of the invoice payment.
    */
-  paymentState?: string | null;
+  paymentState?: string;
   /**
    * The payment intent for the invoice.
    */
@@ -294,15 +294,15 @@ export interface InvoiceAccount {
   /**
    * The company or individual's full name.
    */
-  fullName?: string | null;
+  fullName?: string;
   /**
    * The billing email address.
    */
-  email?: string | null;
+  email?: string;
   /**
    * The billing phone number.
    */
-  phoneNumber?: string | null;
+  phoneNumber?: string;
   /**
    * The billing address.
    */
@@ -317,18 +317,18 @@ export interface InvoiceBalance {
   /**
    * The starting balance of the account.
    */
-  startAmount?: string | null;
+  startAmount?: string;
   /**
    * The ending balance of the account.
    */
-  endAmount?: string | null;
+  endAmount?: string;
   /**
    * The amount applied to the invoice from the balance.
    *
    * A negative amount means a debit from the account balance.
    * A positive amount means a credit to the account balance.
    */
-  appliedAmount?: string | null;
+  appliedAmount?: string;
 }
 
 /**
@@ -342,32 +342,32 @@ export interface InvoiceChange {
   /**
    * The user-facing description for the change.
    */
-  description?: string | null;
+  description?: string;
   /**
    * The total amount for the change excluding
    * taxes and discounts.
    */
-  subtotalAmount?: string | null;
+  subtotalAmount?: string;
   /**
    * The change discount amount.
    */
-  discountAmount?: string | null;
+  discountAmount?: string;
   /**
    * The starting quantity of the change.
    */
-  startQuantity?: number | null;
+  startQuantity?: number;
   /**
    * The ending quantity of the change.
    */
-  endQuantity?: number | null;
+  endQuantity?: number;
   /**
    * The starting (credited) item identifiers.
    */
-  startItemIds: string[];
+  startItemIds?: string[];
   /**
    * The ending (charged) item identifiers.
    */
-  endItemIds: string[];
+  endItemIds?: string[];
 }
 
 /**
@@ -389,24 +389,24 @@ export interface InvoiceItem {
   /**
    * The quantity of the item product/price.
    */
-  quantity?: number | null;
+  quantity?: number;
   /**
    * The total amount for the line item excluding
    * taxes and discounts.
    */
-  subtotalAmount?: string | null;
+  subtotalAmount?: string;
   /**
    * The item-level discount amount.
    */
-  discountAmount?: string | null;
+  discountAmount?: string;
   /**
    * The user facing description for the line item.
    */
-  description?: string | null;
+  description?: string;
   /**
    * Whether the item was a proration.
    */
-  proration?: boolean | null;
+  proration?: boolean;
   /**
    * The billing period for the item.
    */
@@ -420,7 +420,7 @@ export interface InvoicePreview {
   /**
    * The currency code for the invoice (e.g. `USD`).
    */
-  currencyCode?: string | null;
+  currencyCode?: string;
   /**
    * The contact information associated with the invoice.
    */
@@ -440,13 +440,13 @@ export interface InvoicePreview {
    *
    * This includes item-level discounts.
    */
-  subtotalAmount?: string | null;
+  subtotalAmount?: string;
   /**
    * The invoice-level discount amount.
    *
    * This does not include item level discounts.
    */
-  discountAmount?: string | null;
+  discountAmount?: string;
   /**
    * The starting and ending account balance as
    * of the time the invoice was finalized.
@@ -458,16 +458,16 @@ export interface InvoicePreview {
    * This is for rendering purposes only and is
    * not the reported tax amount.
    */
-  taxAmount?: string | null;
+  taxAmount?: string;
   /**
    * The total amount for the invoice.
    */
-  totalAmount?: string | null;
+  totalAmount?: string;
   /**
    * The total amount minus any credits automatically
    * associated with the invoice.
    */
-  dueAmount?: string | null;
+  dueAmount?: string;
   /**
    * A token which can be passed to a create or update
    * operation to ensure the change matches the preview.
@@ -475,7 +475,7 @@ export interface InvoicePreview {
    * This token generally expires within 10 minutes of
    * being generated.
    */
-  changeToken?: string | null;
+  changeToken?: string;
   /**
    * The line items for the invoice.
    */
@@ -497,24 +497,24 @@ export interface InvoicePreviewItem {
   /**
    * The quantity of the item product/price.
    */
-  quantity?: number | null;
+  quantity?: number;
   /**
    * The total amount for the line item excluding
    * taxes and discounts.
    */
-  subtotalAmount?: string | null;
+  subtotalAmount?: string;
   /**
    * The item-level discount amount.
    */
-  discountAmount?: string | null;
+  discountAmount?: string;
   /**
    * The user facing description for the line item.
    */
-  description?: string | null;
+  description?: string;
   /**
    * Whether the item was a proration.
    */
-  proration?: boolean | null;
+  proration?: boolean;
   /**
    * The billing period for the item.
    */
@@ -528,14 +528,14 @@ export interface JoinOrganizationFlow {
   /**
    * The display name of the invitee.
    */
-  displayName?: string | null;
+  displayName?: string;
   /**
    * The email address of the invitee.
    *
    * This is required if a user isn't provided
    * or the user's email address is empty.
    */
-  email?: string | null;
+  email?: string;
 }
 
 /**
@@ -545,18 +545,18 @@ export interface ListFlowsResponse {
   /**
    * The list of flows.
    */
-  flows?: Flow[];
+  flows: Flow[];
   /**
    * A token, which can be sent as `pageToken` to retrieve the next page.
    * If this field is omitted, there are no subsequent pages.
    */
-  nextPageToken?: string | null;
+  nextPageToken?: string;
   /**
    * A token, which can be sent as `pageToken` to retrieve the previous page.
    * If this field is absent, there are no preceding pages. If this field is
    * an empty string then the previous page is the first result.
    */
-  previousPageToken?: string | null;
+  previousPageToken?: string;
 }
 
 /**
@@ -566,18 +566,18 @@ export interface ListInvoicesResponse {
   /**
    * The list of invoices.
    */
-  invoices?: Invoice[];
+  invoices: Invoice[];
   /**
    * A token, which can be sent as `pageToken` to retrieve the next page.
    * If this field is omitted, there are no subsequent pages.
    */
-  nextPageToken?: string | null;
+  nextPageToken?: string;
   /**
    * A token, which can be sent as `pageToken` to retrieve the previous page.
    * If this field is absent, there are no preceding pages. If this field is
    * an empty string then the previous page is the first result.
    */
-  previousPageToken?: string | null;
+  previousPageToken?: string;
 }
 
 /**
@@ -592,13 +592,13 @@ export interface ListMembersResponse {
    * A token, which can be sent as `pageToken` to retrieve the next page.
    * If this field is omitted, there are no subsequent pages.
    */
-  nextPageToken?: string | null;
+  nextPageToken?: string;
   /**
    * A token, which can be sent as `pageToken` to retrieve the previous page.
    * If this field is absent, there are no preceding pages. If this field is
    * an empty string then the previous page is the first result.
    */
-  previousPageToken?: string | null;
+  previousPageToken?: string;
 }
 
 /**
@@ -613,13 +613,13 @@ export interface ListOrganizationsResponse {
    * A token, which can be sent as `pageToken` to retrieve the next page.
    * If this field is omitted, there are no subsequent pages.
    */
-  nextPageToken?: string | null;
+  nextPageToken?: string;
   /**
    * A token, which can be sent as `pageToken` to retrieve the previous page.
    * If this field is absent, there are no preceding pages. If this field is
    * an empty string then the previous page is the first result.
    */
-  previousPageToken?: string | null;
+  previousPageToken?: string;
 }
 
 /**
@@ -629,18 +629,18 @@ export interface ListPaymentMethodsResponse {
   /**
    * The list of payment methods.
    */
-  paymentMethods?: PaymentMethod[];
+  paymentMethods: PaymentMethod[];
   /**
    * A token, which can be sent as `pageToken` to retrieve the next page.
    * If this field is omitted, there are no subsequent pages.
    */
-  nextPageToken?: string | null;
+  nextPageToken?: string;
   /**
    * A token, which can be sent as `pageToken` to retrieve the previous page.
    * If this field is absent, there are no preceding pages. If this field is
    * an empty string then the previous page is the first result.
    */
-  previousPageToken?: string | null;
+  previousPageToken?: string;
 }
 
 /**
@@ -650,18 +650,18 @@ export interface ListPlanGroupsResponse {
   /**
    * The list of plan groups.
    */
-  planGroups?: PlanGroup[];
+  planGroups: PlanGroup[];
   /**
    * A token, which can be sent as `pageToken` to retrieve the next page.
    * If this field is omitted, there are no subsequent pages.
    */
-  nextPageToken?: string | null;
+  nextPageToken?: string;
   /**
    * A token, which can be sent as `pageToken` to retrieve the previous page.
    * If this field is absent, there are no preceding pages. If this field is
    * an empty string then the previous page is the first result.
    */
-  previousPageToken?: string | null;
+  previousPageToken?: string;
 }
 
 /**
@@ -671,18 +671,18 @@ export interface ListSubscriptionsResponse {
   /**
    * The list of subscriptions.
    */
-  subscriptions?: Subscription[];
+  subscriptions: Subscription[];
   /**
    * A token, which can be sent as `pageToken` to retrieve the next page.
    * If this field is omitted, there are no subsequent pages.
    */
-  nextPageToken?: string | null;
+  nextPageToken?: string;
   /**
    * A token, which can be sent as `pageToken` to retrieve the previous page.
    * If this field is absent, there are no preceding pages. If this field is
    * an empty string then the previous page is the first result.
    */
-  previousPageToken?: string | null;
+  previousPageToken?: string;
 }
 
 /**
@@ -692,11 +692,11 @@ export interface Member {
   /**
    * The user.
    */
-  user?: User | null;
+  user: User;
   /**
    * The user's role within the organization.
    */
-  role?: Role | null;
+  role: Role;
   /**
    * The seat assigned to the member.
    *
@@ -717,11 +717,11 @@ export interface Membership {
   /**
    * The organization.
    */
-  organization?: Organization | null;
+  organization: Organization;
   /**
    * The user's role within the organization.
    */
-  role?: Role | null;
+  role: Role;
   /**
    * The subscription associated with the organization.
    */
@@ -739,27 +739,27 @@ export interface Organization {
   /**
    * The client defined unique identifier of the organization account.
    */
-  uniqueId?: string | null;
+  uniqueId?: string;
   /**
    * The human-readable display name of the organization.
    */
-  displayName?: string | null;
+  displayName?: string;
   /**
    * The email address of the organization.
    */
-  email?: string | null;
+  email?: string;
   /**
    * Whether the organization's email address has been verified.
    */
-  emailVerified?: boolean | null;
+  emailVerified?: boolean;
   /**
    * The photo/avatar URL of the organization.
    */
-  imageUrl?: string | null;
+  imageUrl?: string;
   /**
    * Whether the organization is disabled.
    */
-  disabled?: boolean | null;
+  disabled?: boolean;
 }
 
 /**
@@ -775,25 +775,25 @@ export interface OrganizationInput {
    *
    * ID's starting with `org_` are reserved.
    */
-  uniqueId?: string | null;
+  uniqueId?: string;
   /**
    * The human-readable display name of the organization.
    *
    * The maximum length is 200 characters.
    */
-  displayName?: string | null;
+  displayName?: string;
   /**
    * The email address of the organization.
    *
    * The maximum length is 320 characters.
    */
-  email?: string | null;
+  email?: string;
   /**
    * The flow identifier associated with the creation of the organization.
    *
    * The flow type must be `SIGNUP` and associated with the user creating the organization.
    */
-  flowId?: string | null;
+  flowId?: string;
 }
 
 /**
@@ -813,22 +813,22 @@ export interface PaymentMethod {
   /**
    * The system-assigned identifier of the payment method.
    */
-  id?: string | null;
+  id?: string;
   /**
    * The payment method type.
    */
   type: string;
   /**
-   * A human readable description of the payment method.
+   * A human-readable description of the payment method.
    *
    * This can be used to show a description of the payment method
    * when the type is UNKNOWN or not explicitly handled.
    */
-  displayName?: string | null;
+  displayName?: string;
   /**
    * The full name of the owner of the payment method.
    */
-  fullName?: string | null;
+  fullName?: string;
   /**
    * The address for the payment method.
    */
@@ -836,7 +836,7 @@ export interface PaymentMethod {
   /**
    * Whether the payment method is the default for the account.
    */
-  default?: boolean | null;
+  default?: boolean;
   /**
    * The creation time of the payment method connection.
    */
@@ -876,15 +876,15 @@ export interface Plan {
   /**
    * The description of the plan.
    */
-  description?: string | null;
+  description?: string;
   /**
    * The currency code for the plan (e.g. `USD`).
    */
-  currencyCode?: string | null;
+  currencyCode?: string;
   /**
    * The billing interval for the plan.
    */
-  billingInterval?: commonv1.Interval | null;
+  billingInterval: commonv1.Interval;
   /**
    * The items associated with plan.
    */
@@ -906,7 +906,7 @@ export interface PlanGroup {
   /**
    * The client defined unique identifier of the plan group (e.g. `pro`).
    */
-  uniqueId?: string | null;
+  uniqueId?: string;
   /**
    * The name of the plan group.
    */
@@ -914,11 +914,11 @@ export interface PlanGroup {
   /**
    * The user facing description of the plan group.
    */
-  description?: string | null;
+  description?: string;
   /**
    * Whether the plans are for organizations or users.
    */
-  accountType?: string | null;
+  accountType?: string;
   /**
    * The trial settings.
    *
@@ -927,7 +927,7 @@ export interface PlanGroup {
    */
   trial?: PlanGroupTrial | null;
   /**
-   * Whether the plan is consider an downgrade/upgrade.
+   * Whether the plan is considered an downgrade or upgrade.
    */
   changePath?: PlanGroupChangePath | null;
   /**
@@ -944,7 +944,7 @@ export interface PlanGroupChangePath {
    * Whether the change is considered an upgrade or
    * a downgrade.
    */
-  direction?: string | null;
+  direction?: string;
 }
 
 /**
@@ -954,7 +954,7 @@ export interface PlanGroupTrial {
   /**
    * The number of days in the trial.
    */
-  days?: number | null;
+  days?: number;
 }
 
 /**
@@ -964,11 +964,11 @@ export interface PlanItem {
   /**
    * The product associated with the item.
    */
-  product?: Product | null;
+  product: Product;
   /**
    * The price associated with them item.
    */
-  price?: Price | null;
+  price: Price;
   /**
    * The plan item type.
    */
@@ -986,11 +986,11 @@ export interface Price {
   /**
    * The currency for the price.
    */
-  currencyCode?: string | null;
+  currencyCode?: string;
   /**
    * The billing mode for the price.
    */
-  billingMode?: string | null;
+  billingMode?: string;
   /**
    * The billing interval for the price.
    */
@@ -1032,7 +1032,7 @@ export interface PriceTieredPrice {
   /**
    * The tiers for the price.
    */
-  tiers?: TieredPriceTier[];
+  tiers: TieredPriceTier[];
 }
 
 /**
@@ -1060,7 +1060,7 @@ export interface Product {
   /**
    * The client defined unique identifier of the product.
    */
-  uniqueId?: string | null;
+  uniqueId?: string;
   /**
    * The human-readable display name of the product.
    */
@@ -1098,7 +1098,7 @@ export interface Role {
    *
    * The maximum length is 1000 characters.
    */
-  description?: string | null;
+  description?: string;
   /**
    * The additional permissions allowed by the role.
    */
@@ -1143,15 +1143,15 @@ export interface SignupFlow {
   /**
    * The email address of the invitee.
    */
-  email?: string | null;
+  email?: string;
   /**
    * The display name of the invitee.
    */
-  displayName?: string | null;
+  displayName?: string;
   /**
    * Whether to create an organization as part of the signup flow.
    */
-  createOrganization?: boolean | null;
+  createOrganization?: boolean;
 }
 
 /**
@@ -1205,7 +1205,7 @@ export interface Subscription {
   /**
    * The currency code for the subscription (e.g. `USD`).
    */
-  currencyCode?: string | null;
+  currencyCode?: string;
   /**
    * The subscription items.
    */
@@ -1218,7 +1218,7 @@ export interface Subscription {
    * The subscription is scheduled to be canceled at the end of the
    * current billing period.
    */
-  cancelPeriodEnd?: boolean | null;
+  cancelPeriodEnd?: boolean;
   /**
    * The time the subscription started.
    */
@@ -1279,7 +1279,7 @@ export interface SubscriptionItem {
   /**
    * The details of the associated product.
    */
-  product?: Product | null;
+  product: Product;
   /**
    * The details of the associated price.
    */
@@ -1304,25 +1304,25 @@ export interface SubscriptionSeatInfo {
    * This might be less than the total quantity while a subscription change
    * is pending or if the subscription is over-provisioned.
    */
-  currentPeriodQuantity?: number | null;
+  currentPeriodQuantity?: number;
   /**
    * The quantity scheduled to appear on the next invoice.
    *
    * This will only be set when different from current period quantity.
    */
-  nextPeriodQuantity?: number | null;
+  nextPeriodQuantity?: number;
   /**
    * The quantity currently in use.
    */
-  assignedQuantity?: number | null;
+  assignedQuantity?: number;
   /**
    * The quantity not in use.
    */
-  unassignedQuantity?: number | null;
+  unassignedQuantity?: number;
   /**
    * The sum of the assigned and unassigned quantities.
    */
-  totalQuantity?: number | null;
+  totalQuantity?: number;
 }
 
 /**
@@ -1343,7 +1343,7 @@ export interface SubscriptionTrial {
    * This number is rounded to the nearest whole number
    * of days.
    */
-  days?: number | null;
+  days?: number;
   /**
    * The number of days remaining in the trial.
    *
@@ -1351,7 +1351,7 @@ export interface SubscriptionTrial {
    * less than days. It will be zero on the last day
    * of the trial and null when the trial expires.
    */
-  remainingDays?: number | null;
+  remainingDays?: number;
 }
 
 /**
@@ -1361,15 +1361,15 @@ export interface TieredPriceTier {
   /**
    * The upper quantity for tier (inclusive).
    */
-  upper?: number | null;
+  upper?: number;
   /**
    * The per quantity amount for the tier.
    */
-  unitAmount?: string | null;
+  unitAmount?: string;
   /**
    * The flat amount for the tier.
    */
-  flatAmount?: string | null;
+  flatAmount?: string;
 }
 
 /**
@@ -1383,25 +1383,25 @@ export interface User {
   /**
    * The client defined unique identifier of the user account.
    */
-  uniqueId?: string | null;
+  uniqueId?: string;
   /**
    * The human-readable display name of the user.
    */
-  displayName?: string | null;
+  displayName?: string;
   /**
    * The email address of the user.
    */
-  email?: string | null;
+  email?: string;
   /**
    * Whether the user's email address has been verified.
    */
-  emailVerified?: boolean | null;
+  emailVerified?: boolean;
   /**
    * The photo/avatar URL of the user.
    */
-  imageUrl?: string | null;
+  imageUrl?: string;
   /**
    * Whether the user is disabled.
    */
-  disabled?: boolean | null;
+  disabled?: boolean;
 }
