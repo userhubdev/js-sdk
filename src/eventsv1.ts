@@ -1,5 +1,5 @@
 // Code generated. DO NOT EDIT.
-import type * as adminv1 from "./adminv1";
+import type * as adminv1 from "./adminv1.ts";
 
 /**
  * The event.

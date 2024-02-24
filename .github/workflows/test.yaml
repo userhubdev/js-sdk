@@ -15,8 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  sdk:
-    name: SDK
+  node:
+    name: Node
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,3 +44,19 @@ jobs:
 
       - name: Test
         run: make test
+
+  deno:
+    name: Deno
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Check
+        run: deno check src/mod.ts

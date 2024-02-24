@@ -1,5 +1,5 @@
 // Code generated. DO NOT EDIT.
-import type * as commonv1 from "./commonv1";
+import type * as commonv1 from "./commonv1.ts";
 
 /**
  * Operation is a long running background task.

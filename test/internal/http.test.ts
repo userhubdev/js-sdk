@@ -1,4 +1,4 @@
-import { BuildInput, build } from "../../src/internal/http";
+import { BuildInput, build } from "../../src/internal/http.ts";
 import { expect, test } from "vitest";
 
 test("build", () => {
@@ -22,8 +22,8 @@ test("build", () => {
     input: BuildInput;
     expected: {
       path: string;
-      body?: {};
-      query?: {};
+      body?: Record<string, any>;
+      query?: Record<string, string>;
       signal?: AbortSignal;
       idempotent?: boolean;
     };

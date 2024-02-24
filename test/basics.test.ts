@@ -1,9 +1,9 @@
-import type { adminv1 } from "../src";
-import { AdminApi, Code, UserApi, UserHubError } from "../src";
-import * as constants from "../src/internal/constants";
-import { jsonReviser } from "../src/internal/util";
-import { createTestServer } from "./test-server";
-import { ADMIN_KEY, USER_KEY, testAdmin, testSlow, testUser } from "./util";
+import * as constants from "../src/internal/constants.ts";
+import { jsonReviser } from "../src/internal/util.ts";
+import type { adminv1 } from "../src/mod.ts";
+import { AdminApi, Code, UserApi, UserHubError } from "../src/mod.ts";
+import { createTestServer } from "./test-server.ts";
+import { ADMIN_KEY, USER_KEY, testAdmin, testSlow, testUser } from "./util.ts";
 import { expect, test } from "vitest";
 
 testAdmin("Admin API", async () => {
@@ -163,7 +163,7 @@ test("API DELETE", async () => {
 });
 
 test("API error", async () => {
-  const { baseUrl, requests } = await createTestServer({
+  const { baseUrl } = await createTestServer({
     body: {
       code: "NOT_FOUND",
       message: "Not Found",
@@ -236,7 +236,7 @@ testSlow("API rate limited", async () => {
 });
 
 test("Abort retry", async () => {
-  const { baseUrl, requests } = await createTestServer({
+  const { baseUrl } = await createTestServer({
     body: "API call rate limited",
     statusCode: 429,
   });
@@ -266,7 +266,7 @@ test("Abort retry", async () => {
 });
 
 test("Abort request", async () => {
-  const { baseUrl, requests } = await createTestServer({
+  const { baseUrl } = await createTestServer({
     body: "{}",
     statusCode: 200,
     delay: 1000,

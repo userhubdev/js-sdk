@@ -12,6 +12,10 @@ fmt:
 .PHONY: lint
 lint:
 	@pnpm prettier --check .
+	@pnpm eslint src test
+ifneq (, $(shell command -v deno))
+	@deno check src/mod.ts
+endif
 
 .PHONY: test
 test:
