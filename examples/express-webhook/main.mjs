@@ -1,5 +1,5 @@
 import { Webhook, WebhookRequest } from "@userhub/sdk";
-import { createServer } from "http";
+import express from "express";
 
 const port = process.env.PORT || "8000";
 
@@ -23,34 +23,35 @@ webhook.onEvent((event) => {
   }
 });
 
-const server = createServer(async (req, res) => {
-  const chunks = [];
+const apiRouter = express.Router();
+apiRouter.use(express.json());
 
-  const body = await new Promise((resolve, reject) => {
-    const chunks = [];
-    req.on("data", (v) => {
-      chunks.push(v);
-    });
-    req.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    req.on("error", reject);
-  });
+// POST /api/ping
+apiRouter.post("/ping", (req, res) => {
+  res.status(200).send(req.body);
+});
 
+const webhookRouter = express.Router();
+webhookRouter.use(express.raw({ type: "*/*" }));
+
+// POST /webhook
+webhookRouter.post("", async (req, res) => {
   const r = await webhook.handle(
     new WebhookRequest({
-      body,
       headers: req.headers,
+      body: req.body,
     }),
   );
 
-  res.statusCode = r.statusCode;
   for (const [name, value] of r.headers.entries()) {
-    res.setHeader(name, value);
+    res.append(name, value);
   }
-  res.end(r.body);
+  res.status(r.statusCode).send(r.body);
 });
 
-server.listen(port, () => {
+const app = express();
+app.use("/api", apiRouter);
+app.use("/webhook", webhookRouter);
+app.listen(port, () => {
   console.log(`Listening on http://127.0.0.1:${port}`);
 });

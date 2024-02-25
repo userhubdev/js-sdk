@@ -21,17 +21,13 @@ Example
 ```ts
 import { AdminApi } from "@userhub/sdk";
 
-async function main() {
-  const adminApi = new AdminApi("sdk_123");
+const adminApi = new AdminApi("sk_123");
 
-  const res = await adminApi.users.list({ pageSize: 5 });
+const res = await adminApi.users.list({ pageSize: 5 });
 
-  for (const user of res.users) {
-    console.log(user.id, user.displayName);
-  }
+for (const user of res.users) {
+  console.log(user.id, user.displayName);
 }
-
-main().catch(console.error);
 ```
 
 See the `examples` directory for more examples.

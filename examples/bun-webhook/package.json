@@ -1,0 +1,15 @@
+{
+  "name": "bun-webhook",
+  "private": true,
+  "module": "main.ts",
+  "type": "module",
+  "dependencies": {
+    "@userhub/sdk": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
