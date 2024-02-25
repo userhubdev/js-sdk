@@ -1,4 +1,4 @@
-import { Webhook } from "npm:@userhub/sdk@latest";
+import { Webhook } from "https://deno.land/x/userhub_sdk/mod.ts";
 
 async function main() {
   const port = parseInt(Deno.env.get("PORT") || "8000", 10);

@@ -1,4 +1,4 @@
-import { AdminApi, UserApi } from "npm:@userhub/sdk@latest";
+import { AdminApi, UserApi } from "https://deno.land/x/userhub_sdk/mod.ts";
 
 async function main() {
   const adminKey = Deno.env.get("ADMIN_KEY") || "";
