@@ -16,7 +16,7 @@ export class AdminApi extends BaseAdminApi {
   constructor(adminKey: string, options?: Omit<AdminApiOptions, "adminKey">);
   constructor(options: AdminApiOptions);
   constructor(...args: any[]) {
-    let adminKey: string = "";
+    let adminKey = "";
     let options: AdminApiOptions | Omit<AdminApiOptions, "adminKey"> = {};
 
     if (args.length > 0) {
@@ -68,8 +68,8 @@ export class UserApi extends BaseUserApi {
   );
   constructor(options: UserApiOptions);
   constructor(...args: any[]) {
-    let userKey: string = "";
-    let accessToken: string = "";
+    let userKey = "";
+    let accessToken = "";
     let options:
       | UserApiOptions
       | Omit<UserApiOptions, "userKey" | "accessToken"> = {};

@@ -109,7 +109,7 @@ export function build(input: BuildInput): TransportRequest {
   let body: any;
   let idx = 0;
 
-  const path = input.path.replace(/\{(\w+)}/g, (src, dst) => {
+  const path = input.path.replace(/\{(\w+)}/g, (_src, dst) => {
     if (!body) {
       const arg = input.args[idx++];
 

@@ -1,4 +1,5 @@
 .typescript
+deno.lock
 dist
 examples/**/deno.json
 node_modules

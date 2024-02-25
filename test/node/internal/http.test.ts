@@ -1,4 +1,4 @@
-import { BuildInput, build } from "../../src/internal/http.ts";
+import { BuildInput, build } from "../../../src/internal/http.ts";
 import { expect, test } from "vitest";
 
 test("build", () => {

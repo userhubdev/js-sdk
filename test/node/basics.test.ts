@@ -1,7 +1,7 @@
-import * as constants from "../src/internal/constants.ts";
-import { jsonReviser } from "../src/internal/util.ts";
-import type { adminv1 } from "../src/mod.ts";
-import { AdminApi, Code, UserApi, UserHubError } from "../src/mod.ts";
+import * as constants from "../../src/internal/constants.ts";
+import { jsonReviser } from "../../src/internal/util.ts";
+import type { adminv1 } from "../../src/mod.ts";
+import { AdminApi, Code, UserApi, UserHubError } from "../../src/mod.ts";
 import { createTestServer } from "./test-server.ts";
 import { ADMIN_KEY, USER_KEY, testAdmin, testSlow, testUser } from "./util.ts";
 import { expect, test } from "vitest";

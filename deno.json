@@ -1,0 +1,11 @@
+{
+  "lint": {
+    "include": ["src/", "test/deno"],
+    "exclude": ["test/node"],
+    "rules": {
+      "tags": ["recommended"],
+      "include": [],
+      "exclude": ["no-explicit-any", "no-empty-interface"]
+    }
+  }
+}

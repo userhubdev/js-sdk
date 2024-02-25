@@ -11,13 +11,21 @@ fmt:
 
 .PHONY: lint
 lint:
+ifneq (, $(shell command -v pnpm))
 	@pnpm prettier --check .
-	@pnpm eslint src test
+	@pnpm eslint src test/node
+endif
 ifneq (, $(shell command -v deno))
 	@deno check src/mod.ts
+	@deno lint src/mod.ts
 endif
 
 .PHONY: test
 test:
+ifneq (, $(shell command -v pnpm))
 	@pnpm check-types
 	@pnpm vitest run
+endif
+ifneq (, $(shell command -v deno))
+	@deno test --allow-env --allow-net --ignore=test/node
+endif
