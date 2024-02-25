@@ -1,9 +1,9 @@
 // Code generated. DO NOT EDIT.
-import type * as apiv1 from "./apiv1";
-import { build } from "./internal/http";
-import { Transport } from "./internal/transport";
-import type { RequestOptions } from "./request";
-import type * as userv1 from "./userv1";
+import type * as apiv1 from "./apiv1.ts";
+import { build } from "./internal/http.ts";
+import { Transport } from "./internal/transport.ts";
+import type { RequestOptions } from "./request.ts";
+import type * as userv1 from "./userv1.ts";
 
 export class Client {
   private readonly transport: Transport;

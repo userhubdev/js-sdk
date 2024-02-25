@@ -56,9 +56,9 @@ export async function createTestServer(mock: {
         res.setHeader(name, value);
       }
       res.statusCode = mock.statusCode ?? 200;
-      res.write(mock.body, (err) => {
+      res.write(mock.body, () => {
         if (mock.delay) {
-          setTimeout(res.end, mock.delay);
+          setTimeout(res.end.bind(res), mock.delay);
         } else {
           res.end();
         }

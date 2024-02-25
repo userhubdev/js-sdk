@@ -1,5 +1,5 @@
-import { encodePath, isNetworkError } from "../../src/internal/util";
-import { testSlow } from "../util";
+import { encodePath, isNetworkError } from "../../src/internal/util.ts";
+import { testSlow } from "../util.ts";
 import { expect, test } from "vitest";
 
 test("encodePath", () => {
@@ -60,7 +60,6 @@ testSlow("isNetworkError", async () => {
   ];
 
   for (const test of tests) {
-    const signal = AbortSignal.timeout(300);
     const controller = new AbortController();
     const timeout = setTimeout(controller.abort.bind(controller), 300);
 
@@ -76,12 +75,13 @@ testSlow("isNetworkError", async () => {
       clearTimeout(timeout);
     }
 
+    expect(error).instanceof(Error);
     expect(error).toBeTruthy();
-    if (!error) continue;
+    if (!error || !(error instanceof Error)) continue;
 
     expect(isNetworkError(error)).equals(
       test.expected,
-      `${test.name}: ${error}`,
+      `${test.name}: ${error.message}`,
     );
   }
 });

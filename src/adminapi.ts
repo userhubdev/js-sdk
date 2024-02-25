@@ -1,10 +1,10 @@
 // Code generated. DO NOT EDIT.
-import type * as adminv1 from "./adminv1";
-import type * as apiv1 from "./apiv1";
-import type * as commonv1 from "./commonv1";
-import { build } from "./internal/http";
-import { Transport } from "./internal/transport";
-import type { RequestOptions } from "./request";
+import type * as adminv1 from "./adminv1.ts";
+import type * as apiv1 from "./apiv1.ts";
+import type * as commonv1 from "./commonv1.ts";
+import { build } from "./internal/http.ts";
+import { Transport } from "./internal/transport.ts";
+import type { RequestOptions } from "./request.ts";
 
 export class Client {
   private readonly transport: Transport;

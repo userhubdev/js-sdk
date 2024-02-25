@@ -1,6 +1,6 @@
-import { UserHubError } from "../error";
-import * as constants from "./constants";
-import { encodePath, isNetworkError } from "./util";
+import { UserHubError } from "../error.ts";
+import * as constants from "./constants.ts";
+import { encodePath, isNetworkError } from "./util.ts";
 
 export type HttpMethod = "GET" | "POST" | "PATCH" | "DELETE";
 

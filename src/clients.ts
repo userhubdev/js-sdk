@@ -1,8 +1,8 @@
-import { Client as BaseAdminApi } from "./adminapi";
-import { UserHubError } from "./error";
-import * as constants from "./internal/constants";
-import { HttpTransport } from "./internal/http-transport";
-import { Client as BaseUserApi } from "./userapi";
+import { Client as BaseAdminApi } from "./adminapi.ts";
+import { UserHubError } from "./error.ts";
+import * as constants from "./internal/constants.ts";
+import { HttpTransport } from "./internal/http-transport.ts";
+import { Client as BaseUserApi } from "./userapi.ts";
 
 interface AdminApiOptions {
   adminKey: string;

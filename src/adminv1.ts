@@ -1,6 +1,6 @@
 // Code generated. DO NOT EDIT.
-import type * as apiv1 from "./apiv1";
-import type * as commonv1 from "./commonv1";
+import type * as apiv1 from "./apiv1.ts";
+import type * as commonv1 from "./commonv1.ts";
 
 /**
  * A link between a account and an external account.

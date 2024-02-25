@@ -1,5 +1,5 @@
-import type { Status } from "./apiv1";
-import { Code } from "./code";
+import type { Status } from "./apiv1.ts";
+import { Code } from "./code.ts";
 
 interface BaseOptions {
   apiCode?: Code | null;
@@ -26,7 +26,7 @@ export type UserHubErrorOptions =
   | BaseOptionsWithStatus;
 
 export class UserHubError extends Error {
-  public readonly apiCode?: Code;
+  public readonly apiCode: Code;
   public readonly apiMessage: string;
   public readonly reason?: string;
   public readonly param?: string;
@@ -67,7 +67,9 @@ export class UserHubError extends Error {
       ? `${apiMessage} (${parts.join(", ")})`
       : apiMessage;
 
-    if (opts.cause) message = `${message}: ${opts.cause}`;
+    if (opts.cause && opts.cause instanceof Error) {
+      message = `${message}: ${opts.cause.message}`;
+    }
 
     super(message);
 

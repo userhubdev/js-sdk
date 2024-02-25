@@ -1,5 +1,5 @@
-import { HttpMethod, TransportRequest, TransportResponse } from "./http";
-import type { Transport } from "./transport";
+import { HttpMethod, TransportRequest, TransportResponse } from "./http.ts";
+import type { Transport } from "./transport.ts";
 
 export class TestTransport implements Transport {
   public req?: TransportRequest;
@@ -28,8 +28,8 @@ export class TestTransport implements Transport {
     this.res = new TransportResponse(request, statusCode, headers, body);
   }
 
-  async execute(req: TransportRequest): Promise<TransportResponse> {
+  execute(req: TransportRequest): Promise<TransportResponse> {
     this.req = req;
-    return this.res;
+    return Promise.resolve(this.res);
   }
 }

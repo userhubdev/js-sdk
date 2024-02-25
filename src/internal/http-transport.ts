@@ -1,10 +1,10 @@
-import type { Status } from "../apiv1";
-import { Code } from "../code";
-import { UserHubError, UserHubErrorOptions } from "../error";
-import * as constants from "./constants";
-import { TransportRequest, TransportResponse } from "./http";
-import type { Transport } from "./transport";
-import { jsonReviser, sleep, summarizeBody } from "./util";
+import type { Status } from "../apiv1.ts";
+import { Code } from "../code.ts";
+import { UserHubError, UserHubErrorOptions } from "../error.ts";
+import * as constants from "./constants.ts";
+import { TransportRequest, TransportResponse } from "./http.ts";
+import type { Transport } from "./transport.ts";
+import { jsonReviser, sleep, summarizeBody } from "./util.ts";
 
 export interface HttpTransportOptions {
   baseUrl?: string;
@@ -130,6 +130,7 @@ export class HttpTransport implements Transport {
   async execute(req: TransportRequest): Promise<TransportResponse> {
     const input = this.setupExecute(req);
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       req.attempt++;
 

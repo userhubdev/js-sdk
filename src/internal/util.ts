@@ -1,4 +1,4 @@
-import * as constants from "./constants";
+import * as constants from "./constants.ts";
 
 export function summarizeBody(s?: string): string {
   if (!s) return "";
