@@ -1,0 +1,11 @@
+{
+  "name": "express-webhook",
+  "private": true,
+  "scripts": {
+    "start": "node main.mjs"
+  },
+  "dependencies": {
+    "express": "^4",
+    "@userhub/sdk": "latest"
+  }
+}

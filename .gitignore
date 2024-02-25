@@ -1,6 +1,8 @@
+.next
 .typescript
+bun.lockb
 deno.lock
 dist
-examples/**/deno.json
 node_modules
+package-lock.json
 tsconfig.tsbuildinfo

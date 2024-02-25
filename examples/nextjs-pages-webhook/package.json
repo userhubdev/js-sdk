@@ -1,0 +1,13 @@
+{
+  "name": "nextjs-pages-webhook",
+  "private": true,
+  "scripts": {
+    "start": "next dev"
+  },
+  "dependencies": {
+    "@userhub/sdk": "latest",
+    "next": "^14",
+    "react": "^18.2",
+    "react-dom": "^18.2"
+  }
+}
