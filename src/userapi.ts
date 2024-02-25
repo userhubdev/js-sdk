@@ -90,6 +90,24 @@ class Flows {
   }
 
   /**
+   * Creates a signup flow.
+   *
+   * This invites a person to join the app.
+   */
+  async createSignup(input: FlowCreateSignupInput): Promise<userv1.Flow>;
+  async createSignup(...args: any[]): Promise<userv1.Flow> {
+    const req = build({
+      call: "user.flows.createSignup",
+      method: "POST",
+      path: "/user/v1/flows:createSignup",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as userv1.Flow;
+  }
+
+  /**
    * Retrieves specified flow.
    */
   async get(
@@ -102,6 +120,31 @@ class Flows {
       call: "user.flows.get",
       method: "GET",
       path: "/user/v1/flows/{flowId}",
+      idempotent: true,
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as userv1.Flow;
+  }
+
+  /**
+   * Approve a flow.
+   *
+   * This will approve the specified flow and start the next step
+   * in the flow (e.g. for a join organization flow it will send the
+   * invitee an email with a link to join the organization).
+   */
+  async approve(
+    flowId: string,
+    input?: Omit<FlowApproveInput, "flowId">,
+  ): Promise<userv1.Flow>;
+  async approve(input: FlowApproveInput): Promise<userv1.Flow>;
+  async approve(...args: any[]): Promise<userv1.Flow> {
+    const req = build({
+      call: "user.flows.approve",
+      method: "POST",
+      path: "/user/v1/flows/{flowId}:approve",
       idempotent: true,
       args,
     });
@@ -421,10 +464,30 @@ interface FlowCreateJoinOrganizationInput extends RequestOptions {
 }
 
 /**
+ * The input options for the `flows.createSignup` method.
+ */
+interface FlowCreateSignupInput extends RequestOptions {
+  // The email address of the person to invite.
+  email?: string;
+  // The display name of the person to invite.
+  displayName?: string;
+  // Whether to create an organization as part of the signup flow.
+  createOrganization?: boolean;
+}
+
+/**
  * The input options for the `flows.get` method.
  */
 interface FlowGetInput extends RequestOptions {
   // The identifier of the flow or the flow secret.
+  flowId: string;
+}
+
+/**
+ * The input options for the `flows.approve` method.
+ */
+interface FlowApproveInput extends RequestOptions {
+  // The identifier of the flow.
   flowId: string;
 }
 

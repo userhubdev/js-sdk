@@ -106,6 +106,24 @@ class Flows {
   }
 
   /**
+   * Create a signup flow.
+   *
+   * This invites a person to join the app.
+   */
+  async createSignup(input: FlowCreateSignupInput): Promise<adminv1.Flow>;
+  async createSignup(...args: any[]): Promise<adminv1.Flow> {
+    const req = build({
+      call: "admin.flows.createSignup",
+      method: "POST",
+      path: "/admin/v1/flows:createSignup",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Flow;
+  }
+
+  /**
    * Retrieves specified flow.
    */
   async get(
@@ -861,6 +879,31 @@ interface FlowCreateJoinOrganizationInput extends RequestOptions {
   email?: string;
   // The display name of the person to invite.
   displayName?: string;
+  // The identifier of the user sending the invite.
+  creatorUserId?: string;
+  // The time the flow will expire.
+  //
+  // This field is not allowed if `ttl` is specified.
+  expireTime?: Date | null;
+  // The amount of time a flow will be available (e.g. `86400s`).
+  //
+  // This must be a string with the number of seconds followed by a
+  // trailing `s`.
+  //
+  // This field is not allowed if `expireTime` is specified.
+  ttl?: string;
+}
+
+/**
+ * The input options for the `flows.createSignup` method.
+ */
+interface FlowCreateSignupInput extends RequestOptions {
+  // The email address of the person to invite.
+  email?: string;
+  // The display name of the person to invite.
+  displayName?: string;
+  // Whether to create an organization as part of the signup flow.
+  createOrganization?: boolean;
   // The identifier of the user sending the invite.
   creatorUserId?: string;
   // The time the flow will expire.
