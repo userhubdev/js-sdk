@@ -1,4 +1,4 @@
-import { encodePath, isNetworkError } from "../../src/internal/util.ts";
+import { encodePath, isNetworkError } from "../../../src/internal/util.ts";
 import { testSlow } from "../util.ts";
 import { expect, test } from "vitest";
 

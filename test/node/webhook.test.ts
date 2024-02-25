@@ -1,13 +1,13 @@
 // Code generated. DO NOT EDIT.
-import * as constants from "../src/internal/constants.ts";
-import { Code, UserHubError, type eventsv1 } from "../src/mod.ts";
-import { Webhook } from "../src/webhook/actions.ts";
-import { concatArrays, loadCrypto } from "../src/webhook/base.ts";
+import * as constants from "../../src/internal/constants.ts";
+import { Code, UserHubError, type eventsv1 } from "../../src/mod.ts";
+import { Webhook } from "../../src/webhook/actions.ts";
+import { concatArrays, loadCrypto } from "../../src/webhook/base.ts";
 import {
   WebhookRequest,
   WebhookResponse,
   getHeader,
-} from "../src/webhook/http";
+} from "../../src/webhook/http.ts";
 import { expect, test } from "vitest";
 
 test.each<WebhookTest>([

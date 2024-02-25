@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@tsconfig/node18/tsconfig.json",
-  "include": ["src", "test"],
+  "include": ["src", "test/node"],
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "es2019"],
     "allowImportingTsExtensions": true,
