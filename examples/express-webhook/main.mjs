@@ -36,12 +36,10 @@ webhookRouter.use(express.raw({ type: "*/*" }));
 
 // POST /webhook
 webhookRouter.post("", async (req, res) => {
-  const r = await webhook.handle(
-    new WebhookRequest({
-      headers: req.headers,
-      body: req.body,
-    }),
-  );
+  const r = await webhook.handle({
+    headers: req.headers,
+    body: req.body,
+  });
 
   for (const [name, value] of r.headers.entries()) {
     res.append(name, value);

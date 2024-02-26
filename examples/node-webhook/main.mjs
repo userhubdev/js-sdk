@@ -37,12 +37,10 @@ const server = createServer(async (req, res) => {
     req.on("error", reject);
   });
 
-  const r = await webhook.handle(
-    new WebhookRequest({
-      body,
-      headers: req.headers,
-    }),
-  );
+  const r = await webhook.handle({
+    body,
+    headers: req.headers,
+  });
 
   res.statusCode = r.statusCode;
   for (const [name, value] of r.headers.entries()) {
