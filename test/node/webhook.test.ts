@@ -330,7 +330,7 @@ test.each<WebhookTest>([
     }
   }
 
-  const res = await webhook.handle(test.request);
+  const res = await webhook.handleAction(test.request);
 
   const message = `${test.name}: ${res.body}`;
 

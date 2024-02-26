@@ -1,6 +1,10 @@
 import * as constants from "../internal/constants.ts";
 import { Code, UserHubError } from "../mod.ts";
-import { WebhookRequest, WebhookResponse } from "./http.ts";
+import {
+  WebhookRequest,
+  type WebhookRequestOptions,
+  WebhookResponse,
+} from "./http.ts";
 
 const dot = new TextEncoder().encode(".");
 
@@ -8,6 +12,8 @@ export interface WebhookOptions {
   signingSecret: string;
   onError?: (e: unknown) => void;
 }
+
+export type HandleOptions = WebhookRequestOptions;
 
 export type Handler =
   | ((r: WebhookRequest) => Promise<WebhookResponse>)
@@ -61,7 +67,7 @@ export class BaseWebhook {
   /**
    * Executes a handler based on specified `WebhookRequest`.
    */
-  public async handle(req: WebhookRequest): Promise<WebhookResponse> {
+  public async handleAction(req: WebhookRequest): Promise<WebhookResponse> {
     try {
       await this.verify(req);
 
@@ -85,13 +91,20 @@ export class BaseWebhook {
   }
 
   /**
+   * Executes a handler based on specified headers/body.
+   */
+  public async handle(opts: HandleOptions): Promise<WebhookResponse> {
+    return await this.handleAction(new WebhookRequest(opts));
+  }
+
+  /**
    * Executes a handler based on specified Web API `Request` and
    * returns a Web API `Response`.
    */
   public async handleFromWeb(req: Request): Promise<Response> {
     let r: WebhookResponse;
     try {
-      r = await this.handle(
+      r = await this.handleAction(
         new WebhookRequest({
           headers: req.headers,
           body: await req.arrayBuffer(),

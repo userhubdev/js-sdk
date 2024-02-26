@@ -1,8 +1,8 @@
 // Code generated. DO NOT EDIT.
 
 export const API_BASE_URL = "https://api.userhub.com";
-export const USER_AGENT = "UserHub-JavaScript/0.4.0";
-export const VERSION = "0.4.0";
+export const USER_AGENT = "UserHub-JavaScript/0.4.1";
+export const VERSION = "0.4.1";
 
 export const AUTH_HEADER = "Authorization";
 export const API_KEY_HEADER = "UserHub-Api-Key";

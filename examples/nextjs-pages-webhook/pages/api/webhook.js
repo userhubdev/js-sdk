@@ -41,12 +41,10 @@ export default async function (req, res) {
     req.on("error", reject);
   });
 
-  const r = await webhook.handle(
-    new WebhookRequest({
-      headers: req.headers,
-      body,
-    }),
-  );
+  const r = await webhook.handle({
+    headers: req.headers,
+    body,
+  });
 
   res.statusCode = r.statusCode;
   for (const [name, value] of r.headers.entries()) {
