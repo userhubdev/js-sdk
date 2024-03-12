@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   jsr:
-    name: jsr
+    name: JSR
     runs-on: ubuntu-latest
 
     permissions:
