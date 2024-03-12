@@ -217,17 +217,21 @@ export interface CardPaymentMethod {
    */
   brand?: string;
   /**
-   * The expiration date of the card.
-   */
-  expiration?: CardPaymentMethodExpiration | null;
-  /**
    * The last for digits of the card.
    */
   last4?: string;
   /**
-   * The funding method for the card (e.g. `DEBIT`)
+   * The funding method for the card (e.g. `DEBIT`).
    */
   fundingType?: string;
+  /**
+   * The expiration year.
+   */
+  expYear?: number;
+  /**
+   * The expiration month.
+   */
+  expMonth?: number;
 }
 
 /**
@@ -1050,6 +1054,10 @@ export interface JoinOrganizationFlow {
    * The email address of the invitee.
    */
   email?: string;
+  /**
+   * The role to be assigned to the invitee.
+   */
+  role?: Role | null;
 }
 
 /**
@@ -1707,6 +1715,13 @@ export interface PaymentMethod {
    */
   default?: boolean;
   /**
+   * The last payment error.
+   *
+   * This will be unset if the payment method is updated
+   * or if a payment succeeds.
+   */
+  lastPaymentError?: apiv1.Status | null;
+  /**
    * The last time the payment method was pulled from the connection.
    */
   pullTime?: Date | null;
@@ -1722,6 +1737,28 @@ export interface PaymentMethod {
    * Card payment method (e.g. Visa credit card).
    */
   card?: CardPaymentMethod | null;
+}
+
+/**
+ * Payment method input parameters.
+ */
+export interface PaymentMethodInput {
+  /**
+   * The full name of the owner of the payment method (e.g. `Jane Doe`).
+   */
+  fullName?: string;
+  /**
+   * The address for the payment method.
+   */
+  address?: commonv1.Address | null;
+  /**
+   * The card expiration year (e.g. `2030`).
+   */
+  expYear?: number;
+  /**
+   * The card expiration month (e.g. `12`).
+   */
+  expMonth?: number;
 }
 
 /**
