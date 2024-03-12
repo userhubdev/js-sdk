@@ -1,4 +1,7 @@
 {
+  "name": "@userhub/sdk",
+  "version": "0.5.0",
+  "exports": "./src/mod.ts",
   "lint": {
     "include": ["src/", "test/deno"],
     "exclude": ["test/node"],
@@ -7,5 +10,8 @@
       "include": [],
       "exclude": ["no-explicit-any", "no-empty-interface"]
     }
+  },
+  "publish": {
+    "include": ["LICENSE", "README.md", "src"]
   }
 }
