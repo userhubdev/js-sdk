@@ -1,4 +1,5 @@
 // Code generated. DO NOT EDIT.
+import type * as apiv1 from "./apiv1.ts";
 import type * as commonv1 from "./commonv1.ts";
 
 /**
@@ -99,9 +100,13 @@ export interface CardPaymentMethod {
    */
   brand?: string;
   /**
-   * The expiration date of the card.
+   * The expiration year.
    */
-  expiration?: CardPaymentMethodExpiration | null;
+  expYear?: number;
+  /**
+   * The expiration month.
+   */
+  expMonth?: number;
   /**
    * The last for digits of the card.
    */
@@ -536,6 +541,10 @@ export interface JoinOrganizationFlow {
    * or the user's email address is empty.
    */
   email?: string;
+  /**
+   * The role to be assigned to the invitee.
+   */
+  role?: Role | null;
 }
 
 /**
@@ -651,6 +660,27 @@ export interface ListPlanGroupsResponse {
    * The list of plan groups.
    */
   planGroups: PlanGroup[];
+  /**
+   * A token, which can be sent as `pageToken` to retrieve the next page.
+   * If this field is omitted, there are no subsequent pages.
+   */
+  nextPageToken?: string;
+  /**
+   * A token, which can be sent as `pageToken` to retrieve the previous page.
+   * If this field is absent, there are no preceding pages. If this field is
+   * an empty string then the previous page is the first result.
+   */
+  previousPageToken?: string;
+}
+
+/**
+ * Response message for ListRoles.
+ */
+export interface ListRolesResponse {
+  /**
+   * The list of roles.
+   */
+  roles: Role[];
   /**
    * A token, which can be sent as `pageToken` to retrieve the next page.
    * If this field is omitted, there are no subsequent pages.
@@ -838,6 +868,13 @@ export interface PaymentMethod {
    */
   default?: boolean;
   /**
+   * The last payment error.
+   *
+   * This will be unset if the payment method is updated
+   * or if a payment succeeds.
+   */
+  lastPaymentError?: apiv1.Status | null;
+  /**
    * The creation time of the payment method connection.
    */
   createTime: Date;
@@ -849,6 +886,28 @@ export interface PaymentMethod {
    * Card payment method (e.g. Visa credit card).
    */
   card?: CardPaymentMethod | null;
+}
+
+/**
+ * Payment method input parameters.
+ */
+export interface PaymentMethodInput {
+  /**
+   * The full name of the owner of the payment method (e.g. `Jane Doe`).
+   */
+  fullName?: string;
+  /**
+   * The address for the payment method.
+   */
+  address?: commonv1.Address | null;
+  /**
+   * The card expiration year (e.g. `2030`).
+   */
+  expYear?: number;
+  /**
+   * The card expiration month (e.g. `12`).
+   */
+  expMonth?: number;
 }
 
 /**
@@ -1103,6 +1162,10 @@ export interface Role {
    * The additional permissions allowed by the role.
    */
   permissionSets: string[];
+  /**
+   * Whether the role is the default for the tenant.
+   */
+  default?: boolean;
 }
 
 /**
