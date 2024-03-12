@@ -21,6 +21,11 @@ interface BaseOptionsWithStatus extends BaseOptions {
   status: Status;
 }
 
+interface ToJSON {
+  message: string;
+  code: string;
+}
+
 export type UserHubErrorOptions =
   | BaseOptionsWithMessage
   | BaseOptionsWithStatus;
@@ -86,7 +91,7 @@ export class UserHubError extends Error {
     if (opts.statusCode) this.statusCode = opts.statusCode;
   }
 
-  public toJSON() {
+  public toJSON(): ToJSON {
     return {
       message: this.apiMessage,
       code: String(this.apiCode),
