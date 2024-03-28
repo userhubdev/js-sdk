@@ -1,5 +1,10 @@
 # UserHub JavaScript SDK
 
+[![npm Latest Version](https://img.shields.io/npm/v/%40userhub%2Fsdk?color=0173b4)](https://www.npmjs.com/package/%40userhub/sdk)
+[![JSR Latest Version](https://img.shields.io/jsr/v/%40userhub/sdk?color=0173b4)](https://jsr.io/%40userhub/sdk)
+
+The official [UserHub](https://userhub.com) JavaScript SDK.
+
 Stability: alpha
 
 ### Requirements
