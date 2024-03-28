@@ -60,7 +60,15 @@ class Flows {
       call: "user.flows.list",
       method: "GET",
       path: "/user/v1/flows",
-      query: ["organizationId", "type", "pageSize", "pageToken", "orderBy"],
+      query: [
+        "organizationId",
+        "type",
+        "active",
+        "creator",
+        "pageSize",
+        "pageToken",
+        "orderBy",
+      ],
       idempotent: true,
       args,
     });
@@ -344,9 +352,9 @@ class Organizations {
   async delete(
     organizationId: string,
     input?: Omit<OrganizationDeleteInput, "organizationId">,
-  ): Promise<userv1.Organization>;
-  async delete(input: OrganizationDeleteInput): Promise<userv1.Organization>;
-  async delete(...args: any[]): Promise<userv1.Organization> {
+  ): Promise<apiv1.EmptyResponse>;
+  async delete(input: OrganizationDeleteInput): Promise<apiv1.EmptyResponse>;
+  async delete(...args: any[]): Promise<apiv1.EmptyResponse> {
     const req = build({
       call: "user.organizations.delete",
       method: "DELETE",
@@ -355,7 +363,7 @@ class Organizations {
     });
 
     const res = await this.transport.execute(req);
-    return res.body as userv1.Organization;
+    return res.body as apiv1.EmptyResponse;
   }
 
   /**
@@ -423,6 +431,11 @@ interface FlowListInput extends RequestOptions {
   organizationId?: string;
   // Filter the results by the specified flow type.
   type?: string;
+  // Whether to filter out flows not in the `START_PENDING` or `STARTED`
+  // state.
+  active?: boolean;
+  // Whether to only return flows created by the authenticated user.
+  creator?: boolean;
   // The maximum number of flows to return. The API may return fewer than
   // this value.
   //
@@ -435,12 +448,10 @@ interface FlowListInput extends RequestOptions {
   // When paginating, all other parameters provided to list flows must match
   // the call that provided the page token.
   pageToken?: string;
-  // A comma-separated list of fields to order by, sorted in ascending order.
-  // Use `desc` after a field name for descending.
+  // A comma-separated list of fields to order by.
   //
-  // Supported fields:
-  // - `type`
-  // - `createTime`
+  // Supports:
+  // - `createTime desc`
   orderBy?: string;
 }
 
@@ -528,14 +539,11 @@ interface InvoiceListInput extends RequestOptions {
   // When paginating, all other parameters provided to list invoices must match
   // the call that provided the page token.
   pageToken?: string;
-  // A comma-separated list of fields to order by, sorted in ascending order.
-  // Use `desc` after a field name for descending.
+  // A comma-separated list of fields to order by.
   //
-  // Supported fields:
-  // - `state`
-  // - `dueTime`
-  // - `createTime`
-  // - `updateTime`
+  // Supports:
+  // - `createTime asc`
+  // - `createTime desc`
   orderBy?: string;
 }
 
@@ -563,12 +571,11 @@ interface OrganizationListInput extends RequestOptions {
   // When paginating, all other parameters provided to list organizations must match
   // the call that provided the page token.
   pageToken?: string;
-  // A comma-separated list of fields to order by, sorted in ascending order.
-  // Use `desc` after a field name for descending.
+  // A comma-separated list of fields to order by.
   //
-  // Supported fields:
-  // - `displayName`
-  // - `email`
+  // Supports:
+  // - `displayName asc`
+  // - `email asc`
   orderBy?: string;
 }
 

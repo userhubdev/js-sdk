@@ -72,6 +72,8 @@ class Flows {
         "organizationId",
         "userId",
         "type",
+        "active",
+        "creatorUserId",
         "pageSize",
         "pageToken",
         "orderBy",
@@ -238,7 +240,15 @@ class Organizations {
       call: "admin.organizations.list",
       method: "GET",
       path: "/admin/v1/organizations",
-      query: ["pageSize", "pageToken", "orderBy", "showDeleted", "view"],
+      query: [
+        "displayName",
+        "email",
+        "pageSize",
+        "pageToken",
+        "orderBy",
+        "showDeleted",
+        "view",
+      ],
       idempotent: true,
       args,
     });
@@ -416,7 +426,14 @@ class Organizations {
       call: "admin.organizations.listMembers",
       method: "GET",
       path: "/admin/v1/organizations/{organizationId}/members",
-      query: ["pageSize", "pageToken", "orderBy"],
+      query: [
+        "displayName",
+        "email",
+        "roleId",
+        "pageSize",
+        "pageToken",
+        "orderBy",
+      ],
       idempotent: true,
       args,
     });
@@ -595,7 +612,15 @@ class Users {
       call: "admin.users.list",
       method: "GET",
       path: "/admin/v1/users",
-      query: ["pageSize", "pageToken", "orderBy", "showDeleted", "view"],
+      query: [
+        "displayName",
+        "email",
+        "pageSize",
+        "pageToken",
+        "orderBy",
+        "showDeleted",
+        "view",
+      ],
       idempotent: true,
       args,
     });
@@ -837,6 +862,14 @@ interface FlowListInput extends RequestOptions {
   userId?: string;
   // Filter the results by the specified flow type.
   type?: string;
+  // Whether to filter out flows not in the `START_PENDING` or `STARTED`
+  // state.
+  active?: boolean;
+  // The identifier of the user that created the flow.
+  //
+  // When this is specified only the flows created by the user are
+  // returned.
+  creatorUserId?: string;
   // The maximum number of flows to return. The API may return fewer than
   // this value.
   //
@@ -849,12 +882,10 @@ interface FlowListInput extends RequestOptions {
   // When paginating, all other parameters provided to list flows must match
   // the call that provided the page token.
   pageToken?: string;
-  // A comma-separated list of fields to order by, sorted in ascending order.
-  // Use `desc` after a field name for descending.
+  // A comma-separated list of fields to order by.
   //
-  // Supported fields:
-  // - `type`
-  // - `createTime`
+  // Supports:
+  // - `createTime desc`
   orderBy?: string;
   // The Flow view to return in the results.
   //
@@ -959,14 +990,11 @@ interface InvoiceListInput extends RequestOptions {
   // When paginating, all other parameters provided to list invoices must match
   // the call that provided the page token.
   pageToken?: string;
-  // A comma-separated list of fields to order by, sorted in ascending order.
-  // Use `desc` after a field name for descending.
+  // A comma-separated list of fields to order by.
   //
-  // Supported fields:
-  // - `state`
-  // - `dueTime`
-  // - `createTime`
-  // - `updateTime`
+  // Supports:
+  // - `createTime asc`
+  // - `createTime desc`
   orderBy?: string;
 }
 
@@ -987,6 +1015,22 @@ interface InvoiceGetInput extends RequestOptions {
  * The input options for the `organizations.list` method.
  */
 interface OrganizationListInput extends RequestOptions {
+  // Filter the results by display name.
+  //
+  // To enable prefix filtering append `*` to the end of the value
+  // and ensure you provide at least 3 characters excluding the
+  // wildcard.
+  //
+  // This filter is case-insensitivity.
+  displayName?: string;
+  // Filter the results by email address.
+  //
+  // To enable prefix filtering append `*` to the end of the value
+  // and ensure you provide at least 3 characters excluding the
+  // wildcard.
+  //
+  // This filter is case-insensitivity.
+  email?: string;
   // The maximum number of organizations to return. The API may return fewer than
   // this value.
   //
@@ -999,14 +1043,14 @@ interface OrganizationListInput extends RequestOptions {
   // When paginating, all other parameters provided to list organizations must match
   // the call that provided the page token.
   pageToken?: string;
-  // A comma-separated list of fields to order by, sorted in ascending order.
-  // Use `desc` after a field name for descending.
+  // A comma-separated list of fields to order by.
   //
-  // Supported fields:
-  // - `displayName`
-  // - `email`
-  // - `createTime`
-  // - `deleteTime`
+  // Supports:
+  // - `displayName asc`
+  // - `email asc`
+  // - `signupTime desc`
+  // - `createTime desc`
+  // - `deleteTime desc`
   orderBy?: string;
   // Whether to show deleted organizations.
   showDeleted?: boolean;
@@ -1177,6 +1221,24 @@ interface OrganizationListMembersInput extends RequestOptions {
   // The identifier of the organization.
   organizationId: string;
 
+  // Filter the results by display name.
+  //
+  // To enable prefix filtering append `*` to the end of the value
+  // and ensure you provide at least 3 characters excluding the
+  // wildcard.
+  //
+  // This filter is case-insensitivity.
+  displayName?: string;
+  // Filter the results by email address.
+  //
+  // To enable prefix filtering append `*` to the end of the value
+  // and ensure you provide at least 3 characters excluding the
+  // wildcard.
+  //
+  // This filter is case-insensitivity.
+  email?: string;
+  // Filter the results by a role identifier.
+  roleId?: string;
   // The maximum number of members to return. The API may return fewer than
   // this value.
   //
@@ -1189,12 +1251,12 @@ interface OrganizationListMembersInput extends RequestOptions {
   // When paginating, all other parameters provided to list members must match
   // the call that provided the page token.
   pageToken?: string;
-  // A comma-separated list of fields to order by, sorted in ascending order.
-  // Use `desc` after a field name for descending.
+  // A comma-separated list of fields to order by.
   //
-  // Supported fields:
-  // - `createTime`
-  // - `updateTime`
+  // Supports:
+  // - `displayName asc`
+  // - `email asc`
+  // - `createTime desc`
   orderBy?: string;
 }
 
@@ -1208,8 +1270,6 @@ interface OrganizationAddMemberInput extends RequestOptions {
   // The identifier of the user.
   userId?: string;
   // The identifier of the role.
-  //
-  // This is currently limited to `member`, `admin`, and `owner`.
   roleId?: string;
 }
 
@@ -1233,8 +1293,6 @@ interface OrganizationUpdateMemberInput extends RequestOptions {
   userId: string;
 
   // The identifier of the role.
-  //
-  // This is currently limited to `member`, `admin`, and `owner`.
   roleId?: string;
 
   // If set to true, and the member is not found, a new member will be created.
@@ -1275,11 +1333,11 @@ interface SubscriptionListInput extends RequestOptions {
   // When paginating, all other parameters provided to list subscriptions must match
   // the call that provided the page token.
   pageToken?: string;
-  // A comma-separated list of fields to order by, sorted in ascending order.
-  // Use `desc` after a field name for descending.
+  // A comma-separated list of fields to order by.
   //
-  // Supported fields:
-  // - `createTime`
+  // Supports:
+  // - `active desc`
+  // - `createTime desc`
   orderBy?: string;
   // The Subscription view to return in the results.
   //
@@ -1304,6 +1362,22 @@ interface SubscriptionGetInput extends RequestOptions {
  * The input options for the `users.list` method.
  */
 interface UserListInput extends RequestOptions {
+  // Filter the results by display name.
+  //
+  // To enable prefix filtering append `*` to the end of the value
+  // and ensure you provide at least 3 characters excluding the
+  // wildcard.
+  //
+  // This filter is case-insensitivity.
+  displayName?: string;
+  // Filter the results by email address.
+  //
+  // To enable prefix filtering append `*` to the end of the value
+  // and ensure you provide at least 3 characters excluding the
+  // wildcard.
+  //
+  // This filter is case-insensitivity.
+  email?: string;
   // The maximum number of users to return. The API may return fewer than
   // this value.
   //
@@ -1316,14 +1390,14 @@ interface UserListInput extends RequestOptions {
   // When paginating, all other parameters provided to list users must match
   // the call that provided the page token.
   pageToken?: string;
-  // A comma-separated list of fields to order by, sorted in ascending order.
-  // Use `desc` after a field name for descending.
+  // A comma-separated list of fields to order by.
   //
-  // Supported fields:
-  // - `displayName`
-  // - `email`
-  // - `createTime`
-  // - `deleteTime`
+  // Supports:
+  // - `displayName asc`
+  // - `email asc`
+  // - `signupTime desc`
+  // - `createTime desc`
+  // - `deleteTime desc`
   orderBy?: string;
   // Whether to show deleted users.
   showDeleted?: boolean;
