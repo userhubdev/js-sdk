@@ -1440,8 +1440,6 @@ export interface MemberInput {
   userId?: string;
   /**
    * The identifier of the role.
-   *
-   * This is currently limited to `member`, `admin`, and `owner`.
    */
   roleId?: string;
 }
@@ -2341,90 +2339,6 @@ export interface Role {
    * The last update time of the role.
    */
   updateTime: Date;
-}
-
-/**
- * Response message for SearchMembers.
- */
-export interface SearchMembersResponse {
-  /**
-   * The search of members.
-   */
-  members: Member[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-  /**
-   * The estimated total count of matched members irrespective of pagination.
-   *
-   * This field is ignored if `show_total_size` is not true or `pageToken`
-   * is not empty.
-   */
-  totalSize?: number;
-}
-
-/**
- * Response message for SearchOrganizations.
- */
-export interface SearchOrganizationsResponse {
-  /**
-   * The search of organizations.
-   */
-  organizations: Organization[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-  /**
-   * The estimated total count of matched organizations irrespective of pagination.
-   *
-   * This field is ignored if `show_total_size` is not true or `pageToken`
-   * is not empty.
-   */
-  totalSize?: number;
-}
-
-/**
- * Response message for SearchUsers.
- */
-export interface SearchUsersResponse {
-  /**
-   * The search of users.
-   */
-  users: User[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-  /**
-   * The estimated total count of matched users irrespective of pagination.
-   *
-   * This field is ignored if `show_total_size` is not true or `pageToken`
-   * is not empty.
-   */
-  totalSize?: number;
 }
 
 /**
