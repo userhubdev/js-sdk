@@ -787,6 +787,12 @@ export interface Organization {
    */
   imageUrl?: string;
   /**
+   * The number of members in the organization.
+   *
+   * This includes disabled users, but does not include user's marked for deletion.
+   */
+  memberCount?: number;
+  /**
    * Whether the organization is disabled.
    */
   disabled?: boolean;

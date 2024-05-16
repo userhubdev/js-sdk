@@ -1554,6 +1554,12 @@ export interface Organization {
    */
   signupTime?: Date | null;
   /**
+   * The number of members in the organization.
+   *
+   * This includes disabled users, but does not include user's marked for deletion.
+   */
+  memberCount?: number;
+  /**
    * Whether the organization is disabled.
    */
   disabled?: boolean;
@@ -2663,30 +2669,6 @@ export interface TriggerResult {
    * The trigger error.
    */
   error?: apiv1.Status | null;
-}
-
-/**
- * The subscription items.
- */
-export interface UpdateSubscriptionItemsRequestItem {
-  /**
-   * The product identifier.
-   *
-   * If this is empty and the user ID is set, the default
-   * seat will be used.
-   */
-  productId?: string;
-  /**
-   * The member user ID of the organization member. This can
-   * only be specified for seat items.
-   */
-  userId?: string;
-  /**
-   * The quantity for the item.
-   *
-   * If this is `0` the item will be removed.
-   */
-  quantity?: number;
 }
 
 /**
