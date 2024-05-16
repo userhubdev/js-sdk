@@ -3,7 +3,12 @@ import * as constants from "../internal/constants.ts";
 import { jsonReviser, summarizeBody } from "../internal/util.ts";
 
 export interface WebhookRequestOptions {
-  headers?: Headers | Record<string, string> | Record<string, string[]> | null;
+  headers?:
+    | Headers
+    | {
+        [key: string]: string | string[] | null | undefined;
+      }
+    | null;
   body?: ArrayBuffer | Uint8Array | string | null;
 }
 
