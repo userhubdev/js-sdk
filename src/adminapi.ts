@@ -557,6 +557,8 @@ class Subscriptions {
       query: [
         "organizationId",
         "userId",
+        "state",
+        "planGroupId",
         "pageSize",
         "pageToken",
         "orderBy",
@@ -1314,13 +1316,15 @@ interface OrganizationRemoveMemberInput extends RequestOptions {
  */
 interface SubscriptionListInput extends RequestOptions {
   // Filter results by organization identifier.
-  //
-  // This is required if user identifier is not specified.
   organizationId?: string;
   // Filter results by user identifier.
-  //
-  // This is required if organization identifier is not specified.
   userId?: string;
+  // Filter results by state.
+  state?: string;
+  // Filter results by plan group identifier.
+  //
+  // You can specify `unmanaged` to see all subscriptions without a plan.
+  planGroupId?: string;
   // The maximum number of subscriptions to return. The API may return fewer than
   // this value.
   //
@@ -1335,9 +1339,12 @@ interface SubscriptionListInput extends RequestOptions {
   pageToken?: string;
   // A comma-separated list of fields to order by.
   //
+  // This is only supported when either `organizationId` or `userId` is specified.
+  //
   // Supports:
   // - `active desc`
   // - `createTime desc`
+  // - `startTime desc`
   orderBy?: string;
   // The Subscription view to return in the results.
   //
