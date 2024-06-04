@@ -8,7 +8,7 @@ export interface Challenge {
   /**
    * The challenge string.
    */
-  challenge?: string;
+  challenge: string;
 }
 
 /**
@@ -62,7 +62,7 @@ export interface DeleteCustomUserRequest {
   /**
    * The external identifier for the user.
    */
-  id?: string;
+  id: string;
 }
 
 /**
@@ -76,7 +76,7 @@ export interface ErrorResponse {
   /**
    * A user-facing error message.
    */
-  message?: string;
+  message: string;
 }
 
 /**
@@ -86,7 +86,7 @@ export interface GetCustomUserRequest {
   /**
    * The external identifier for the user.
    */
-  id?: string;
+  id: string;
 }
 
 /**
@@ -97,7 +97,7 @@ export interface ListCustomUsersRequest {
    * The maximum number of users to return. The webhook is allowed to
    * return fewer than this value, but it should never return more.
    */
-  pageSize?: number;
+  pageSize: number;
   /**
    * A page token, this is from the response of the previous list
    * request.

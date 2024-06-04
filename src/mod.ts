@@ -13,6 +13,7 @@ export type * as userv1 from "./userv1.ts";
 export { AdminApi } from "./clients.ts";
 export { UserApi } from "./clients.ts";
 export { Webhook } from "./webhook/actions.ts";
+export { WebhookUserNotFound } from "./webhook/errors.ts";
 export { WebhookResponse, WebhookRequest } from "./webhook/http.ts";
 
 // misc

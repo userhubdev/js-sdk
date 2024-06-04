@@ -1,13 +1,17 @@
 // Code generated. DO NOT EDIT.
 import * as constants from "../../src/internal/constants.ts";
-import { Code, UserHubError, type eventsv1 } from "../../src/mod.ts";
-import { Webhook } from "../../src/webhook/actions.ts";
-import { concatArrays, loadCrypto } from "../../src/webhook/base.ts";
 import {
+  Code,
+  UserHubError,
   WebhookRequest,
   WebhookResponse,
-  getHeader,
-} from "../../src/webhook/http.ts";
+  WebhookUserNotFound,
+  type connectionsv1,
+  type eventsv1,
+} from "../../src/mod.ts";
+import { Webhook } from "../../src/webhook/actions.ts";
+import { concatArrays, loadCrypto } from "../../src/webhook/base.ts";
+import { getHeader } from "../../src/webhook/http.ts";
 import { expect, test } from "vitest";
 
 test.each<WebhookTest>([
@@ -268,17 +272,96 @@ test.each<WebhookTest>([
     setTimestamp: true,
     addSignature: true,
   },
+  {
+    name: "List users",
+    secret: "test",
+    request: new WebhookRequest({
+      headers: {
+        "UserHub-Action": "users.list",
+      },
+      body: '{"pageSize":100}',
+    }),
+    response: new WebhookResponse({
+      statusCode: 200,
+      body: '{"nextPageToken":"","users":[]}',
+    }),
+    setTimestamp: true,
+    addSignature: true,
+  },
+  {
+    name: "Get user",
+    secret: "test",
+    request: new WebhookRequest({
+      headers: {
+        "UserHub-Action": "users.get",
+      },
+      body: '{"id": "1"}',
+    }),
+    response: new WebhookResponse({
+      statusCode: 200,
+      body: '{"id":"1","displayName":"","email":"","emailVerified":false,"phoneNumber":"","phoneNumberVerified":false,"imageUrl":"","disabled":false}',
+    }),
+    setTimestamp: true,
+    addSignature: true,
+  },
+  {
+    name: "Get user not found",
+    secret: "test",
+    request: new WebhookRequest({
+      headers: {
+        "UserHub-Action": "users.get",
+      },
+      body: '{"id": "not-found"}',
+    }),
+    response: new WebhookResponse({
+      statusCode: 404,
+      body: '{"message":"User not found","code":"NOT_FOUND"}',
+    }),
+    setTimestamp: true,
+    addSignature: true,
+  },
 ])("handler: $name", async (test) => {
   const webhook = new Webhook(test.secret);
 
-  webhook.onEvent((event: eventsv1.Event) => {
-    if (event.type !== "ok") {
+  webhook.onEvent((input: eventsv1.Event) => {
+    if (input.type !== "ok") {
       throw new UserHubError({
-        message: `Event failed: ${event.type}`,
+        message: `Event failed: ${input.type}`,
         apiCode: Code.InvalidArgument,
       });
     }
   });
+
+  webhook.onListUsers(
+    (
+      input: connectionsv1.ListCustomUsersRequest,
+    ): connectionsv1.ListCustomUsersResponse => {
+      if (input.pageSize !== 100) {
+        throw new Error(`unexpected page size: ${input.pageSize}`);
+      }
+
+      return { nextPageToken: "", users: [] };
+    },
+  );
+
+  webhook.onGetUser(
+    (input: connectionsv1.GetCustomUserRequest): connectionsv1.CustomUser => {
+      if (input.id === "not-found") {
+        throw new WebhookUserNotFound();
+      }
+
+      return {
+        id: input.id,
+        displayName: "",
+        email: "",
+        emailVerified: false,
+        phoneNumber: "",
+        phoneNumberVerified: false,
+        imageUrl: "",
+        disabled: false,
+      };
+    },
+  );
 
   const encoder = new TextEncoder();
 
