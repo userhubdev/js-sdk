@@ -57,10 +57,8 @@ export class BaseWebhook {
     if (!signingSecret && options.signingSecret) {
       signingSecret = options.signingSecret;
     }
-    if (options.onError) {
-      this._onError = options.onError;
-    }
 
+    this._onError = options.onError || defaultOnError;
     this._signingSecret = signingSecret;
   }
 
@@ -338,5 +336,11 @@ export function webhookStatusCode(code: Code): number {
       return 501;
     default:
       return 500;
+  }
+}
+
+function defaultOnError(e: unknown) {
+  if (e) {
+    console.error("UserHub webhook:", e);
   }
 }

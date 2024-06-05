@@ -321,7 +321,7 @@ test.each<WebhookTest>([
     addSignature: true,
   },
 ])("handler: $name", async (test) => {
-  const webhook = new Webhook(test.secret);
+  const webhook = new Webhook(test.secret, { onError: () => {} });
 
   webhook.onEvent((input: eventsv1.Event) => {
     if (input.type !== "ok") {
