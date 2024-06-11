@@ -1603,15 +1603,36 @@ interface UserCreatePortalSessionInput extends RequestOptions {
   // The portal URL, this is the target URL on the portal site.
   //
   // If not defined the root URL for the portal will be used.
+  //
+  // This does not need to be the full URL, you have the option
+  // of passing in a path instead (e.g. `/`).
+  //
+  // You also have the option of including the `{accountId}`
+  // string in the path/URL which will be replaced with either the
+  // UserHub user ID (if `organizationId` is not specified)
+  // or the UserHub organization ID (if specified).
+  //
+  // Examples:
+  // * `/{accountId}` - the billing dashboard
+  // * `/{accountId}/plans` - select a plan to checkout
+  // * `/{accountId}/checkout/<some-plan-id>` - checkout specified plan
+  // * `/{accountId}/members` - manage organization members
+  // * `/{accountId}/invite` - invite a user to an organization
   portalUrl?: string;
   // The URL the user should be sent to when they want to return to
   // the app (e.g. cancel checkout).
   //
   // If not defined the app URL will be used.
   returnUrl?: string;
-  // The URl the user should be sent after they successfully complete
+  // The URL the user should be sent after they successfully complete
   // an action (e.g. checkout).
   //
   // If not defined the return URL will be used.
   successUrl?: string;
+  // The organization ID.
+  //
+  // When specified the `{accountId}` in the `portalUrl` will be
+  // replaced with the organization ID, otherwise the user ID
+  // will be used.
+  organizationId?: string;
 }
