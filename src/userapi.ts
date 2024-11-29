@@ -401,7 +401,7 @@ class Session {
   }
 
   /**
-   * Get current session details.
+   * Get the current session details.
    */
   async get(input?: SessionGetInput): Promise<userv1.Session>;
   async get(...args: any[]): Promise<userv1.Session> {
@@ -415,6 +415,46 @@ class Session {
 
     const res = await this.transport.execute(req);
     return res.body as userv1.Session;
+  }
+
+  /**
+   * Exchange an ID token from your IdP for an access token.
+   */
+  async exchangeToken(
+    input: SessionExchangeTokenInput,
+  ): Promise<userv1.ExchangeSessionTokenResponse>;
+  async exchangeToken(
+    ...args: any[]
+  ): Promise<userv1.ExchangeSessionTokenResponse> {
+    const req = build({
+      call: "user.session.exchangeToken",
+      method: "POST",
+      path: "/user/v1/session:exchangeToken",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as userv1.ExchangeSessionTokenResponse;
+  }
+
+  /**
+   * Create Portal session.
+   */
+  async createPortal(
+    input?: SessionCreatePortalInput,
+  ): Promise<userv1.CreatePortalSessionResponse>;
+  async createPortal(
+    ...args: any[]
+  ): Promise<userv1.CreatePortalSessionResponse> {
+    const req = build({
+      call: "user.session.createPortal",
+      method: "POST",
+      path: "/user/v1/session:createPortal",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as userv1.CreatePortalSessionResponse;
   }
 }
 
@@ -662,3 +702,53 @@ interface OrganizationLeaveInput extends RequestOptions {
  * The input options for the `session.get` method.
  */
 interface SessionGetInput extends RequestOptions {}
+
+/**
+ * The input options for the `session.exchangeToken` method.
+ */
+interface SessionExchangeTokenInput extends RequestOptions {
+  // The IdP ID token which is used to authenticated the user.
+  token?: string;
+}
+
+/**
+ * The input options for the `session.createPortal` method.
+ */
+interface SessionCreatePortalInput extends RequestOptions {
+  // The identifier of the organization.
+  //
+  // When specified the `{accountId}` in the `portalUrl` will be
+  // replaced with the organization ID, otherwise the user ID
+  // will be used.
+  organizationId?: string;
+  // The Portal URL, this is the target URL on the portal site.
+  //
+  // If not defined the root URL for the portal will be used.
+  //
+  // This does not need to be the full URL, you have the option
+  // of passing in a path instead (e.g. `/`).
+  //
+  // You also have the option of including the `{accountId}`
+  // string in the path/URL which will be replaced with either the
+  // UserHub user ID (if `organizationId` is not specified)
+  // or the UserHub organization ID (if specified).
+  //
+  // Examples:
+  // * `/{accountId}` - the billing dashboard
+  // * `/{accountId}/checkout` - start a checkout
+  // * `/{accountId}/checkout/<some-plan-id>` - start a checkout with a specified plan
+  // * `/{accountId}/cancel` - cancel current plan
+  // * `/{accountId}/members` - manage organization members
+  // * `/{accountId}/invite` - invite a user to an organization
+  portalUrl?: string;
+  // The URL the user should be sent to when they want to return to
+  // the app (e.g. cancel checkout).
+  //
+  // If not defined the app URL will be used.
+  returnUrl?: string;
+  // The URL the user should be sent after they successfully complete
+  // an action (e.g. checkout).
+  //
+  // If not defined the return URL will be used.
+  successUrl?: string;
+}

@@ -3,7 +3,7 @@ import type * as apiv1 from "./apiv1.ts";
 import type * as commonv1 from "./commonv1.ts";
 
 /**
- * A link between a account and an external account.
+ * A link between an organization/user and an external account.
  */
 export interface AccountConnection {
   /**
@@ -27,6 +27,34 @@ export interface AccountConnection {
    */
   stateReason?: string;
   /**
+   * The human-readable display name of the external account.
+   */
+  displayName?: string;
+  /**
+   * The email address of the external account.
+   */
+  email?: string;
+  /**
+   * Whether the external account's email address has been verified.
+   */
+  emailVerified?: boolean;
+  /**
+   * The E164 phone number for the external account (e.g. `+12125550123`).
+   */
+  phoneNumber?: string;
+  /**
+   * Whether the external account's phone number has been verified.
+   */
+  phoneNumberVerified?: boolean;
+  /**
+   * The billing address for the external account.
+   */
+  address?: commonv1.Address | null;
+  /**
+   * The currency code for the account.
+   */
+  currencyCode?: string;
+  /**
    * The balance amount for the account.
    *
    * A negative value indicates an amount which will be subtracted from the next
@@ -36,10 +64,6 @@ export interface AccountConnection {
    * invoice (debt).
    */
   balanceAmount?: string;
-  /**
-   * The currency code for the account.
-   */
-  currencyCode?: string;
   /**
    * The payment methods for connections that support it.
    */
@@ -60,6 +84,56 @@ export interface AccountConnection {
    * The last update time of the account connection.
    */
   updateTime: Date;
+}
+
+/**
+ * AccountConnection input parameters.
+ */
+export interface AccountConnectionInput {
+  /**
+   * The system-assigned identifier for the connection of the external account.
+   */
+  connectionId: string;
+  /**
+   * The human-readable display name of the external account.
+   *
+   * The maximum length is 200 characters.
+   *
+   * This might be further restricted by the external provider.
+   */
+  displayName?: string;
+  /**
+   * The email address of the external account.
+   *
+   * The maximum length is 320 characters.
+   *
+   * This might be further restricted by the external provider.
+   */
+  email?: string;
+  /**
+   * Whether the external account's email address has been verified.
+   */
+  emailVerified?: boolean;
+  /**
+   * The E164 phone number for the external account (e.g. `+12125550123`).
+   */
+  phoneNumber?: string;
+  /**
+   * Whether the external account's phone number has been verified.
+   */
+  phoneNumberVerified?: boolean;
+  /**
+   * The default ISO-4217 currency code for the external account (e.g. `USD`).
+   */
+  currencyCode?: string;
+  /**
+   * The billing address for the external account.
+   */
+  address?: commonv1.Address | null;
+  /**
+   * Whether the external account is disabled.
+   */
+  disabled?: boolean;
 }
 
 /**
@@ -131,6 +205,35 @@ export interface AccountSubscriptionSeat {
 }
 
 /**
+ * The Amazon Cognito connection data.
+ */
+export interface AmazonCognitoConnection {
+  /**
+   * The Amazon Cognito user pool ID.
+   */
+  userPoolId: string;
+  /**
+   * The Amazon region.
+   */
+  region: string;
+  /**
+   * The Amazon access key ID.
+   */
+  accessKeyId: string;
+  /**
+   * The Amazon access key secret.
+   */
+  accessKeySecret: string;
+  /**
+   * OpenID Connect (OIDC) configuration.
+   *
+   * If configured, this can be used instead of implementing a
+   * Portal callback.
+   */
+  oidc?: OidcConfig | null;
+}
+
+/**
  * The Auth0 connection data.
  */
 export interface Auth0Connection {
@@ -146,6 +249,13 @@ export interface Auth0Connection {
    * The Auth0 client secret.
    */
   clientSecret: string;
+  /**
+   * OpenID Connect (OIDC) configuration.
+   *
+   * If configured, this can be used instead of implementing a
+   * Portal callback.
+   */
+  oidc?: OidcConfig | null;
 }
 
 /**
@@ -300,6 +410,10 @@ export interface Connection {
    * The last update time of the connection.
    */
   updateTime: Date;
+  /**
+   * The Amazon Cognito connection data.
+   */
+  amazonCognito?: AmazonCognitoConnection | null;
   /**
    * The Auth0 connection data.
    */
@@ -1478,6 +1592,24 @@ export interface Membership {
 }
 
 /**
+ * OpenID Connect (OIDC) configuration.
+ */
+export interface OidcConfig {
+  /**
+   * The issuer URL.
+   */
+  issuerUrl?: string;
+  /**
+   * The client ID.
+   */
+  clientId?: string;
+  /**
+   * The client secret.
+   */
+  clientSecret?: string;
+}
+
+/**
  * A group account.
  */
 export interface Organization {
@@ -1538,7 +1670,7 @@ export interface Organization {
    */
   timeZone?: string;
   /**
-   * The address for the organization.
+   * The default address for the organization.
    */
   address?: commonv1.Address | null;
   /**
@@ -1638,7 +1770,7 @@ export interface OrganizationInput {
    */
   timeZone?: string;
   /**
-   * The billing address for the organization.
+   * The default address for the organization.
    */
   address?: commonv1.Address | null;
   /**
@@ -1829,7 +1961,7 @@ export interface PlanGroup {
    */
   displayName: string;
   /**
-   * The admin facing description of the plan group.
+   * The admin-facing description of the plan group.
    *
    * The maximum length is 1000 characters.
    */
@@ -1987,7 +2119,7 @@ export interface PlanGroupRevisionPlan {
    */
   displayName?: string;
   /**
-   * The admin facing description of the plan.
+   * The admin-facing description of the plan.
    *
    * The maximum length is 1000 characters.
    */
@@ -2181,7 +2313,25 @@ export interface PriceTieredPrice {
   /**
    * The tiers for the price.
    */
-  tiers: TieredPriceTier[];
+  tiers: PriceTieredPriceTier[];
+}
+
+/**
+ * A quantity range within the tiered price.
+ */
+export interface PriceTieredPriceTier {
+  /**
+   * The upper quantity for tier (inclusive).
+   */
+  upper?: number;
+  /**
+   * The per quantity amount for the tier.
+   */
+  unitAmount?: string;
+  /**
+   * The flat amount for the tier.
+   */
+  flatAmount?: string;
 }
 
 /**
@@ -2292,6 +2442,16 @@ export interface ProductConnection {
    */
   updateTime: Date;
 }
+
+/**
+ * Response message for PurgeOrganization.
+ */
+export interface PurgeOrganizationResponse {}
+
+/**
+ * Response message for PurgeUser.
+ */
+export interface PurgeUserResponse {}
 
 /**
  * A member's role within an organization.
@@ -2617,24 +2777,6 @@ export interface SubscriptionTrial {
 }
 
 /**
- * A quantity range within the tiered price.
- */
-export interface TieredPriceTier {
-  /**
-   * The upper quantity for tier (inclusive).
-   */
-  upper?: number;
-  /**
-   * The per quantity amount for the tier.
-   */
-  unitAmount?: string;
-  /**
-   * The flat amount for the tier.
-   */
-  flatAmount?: string;
-}
-
-/**
  * A trigger is a way to run connection functionality when specific events
  * occur.
  */
@@ -2732,7 +2874,7 @@ export interface User {
    */
   timeZone?: string;
   /**
-   * The billing address for the user.
+   * The default address for the user.
    */
   address?: commonv1.Address | null;
   /**
@@ -2833,7 +2975,7 @@ export interface UserInput {
    */
   timeZone?: string;
   /**
-   * The billing address for the user.
+   * The default address for the user.
    */
   address?: commonv1.Address | null;
   /**

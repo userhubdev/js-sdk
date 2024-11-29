@@ -39,6 +39,10 @@ export interface Status {
    * Additional metadata related to the error.
    */
   metadata?: Record<string, string>;
+  /**
+   * A user-facing error message.
+   */
+  localeMessage?: string;
 }
 
 /**
@@ -58,4 +62,8 @@ export interface StatusDetails {
    * Additional metadata related to the error.
    */
   metadata?: Record<string, string>;
+  /**
+   * A user-facing error message.
+   */
+  localeMessage?: string;
 }
