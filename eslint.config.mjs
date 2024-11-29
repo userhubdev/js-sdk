@@ -13,10 +13,13 @@ export default tseslint.config(
       },
     },
     rules: {
+      "@typescript-eslint/no-base-to-string": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
     },
   },
 );

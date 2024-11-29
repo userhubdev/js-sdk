@@ -130,7 +130,6 @@ export class HttpTransport implements Transport {
   async execute(req: TransportRequest): Promise<TransportResponse> {
     const input = this.setupExecute(req);
 
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       req.attempt++;
 
