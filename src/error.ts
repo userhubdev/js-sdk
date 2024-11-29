@@ -37,6 +37,7 @@ export class UserHubError extends Error {
   public readonly param?: string;
   public readonly metadata: Record<string, string>;
   public readonly call?: string;
+  // @ts-ignore
   public readonly cause?: Error;
   public readonly statusCode?: number;
 
