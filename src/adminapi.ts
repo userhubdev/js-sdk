@@ -361,6 +361,30 @@ class Organizations {
   }
 
   /**
+   * Hard delete the specified organization.
+   *
+   * The organization must be marked for deletion before it can be purged.
+   */
+  async purge(
+    organizationId: string,
+    input?: Omit<OrganizationPurgeInput, "organizationId">,
+  ): Promise<adminv1.PurgeOrganizationResponse>;
+  async purge(
+    input: OrganizationPurgeInput,
+  ): Promise<adminv1.PurgeOrganizationResponse>;
+  async purge(...args: any[]): Promise<adminv1.PurgeOrganizationResponse> {
+    const req = build({
+      call: "admin.organizations.purge",
+      method: "POST",
+      path: "/admin/v1/organizations/{organizationId}:purge",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.PurgeOrganizationResponse;
+  }
+
+  /**
    * Connect specified organization to external account.
    */
   async connect(
@@ -728,6 +752,28 @@ class Users {
 
     const res = await this.transport.execute(req);
     return res.body as adminv1.User;
+  }
+
+  /**
+   * Hard delete the specified user.
+   *
+   * The user must be marked for deletion before it can be purged.
+   */
+  async purge(
+    userId: string,
+    input?: Omit<UserPurgeInput, "userId">,
+  ): Promise<adminv1.PurgeUserResponse>;
+  async purge(input: UserPurgeInput): Promise<adminv1.PurgeUserResponse>;
+  async purge(...args: any[]): Promise<adminv1.PurgeUserResponse> {
+    const req = build({
+      call: "admin.users.purge",
+      method: "POST",
+      path: "/admin/v1/users/{userId}:purge",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.PurgeUserResponse;
   }
 
   /**
@@ -1100,7 +1146,7 @@ interface OrganizationCreateInput extends RequestOptions {
   regionCode?: string;
   // The IANA time zone for the organization (e.g. `America/New_York`).
   timeZone?: string;
-  // The billing address for the organization.
+  // The default address for the organization.
   address?: commonv1.Address | null;
   // The sign-up time for the organization.
   signupTime?: Date | null;
@@ -1157,7 +1203,7 @@ interface OrganizationUpdateInput extends RequestOptions {
   regionCode?: string;
   // The IANA time zone for the organization (e.g. `America/New_York`).
   timeZone?: string;
-  // The billing address for the organization.
+  // The default address for the organization.
   address?: commonv1.Address | null;
   // The sign-up time for the organization.
   signupTime?: Date | null;
@@ -1182,6 +1228,14 @@ interface OrganizationDeleteInput extends RequestOptions {
  * The input options for the `organizations.undelete` method.
  */
 interface OrganizationUndeleteInput extends RequestOptions {
+  // The identifier of the organization.
+  organizationId: string;
+}
+
+/**
+ * The input options for the `organizations.purge` method.
+ */
+interface OrganizationPurgeInput extends RequestOptions {
   // The identifier of the organization.
   organizationId: string;
 }
@@ -1452,7 +1506,7 @@ interface UserCreateInput extends RequestOptions {
   regionCode?: string;
   // The IANA time zone for the user (e.g. `America/New_York`).
   timeZone?: string;
-  // The billing address for the user.
+  // The default address for the user.
   address?: commonv1.Address | null;
   // The sign-up time for the user.
   signupTime?: Date | null;
@@ -1509,7 +1563,7 @@ interface UserUpdateInput extends RequestOptions {
   regionCode?: string;
   // The IANA time zone for the user (e.g. `America/New_York`).
   timeZone?: string;
-  // The billing address for the user.
+  // The default address for the user.
   address?: commonv1.Address | null;
   // The sign-up time for the user.
   signupTime?: Date | null;
@@ -1534,6 +1588,14 @@ interface UserDeleteInput extends RequestOptions {
  * The input options for the `users.undelete` method.
  */
 interface UserUndeleteInput extends RequestOptions {
+  // The identifier of the user.
+  userId: string;
+}
+
+/**
+ * The input options for the `users.purge` method.
+ */
+interface UserPurgeInput extends RequestOptions {
   // The identifier of the user.
   userId: string;
 }
@@ -1600,7 +1662,7 @@ interface UserCreatePortalSessionInput extends RequestOptions {
   // exist in UserHub they will automatically be imported.
   userId: string;
 
-  // The portal URL, this is the target URL on the portal site.
+  // The Portal URL, this is the target URL on the portal site.
   //
   // If not defined the root URL for the portal will be used.
   //
@@ -1614,8 +1676,9 @@ interface UserCreatePortalSessionInput extends RequestOptions {
   //
   // Examples:
   // * `/{accountId}` - the billing dashboard
-  // * `/{accountId}/plans` - select a plan to checkout
-  // * `/{accountId}/checkout/<some-plan-id>` - checkout specified plan
+  // * `/{accountId}/checkout` - start a checkout
+  // * `/{accountId}/checkout/<some-plan-id>` - start a checkout with a specified plan
+  // * `/{accountId}/cancel` - cancel current plan
   // * `/{accountId}/members` - manage organization members
   // * `/{accountId}/invite` - invite a user to an organization
   portalUrl?: string;

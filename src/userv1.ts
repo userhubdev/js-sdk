@@ -68,6 +68,26 @@ export interface BillingAccount {
    */
   state?: string;
   /**
+   * The human-readable display name of the billing account.
+   */
+  displayName?: string;
+  /**
+   * The email address of the billing account.
+   */
+  email?: string;
+  /**
+   * The E164 phone number for the billing account (e.g. `+12125550123`).
+   */
+  phoneNumber?: string;
+  /**
+   * The billing address for the billing account.
+   */
+  address?: commonv1.Address | null;
+  /**
+   * The ISO-4217 currency code for the billing account (e.g. `USD`).
+   */
+  currencyCode?: string;
+  /**
    * The balance amount for the account.
    *
    * A negative value indicates an amount which will be subtracted from the next
@@ -78,9 +98,9 @@ export interface BillingAccount {
    */
   balanceAmount?: string;
   /**
-   * The ISO-4217 currency code for the account (e.g. `USD`).
+   * The available checkouts.
    */
-  currencyCode?: string;
+  checkouts?: BillingAccountCheckout[];
   /**
    * The default and latest 10 payment methods for the account.
    */
@@ -89,6 +109,46 @@ export interface BillingAccount {
    * The subscription for the account.
    */
   subscription?: Subscription | null;
+}
+
+/**
+ * The discount.
+ */
+export interface BillingAccountCheckout {
+  /**
+   * The type of checkout.
+   */
+  type: string;
+}
+
+/**
+ * BillingAccountInput input parameters.
+ */
+export interface BillingAccountInput {
+  /**
+   * The human-readable display name of the billing account.
+   *
+   * The maximum length is 200 characters.
+   *
+   * This might be further restricted by the billing provider.
+   */
+  displayName?: string;
+  /**
+   * The email address of the billing account.
+   *
+   * The maximum length is 320 characters.
+   *
+   * This might be further restricted by the billing provider.
+   */
+  email?: string;
+  /**
+   * The E164 phone number of the billing account (e.g. `+12125550123`).
+   */
+  phoneNumber?: string;
+  /**
+   * The address for the billing account.
+   */
+  address?: commonv1.Address | null;
 }
 
 /**
@@ -132,6 +192,418 @@ export interface CardPaymentMethodExpiration {
 }
 
 /**
+ * The checkout.
+ */
+export interface Checkout {
+  /**
+   * The system-assigned identifier of the checkout.
+   *
+   * This might not match the requested checkout identifier and you
+   * should update all references to it if it changes.
+   *
+   * Finalized identifiers will start with `co_`, all other identifiers
+   * are temporary.
+   */
+  id: string;
+  /**
+   * The type of checkout.
+   */
+  type: string;
+  /**
+   * The state of the checkout.
+   */
+  state: string;
+  /**
+   * The checkout error.
+   */
+  error?: apiv1.Status | null;
+  /**
+   * The currently selected currency code.
+   */
+  currencyCode: string;
+  /**
+   * The plans available for checkout.
+   */
+  plans?: CheckoutPlan[];
+  /**
+   * The checkout payment method.
+   */
+  paymentMethod?: PaymentMethod | null;
+  /**
+   * The billing details company or individual name.
+   */
+  fullName?: string;
+  /**
+   * The billing details address.
+   */
+  address?: commonv1.Address | null;
+  /**
+   * The steps required to complete the checkout.
+   */
+  steps?: CheckoutStep[];
+  /**
+   * The checkout items.
+   */
+  items?: CheckoutItem[];
+  /**
+   * The discounts applied to the checkout.
+   */
+  discounts?: CheckoutDiscount[];
+  /**
+   * The subtotal amount for the checkout.
+   *
+   * This includes item-level discounts.
+   */
+  subtotalAmount?: string;
+  /**
+   * The top-level discount amount.
+   *
+   * This does not include item level discounts.
+   */
+  discountAmount?: string;
+  /**
+   * The tax amount for the checkout.
+   *
+   * This is for rendering purposes only and is
+   * not the reported tax amount.
+   */
+  taxAmount?: string;
+  /**
+   * The total amount for the checkout.
+   */
+  totalAmount?: string;
+  /**
+   * The amount applied to the checkout from the balance.
+   *
+   * A negative amount means a debit from the account balance.
+   * A positive amount means a credit to the account balance.
+   */
+  balanceAppliedAmount?: string;
+  /**
+   * The total amount minus any credits automatically
+   * associated with the invoice.
+   */
+  dueAmount?: string;
+  /**
+   * The total normal recurring amount.
+   */
+  renewAmount?: string;
+}
+
+/**
+ * The complete payment step details.
+ */
+export interface CheckoutCompletePaymentStep {
+  /**
+   * The payment intent for the checkout.
+   */
+  paymentIntent?: PaymentIntent | null;
+}
+
+/**
+ * The discount.
+ */
+export interface CheckoutDiscount {
+  /**
+   * The checkout discount identifier.
+   */
+  id: string;
+  /**
+   * The discount code.
+   */
+  code?: string;
+}
+
+/**
+ * Checkout input parameters.
+ */
+export interface CheckoutInput {
+  /**
+   * The identifier of the organization.
+   *
+   * This must be provided for organization checkouts.
+   */
+  organizationId?: string;
+  /**
+   * The type of the checkout.
+   */
+  type?: string;
+  /**
+   * The identifier of the plan group.
+   *
+   * This allows you to specify the currently selected plan.
+   */
+  planId?: string;
+}
+
+/**
+ * The checkout item.
+ */
+export interface CheckoutItem {
+  /**
+   * The item identifier.
+   */
+  id: string;
+  /**
+   * The type of the item.
+   */
+  type: string;
+  /**
+   * The display name for the item.
+   */
+  displayName: string;
+  /**
+   * The quantity for the item.
+   */
+  price?: Price | null;
+  /**
+   * The quantity for the item.
+   */
+  quantity?: number;
+  /**
+   * The quantity the plan is set to renew at.
+   */
+  renewQuantity?: number;
+  /**
+   * The minimum quantity allowed.
+   */
+  minQuantity?: number;
+  /**
+   * The maximum quantity allowed.
+   */
+  maxQuantity?: number;
+  /**
+   * The billing period for the item.
+   */
+  period?: commonv1.Period | null;
+  /**
+   * The subtotal amount at checkout.
+   */
+  subtotalAmount?: string;
+  /**
+   * The item-level discount amount at checkout.
+   */
+  discountAmount?: string;
+  /**
+   * The item-level normal recurring amount.
+   */
+  renewAmount?: string;
+  /**
+   * Whether this is a preview-only item.
+   *
+   * Preview-only items are generally prorations or other pending
+   * charges or credits.
+   */
+  preview?: boolean;
+  /**
+   * The parent item.
+   *
+   * This allows you to group related items and is generally set for preview
+   * items.
+   */
+  parentItemId?: string;
+}
+
+/**
+ * The plan.
+ */
+export interface CheckoutPlan {
+  /**
+   * The system-assigned identifier of the plan.
+   */
+  id: string;
+  /**
+   * The name of the plan.
+   */
+  displayName: string;
+  /**
+   * The description of the plan.
+   */
+  description?: string;
+  /**
+   * The billing interval for the plan.
+   */
+  billingInterval: commonv1.Interval;
+  /**
+   * The plan group for the plan.
+   */
+  group: CheckoutPlanGroup;
+  /**
+   * The revision for the plan.
+   */
+  revision: CheckoutPlanRevision;
+  /**
+   * Whether this is the current plan for the subscription.
+   */
+  current?: boolean;
+  /**
+   * Whether this is the selected plan for the checkout.
+   */
+  selected?: boolean;
+  /**
+   * Whether this is the default plan for the plan group.
+   */
+  default?: boolean;
+  /**
+   * The trial settings.
+   *
+   * For authenticated requests, this will not be set when the account
+   * isn't eligible for a trial.
+   */
+  trial?: CheckoutPlanTrial | null;
+  /**
+   * Whether the change is considered an upgrade or
+   * a downgrade.
+   */
+  changePath?: string;
+  /**
+   * The flat price for the plan.
+   *
+   * This might not exists for plans that are billed by seat.
+   */
+  price?: Price | null;
+  /**
+   * The primary seat price for the plan.
+   */
+  seatPrice?: Price | null;
+  /**
+   * The savings for the plan.
+   *
+   * The savings are in comparison to the plan in the revision with the
+   * shortest billing interval.
+   */
+  savings?: CheckoutPlanSavings | null;
+  /**
+   * Whether this plan is disabled for checkout.
+   *
+   * This will only be set when the current/selected plan is disabled, all
+   * other plans will be available for checkout.
+   */
+  disabled?: boolean;
+}
+
+/**
+ * Plan group is a collection of related plans.
+ *
+ * A plan group will generally describe a tier of plans offered
+ * (e.g. Basic vs Pro) which might contain multiple billing options
+ * (e.g. monthly vs yearly, USD vs EUR).
+ */
+export interface CheckoutPlanGroup {
+  /**
+   * The system-assigned identifier of the plan group.
+   */
+  id: string;
+  /**
+   * The client defined unique identifier of the plan group (e.g. `pro`).
+   */
+  uniqueId?: string;
+  /**
+   * Whether this is the current plan group for the subscription.
+   */
+  current?: boolean;
+  /**
+   * Whether this is the selected plan group for the checkout.
+   */
+  selected?: boolean;
+}
+
+/**
+ * Revision is a collection of plans with the same revision.
+ *
+ * This will group plans with different billing cycles.
+ */
+export interface CheckoutPlanRevision {
+  /**
+   * The system-assigned identifier of the plan group revision.
+   */
+  id: string;
+  /**
+   * Whether this is the current revision for the subscription.
+   */
+  current?: boolean;
+  /**
+   * Whether this is the selected revision for the checkout.
+   */
+  selected?: boolean;
+  /**
+   * Whether this is the latest revision for the plan group.
+   *
+   * This will only be set for a current or selected plan group.
+   */
+  latest?: boolean;
+}
+
+/**
+ * The savings for the plan.
+ */
+export interface CheckoutPlanSavings {
+  /**
+   * The percentage savings (1-100).
+   *
+   * This percentage is rounded down.
+   */
+  percentage?: number;
+}
+
+/**
+ * The trial details.
+ */
+export interface CheckoutPlanTrial {
+  /**
+   * The number of days in the trial.
+   */
+  days: number;
+}
+
+/**
+ * The checkout step.
+ */
+export interface CheckoutStep {
+  /**
+   * The type of step.
+   */
+  type: string;
+  /**
+   * The state of the step.
+   */
+  state: string;
+  /**
+   * The complete payment step details.
+   */
+  completePayment?: CheckoutCompletePaymentStep | null;
+}
+
+/**
+ * Response message for CreatePortalSession.
+ */
+export interface CreatePortalSessionResponse {
+  /**
+   * The URL you should redirect the user to after calling create portal
+   * session.
+   */
+  redirectUrl: string;
+}
+
+/**
+ * Response message for ExchangeToken.
+ */
+export interface ExchangeSessionTokenResponse {
+  /**
+   * An authorization token which can be used to make authenticated
+   * requests.
+   *
+   * This should be included in the `Authorization` header with a
+   * `Bearer` prefix.
+   */
+  accessToken: string;
+  /**
+   * The expiration time for the session.
+   */
+  expireTime: Date;
+}
+
+/**
  * An invitation, task, or user request (e.g. join organization).
  */
 export interface Flow {
@@ -164,14 +636,6 @@ export interface Flow {
    */
   creator?: User | null;
   /**
-   * The time the flow will expire.
-   */
-  expireTime: Date;
-  /**
-   * The creation time of the flow.
-   */
-  createTime: Date;
-  /**
    * The join organization flow type specific data.
    */
   joinOrganization?: JoinOrganizationFlow | null;
@@ -179,6 +643,14 @@ export interface Flow {
    * The signup flow type specific data.
    */
   signup?: SignupFlow | null;
+  /**
+   * The time the flow will expire.
+   */
+  expireTime: Date;
+  /**
+   * The creation time of the flow.
+   */
+  createTime: Date;
 }
 
 /**
@@ -1097,7 +1569,25 @@ export interface PriceTieredPrice {
   /**
    * The tiers for the price.
    */
-  tiers: TieredPriceTier[];
+  tiers: PriceTieredPriceTier[];
+}
+
+/**
+ * A quantity range within the tiered price.
+ */
+export interface PriceTieredPriceTier {
+  /**
+   * The upper quantity for tier (inclusive).
+   */
+  upper?: number;
+  /**
+   * The per quantity amount for the tier.
+   */
+  unitAmount?: string;
+  /**
+   * The flat amount for the tier.
+   */
+  flatAmount?: string;
 }
 
 /**
@@ -1257,6 +1747,10 @@ export interface StripePaymentMethodIntent {
    * The Stripe Setup Intent client secret.
    */
   clientSecret: string;
+  /**
+   * The Stripe.js Payment Element options.
+   */
+  paymentElementOptions?: Record<string, any>;
 }
 
 /**
@@ -1421,24 +1915,6 @@ export interface SubscriptionTrial {
    * of the trial and null when the trial expires.
    */
   remainingDays?: number;
-}
-
-/**
- * A quantity range within the tiered price.
- */
-export interface TieredPriceTier {
-  /**
-   * The upper quantity for tier (inclusive).
-   */
-  upper?: number;
-  /**
-   * The per quantity amount for the tier.
-   */
-  unitAmount?: string;
-  /**
-   * The flat amount for the tier.
-   */
-  flatAmount?: string;
 }
 
 /**
