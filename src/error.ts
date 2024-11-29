@@ -6,6 +6,7 @@ interface BaseOptions {
   reason?: string | null;
   param?: string | null;
   metadata?: Record<string, string> | null;
+  localeMessage?: string | null;
   call?: string | null;
   cause?: unknown;
   statusCode?: number;
@@ -36,6 +37,7 @@ export class UserHubError extends Error {
   public readonly reason?: string;
   public readonly param?: string;
   public readonly metadata: Record<string, string>;
+  public readonly localeMessage?: string;
   public readonly call?: string;
   // @ts-ignore
   public readonly cause?: Error;
@@ -52,6 +54,9 @@ export class UserHubError extends Error {
       if (!opts.param && status.param) opts.param = status.param;
       if (!opts.reason && status.reason) opts.reason = status.reason;
       if (!opts.metadata && status.metadata) opts.metadata = status.metadata;
+      if (!opts.localeMessage && status.localeMessage) {
+        opts.localeMessage = status.localeMessage;
+      }
     }
 
     const hasApiCode = opts.apiCode && opts.apiCode != Code.Unknown;
@@ -84,6 +89,7 @@ export class UserHubError extends Error {
     if (opts.reason) this.reason = opts.reason;
     if (opts.param) this.param = opts.param;
     this.metadata = opts.metadata || {};
+    if (opts.localeMessage) this.localeMessage = opts.localeMessage;
     if (opts.call) this.call = opts.call;
     if (opts.cause && opts.cause instanceof Error) {
       this.cause = opts.cause;
