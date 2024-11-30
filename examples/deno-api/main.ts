@@ -1,14 +1,14 @@
 import { AdminApi, UserApi } from "https://deno.land/x/userhub_sdk/mod.ts";
 
-const adminKey = Deno.env.get("ADMIN_KEY") || "";
+const adminKey = Deno.env.get("USERHUB_ADMIN_KEY") || "";
 if (!adminKey) {
-  console.error("ADMIN_KEY required");
+  console.error("USERHUB_ADMIN_KEY required");
   Deno.exit(1);
 }
 
-const userKey = Deno.env.get("USER_KEY") || "";
+const userKey = Deno.env.get("USERHUB_USER_KEY") || "";
 if (!userKey) {
-  console.error("USER_KEY required");
+  console.error("USERHUB_USER_KEY required");
   Deno.exit(1);
 }
 

@@ -1,6 +1,6 @@
 import { jsonReviser } from "../../src/internal/util.ts";
 import { AdminApi, UserApi, type adminv1 } from "../../src/mod.ts";
-import { ADMIN_KEY, USER_KEY } from "./util.ts";
+import { USERHUB_ADMIN_KEY, USERHUB_USER_KEY } from "./util.ts";
 import {
   assert,
   assertEquals,
@@ -10,25 +10,25 @@ import {
 Deno.test({
   name: "Admin API",
   fn: async () => {
-    const adminApi = new AdminApi(ADMIN_KEY);
+    const adminApi = new AdminApi(USERHUB_ADMIN_KEY);
 
     const res = await adminApi.users.list();
     assert(res);
     assertInstanceOf(res.users, Array);
   },
-  ignore: !ADMIN_KEY,
+  ignore: !USERHUB_ADMIN_KEY,
 });
 
 Deno.test({
   name: "User API",
   fn: async () => {
-    const userApi = new UserApi(USER_KEY);
+    const userApi = new UserApi(USERHUB_USER_KEY);
 
     const res = await userApi.session.get();
     assert(res);
     assertInstanceOf(res.scopes, Array);
   },
-  ignore: !USER_KEY,
+  ignore: !USERHUB_USER_KEY,
 });
 
 Deno.test("Model", () => {
