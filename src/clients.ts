@@ -37,11 +37,6 @@ export class AdminApi extends BaseAdminApi {
         throw new UserHubError("adminKey required");
       }
     }
-    if (!adminKey.startsWith(constants.ADMIN_KEY_PREFIX)) {
-      throw new UserHubError(
-        `adminKey must start with '${constants.ADMIN_KEY_PREFIX}'`,
-      );
-    }
 
     const headers: Headers = new Headers();
     headers.set(constants.AUTH_HEADER, "Bearer " + adminKey);
@@ -101,11 +96,6 @@ export class UserApi extends BaseUserApi {
       } else {
         throw new UserHubError("userKey required");
       }
-    }
-    if (!userKey.startsWith(constants.USER_KEY_PREFIX)) {
-      throw new UserHubError(
-        `userKey must start with '${constants.USER_KEY_PREFIX}'`,
-      );
     }
 
     if (!accessToken && "accessToken" in options && options.accessToken) {

@@ -6,8 +6,6 @@ export const VERSION = "0.7.0";
 
 export const AUTH_HEADER = "Authorization";
 export const API_KEY_HEADER = "UserHub-Api-Key";
-export const ADMIN_KEY_PREFIX = "sk_";
-export const USER_KEY_PREFIX = "pk_";
 
 export const WEBHOOK_ACTION_HEADER = "UserHub-Action";
 export const WEBHOOK_AGENT_HEADER = "Webhook-Agent";
