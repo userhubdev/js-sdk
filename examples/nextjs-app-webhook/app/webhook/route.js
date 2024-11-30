@@ -1,9 +1,9 @@
 import { Webhook, WebhookRequest } from "@userhub/sdk";
 
 export async function POST(req) {
-  const signingSecret = process.env.SIGNING_SECRET;
+  const signingSecret = process.env.USERHUB_SIGNING_SECRET;
   if (!signingSecret) {
-    throw new Error("SIGNING_SECRET required");
+    throw new Error("USERHUB_SIGNING_SECRET required");
   }
 
   const webhook = new Webhook(signingSecret);

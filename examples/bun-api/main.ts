@@ -1,14 +1,14 @@
 import { AdminApi, UserApi } from "@userhub/sdk";
 
-const adminKey = process.env.ADMIN_KEY || "";
+const adminKey = process.env.USERHUB_ADMIN_KEY || "";
 if (!adminKey) {
-  console.error("ADMIN_KEY required");
+  console.error("USERHUB_ADMIN_KEY required");
   process.exit(1);
 }
 
-const userKey = process.env.USER_KEY || "";
+const userKey = process.env.USERHUB_USER_KEY || "";
 if (!userKey) {
-  console.error("USER_KEY required");
+  console.error("USERHUB_USER_KEY required");
   process.exit(1);
 }
 

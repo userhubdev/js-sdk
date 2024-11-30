@@ -7,9 +7,9 @@ export const config = {
 };
 
 export default async function (req, res) {
-  const signingSecret = process.env.SIGNING_SECRET;
+  const signingSecret = process.env.USERHUB_SIGNING_SECRET;
   if (!signingSecret) {
-    throw new Error("SIGNING_SECRET required");
+    throw new Error("USERHUB_SIGNING_SECRET required");
   }
 
   const webhook = new Webhook(signingSecret);

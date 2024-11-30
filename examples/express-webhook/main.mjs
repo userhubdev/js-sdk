@@ -3,9 +3,9 @@ import express from "express";
 
 const port = process.env.PORT || "8000";
 
-const signingSecret = process.env.SIGNING_SECRET;
+const signingSecret = process.env.USERHUB_SIGNING_SECRET;
 if (!signingSecret) {
-  console.error("SIGNING_SECRET required");
+  console.error("USERHUB_SIGNING_SECRET required");
   process.exit(1);
 }
 

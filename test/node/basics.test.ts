@@ -3,11 +3,17 @@ import { jsonReviser } from "../../src/internal/util.ts";
 import type { adminv1 } from "../../src/mod.ts";
 import { AdminApi, Code, UserApi, UserHubError } from "../../src/mod.ts";
 import { createTestServer } from "./test-server.ts";
-import { ADMIN_KEY, USER_KEY, testAdmin, testSlow, testUser } from "./util.ts";
+import {
+  USERHUB_ADMIN_KEY,
+  USERHUB_USER_KEY,
+  testAdmin,
+  testSlow,
+  testUser,
+} from "./util.ts";
 import { expect, test } from "vitest";
 
 testAdmin("Admin API", async () => {
-  const adminApi = new AdminApi(ADMIN_KEY);
+  const adminApi = new AdminApi(USERHUB_ADMIN_KEY);
 
   const res = await adminApi.users.list();
   expect(res).toBeTruthy();
@@ -15,7 +21,7 @@ testAdmin("Admin API", async () => {
 });
 
 testUser("User API", async () => {
-  const userApi = new UserApi(USER_KEY);
+  const userApi = new UserApi(USERHUB_USER_KEY);
 
   const res = await userApi.session.get();
   expect(res).toBeTruthy();

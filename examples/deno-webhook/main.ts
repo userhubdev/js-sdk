@@ -2,9 +2,9 @@ import { Webhook } from "https://deno.land/x/userhub_sdk/mod.ts";
 
 const port = parseInt(Deno.env.get("PORT") || "8000", 10);
 
-const signingSecret = Deno.env.get("SIGNING_SECRET") || "";
+const signingSecret = Deno.env.get("USERHUB_SIGNING_SECRET") || "";
 if (!signingSecret) {
-  console.error("SIGNING_SECRET required");
+  console.error("USERHUB_SIGNING_SECRET required");
   Deno.exit(1);
 }
 
