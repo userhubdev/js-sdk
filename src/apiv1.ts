@@ -6,6 +6,42 @@
 export interface EmptyResponse {}
 
 /**
+ * The field view options..
+ */
+export interface FieldView {
+  /**
+   * Whether the field is included in the view.
+   *
+   * THis overrides the message default.
+   */
+  include?: string;
+  /**
+   * Whether the field is excluded from the view.
+   *
+   * THis overrides the message default.
+   */
+  exclude?: string;
+  /**
+   * The referenced type's view.
+   */
+  type?: string;
+}
+
+/**
+ * The message view options.
+ */
+export interface MessageView {
+  /**
+   * Whether all fields are included in the view by default.
+   */
+  include?: string;
+  /**
+   * Whether all fields are excluded from the view by default.
+   */
+  exclude?: string;
+}
+
+/**
  * Operations metadata.
  */
 export interface OperationInfo {

@@ -6,7 +6,6 @@ export type * as apiv1 from "./apiv1.ts";
 export type * as commonv1 from "./commonv1.ts";
 export type * as connectionsv1 from "./connectionsv1.ts";
 export type * as eventsv1 from "./eventsv1.ts";
-export type * as operationsv1 from "./operationsv1.ts";
 export type * as userv1 from "./userv1.ts";
 
 // clients

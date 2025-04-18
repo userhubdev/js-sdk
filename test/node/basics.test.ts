@@ -46,6 +46,7 @@ test("Model", () => {
       },
     ],
     memberships: [],
+    view: "FULL",
     createTime: now,
     updateTime: now,
   };
