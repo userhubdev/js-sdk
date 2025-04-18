@@ -130,7 +130,7 @@ export function getHeaders(headers: Headers, name: string): string[] {
     .filter(Boolean);
 }
 
-export function jsonDecode(value: ArrayBuffer): any {
+export function jsonDecode(value: ArrayBuffer | ArrayBufferView): any {
   let body = "";
   try {
     body = new TextDecoder().decode(value);
