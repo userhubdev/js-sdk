@@ -958,6 +958,8 @@ interface FlowCreateJoinOrganizationInput extends RequestOptions {
   email?: string;
   // The display name of the person to invite.
   displayName?: string;
+  // The identifier of the role.
+  roleId?: string;
   // The identifier of the user sending the invite.
   creatorUserId?: string;
   // The time the flow will expire.

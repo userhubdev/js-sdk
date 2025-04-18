@@ -87,56 +87,6 @@ export interface AccountConnection {
 }
 
 /**
- * AccountConnection input parameters.
- */
-export interface AccountConnectionInput {
-  /**
-   * The system-assigned identifier for the connection of the external account.
-   */
-  connectionId: string;
-  /**
-   * The human-readable display name of the external account.
-   *
-   * The maximum length is 200 characters.
-   *
-   * This might be further restricted by the external provider.
-   */
-  displayName?: string;
-  /**
-   * The email address of the external account.
-   *
-   * The maximum length is 320 characters.
-   *
-   * This might be further restricted by the external provider.
-   */
-  email?: string;
-  /**
-   * Whether the external account's email address has been verified.
-   */
-  emailVerified?: boolean;
-  /**
-   * The E164 phone number for the external account (e.g. `+12125550123`).
-   */
-  phoneNumber?: string;
-  /**
-   * Whether the external account's phone number has been verified.
-   */
-  phoneNumberVerified?: boolean;
-  /**
-   * The default ISO-4217 currency code for the external account (e.g. `USD`).
-   */
-  currencyCode?: string;
-  /**
-   * The billing address for the external account.
-   */
-  address?: commonv1.Address | null;
-  /**
-   * Whether the external account is disabled.
-   */
-  disabled?: boolean;
-}
-
-/**
  * The account view of the subscription.
  */
 export interface AccountSubscription {
@@ -259,56 +209,6 @@ export interface Auth0Connection {
 }
 
 /**
- * Response message for BatchCreateTriggers.
- */
-export interface BatchCreateTriggersResponse {
-  /**
-   * The triggers.
-   */
-  triggers: TriggerResult[];
-}
-
-/**
- * Response message for BatchDeleteTriggers.
- */
-export interface BatchDeleteTriggersResponse {
-  /**
-   * The triggers.
-   */
-  triggers: TriggerResult[];
-}
-
-/**
- * Response message for BatchGetOrganizations.
- */
-export interface BatchGetOrganizationsResponse {
-  /**
-   * The organizations.
-   */
-  organizations: OrganizationResult[];
-}
-
-/**
- * Response message for BatchGetTriggers.
- */
-export interface BatchGetTriggersResponse {
-  /**
-   * The triggers.
-   */
-  triggers: TriggerResult[];
-}
-
-/**
- * Response message for BatchGetUsers.
- */
-export interface BatchGetUsersResponse {
-  /**
-   * The user results.
-   */
-  users: UserResult[];
-}
-
-/**
  * The builtin email specific connection data.
  */
 export interface BuiltinEmailConnection {
@@ -402,6 +302,10 @@ export interface Connection {
    * The connection providers.
    */
   providers: ConnectionProvider[];
+  /**
+   * The connection view.
+   */
+  view: string;
   /**
    * The creation time of the connection.
    */
@@ -502,20 +406,6 @@ export interface CreateApiSessionResponse {
 }
 
 /**
- * Response message for CreatePaymentMethodIntent.
- */
-export interface CreatePaymentMethodIntentResponse {
-  /**
-   * The setup token for the billing system (e.g. Stripe SetupIntent
-   * Client Secret). This is generally used by a frontend
-   * client to securely set up a payment method, the result of which
-   * can be passed to CreatePaymentMethod to complete the setup
-   * process.
-   */
-  token: string;
-}
-
-/**
  * Response message for CreatePortalSession.
  */
 export interface CreatePortalSessionResponse {
@@ -524,187 +414,6 @@ export interface CreatePortalSessionResponse {
    * session.
    */
   redirectUrl: string;
-}
-
-/**
- * Event describes a service a tenant provides. Multiple
- * events can be multiple and sold using a plan.
- */
-export interface Event {
-  /**
-   * The system-assigned identifier of the event.
-   */
-  id: string;
-  /**
-   * The type of the event.
-   */
-  type: string;
-  /**
-   * The time of the event.
-   */
-  time: Date;
-  /**
-   * The entity associated with the event.
-   */
-  entity?: EventEntity | null;
-  /**
-   * The connection associated with the event.
-   */
-  connection?: EventConnection | null;
-  /**
-   * The organization associated with the event.
-   */
-  organization?: EventOrganization | null;
-  /**
-   * The user associated with the event.
-   */
-  user?: EventUser | null;
-  /**
-   * The API key associated with the event.
-   */
-  apiKey?: EventApiKey | null;
-  /**
-   * The actor associated with the event.
-   */
-  actor?: EventActor | null;
-  /**
-   * The request associated with the event.
-   */
-  request?: EventRequest | null;
-}
-
-/**
- * The actor associated with event.
- */
-export interface EventActor {
-  /**
-   * The system-assigned identifier of the actor.
-   */
-  id?: string;
-  /**
-   * The human-readable display name of the actor.
-   *
-   * NOTE: this is the current display name and not
-   * the one as of the time of the event.
-   */
-  displayName?: string;
-  /**
-   * The email address of the actor.
-   *
-   * NOTE: this is the current email and not
-   * the one as of the time of the event.
-   */
-  email?: string;
-  /**
-   * Whether the actor is a tenant admin.
-   */
-  admin?: boolean;
-}
-
-/**
- * The API key associated with event.
- */
-export interface EventApiKey {
-  /**
-   * The system-assigned identifier of the API key.
-   */
-  id: string;
-}
-
-/**
- * The connection associated with the event.
- */
-export interface EventConnection {
-  /**
-   * The system-assigned identifier of the connection.
-   */
-  id: string;
-  /**
-   * The human-readable display name of the connection.
-   *
-   * NOTE: this is the current display name and not
-   * the one as of the time of the event.
-   */
-  displayName?: string;
-  /**
-   * The connection type.
-   */
-  type?: string;
-}
-
-/**
- * The entity associated with event.
- */
-export interface EventEntity {
-  /**
-   * The system-assigned identifier of the entity.
-   */
-  id: string;
-}
-
-/**
- * The organization associated with event.
- */
-export interface EventOrganization {
-  /**
-   * The system-assigned identifier of the organization.
-   */
-  id: string;
-  /**
-   * The human-readable display name of the organization.
-   *
-   * NOTE: this is the current display name and not
-   * the one as of the time of the event.
-   */
-  displayName?: string;
-  /**
-   * The email address of the organization.
-   *
-   * NOTE: this is the current email and not
-   * the one as of the time of the event.
-   */
-  email?: string;
-}
-
-/**
- * The request associated with event.
- */
-export interface EventRequest {
-  /**
-   * The IP address of the client/user.
-   *
-   * It's very likely this is the IP address of the
-   * API client and not the end-user.
-   */
-  ipAddress?: string;
-  /**
-   * The trace ID associated with the request.
-   */
-  traceId?: string;
-}
-
-/**
- * The user associated with event.
- */
-export interface EventUser {
-  /**
-   * The system-assigned identifier of the user.
-   */
-  id: string;
-  /**
-   * The human-readable display name of the user.
-   *
-   * NOTE: this is the current display name and not
-   * the one as of the time of the event.
-   */
-  displayName?: string;
-  /**
-   * The email address of the user.
-   *
-   * NOTE: this is the current email and not
-   * the one as of the time of the event.
-   */
-  email?: string;
 }
 
 /**
@@ -759,6 +468,10 @@ export interface Flow {
    * This is only populated on create.
    */
   secret?: string;
+  /**
+   * The flow view.
+   */
+  view: string;
   /**
    * The creation time of the flow.
    */
@@ -1052,111 +765,6 @@ export interface InvoiceItem {
 }
 
 /**
- * A preview of an invoice.
- */
-export interface InvoicePreview {
-  /**
-   * The currency code for the preview (e.g. `USD`).
-   */
-  currencyCode?: string;
-  /**
-   * The bill to contact information.
-   */
-  account?: InvoiceAccount | null;
-  /**
-   * The time the upcoming invoice will be finalized.
-   *
-   * This is an estimate and might not exactly match the finalized
-   * invoice.
-   *
-   * This will be null if the preview would be applied
-   * immediately.
-   */
-  effectiveTime?: Date | null;
-  /**
-   * The subtotal amount for the preview.
-   *
-   * This includes item-level discounts.
-   */
-  subtotalAmount?: string;
-  /**
-   * The preview-level discount amount.
-   *
-   * This does not include item level discounts.
-   */
-  discountAmount?: string;
-  /**
-   * The starting and ending account balance as
-   * of the time the preview.
-   */
-  balance?: InvoiceBalance | null;
-  /**
-   * The tax amount for the preview.
-   */
-  taxAmount?: string;
-  /**
-   * The total amount for the preview.
-   */
-  totalAmount?: string;
-  /**
-   * The total amount minus any credits automatically
-   * associated with the preview.
-   */
-  dueAmount?: string;
-  /**
-   * A token which can be passed to a create or update
-   * operation to ensure the change matches the preview.
-   *
-   * This token generally expires within 10 minutes of
-   * being generated.
-   */
-  changeToken?: string;
-  /**
-   * The line items for the invoice.
-   */
-  items?: InvoicePreviewItem[];
-}
-
-/**
- * The line items for the preview.
- */
-export interface InvoicePreviewItem {
-  /**
-   * The details of the associated product.
-   */
-  product?: Product | null;
-  /**
-   * The details of the associated price.
-   */
-  price?: Price | null;
-  /**
-   * The quantity of the item product/price.
-   */
-  quantity?: number;
-  /**
-   * The total amount for the line item excluding
-   * taxes and discounts.
-   */
-  subtotalAmount?: string;
-  /**
-   * The item-level discount amount.
-   */
-  discountAmount?: string;
-  /**
-   * The user facing description for the line item.
-   */
-  description?: string;
-  /**
-   * Whether the item was a proration.
-   */
-  proration?: boolean;
-  /**
-   * The billing period for the item.
-   */
-  period?: commonv1.Period | null;
-}
-
-/**
  * The join organization flow.
  */
 export interface JoinOrganizationFlow {
@@ -1172,48 +780,6 @@ export interface JoinOrganizationFlow {
    * The role to be assigned to the invitee.
    */
   role?: Role | null;
-}
-
-/**
- * Response message for ListConnections.
- */
-export interface ListConnectionsResponse {
-  /**
-   * The list of connections.
-   */
-  connections: Connection[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-}
-
-/**
- * Response message for ListEvents.
- */
-export interface ListEventsResponse {
-  /**
-   * The list of events.
-   */
-  events: Event[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
 }
 
 /**
@@ -1301,153 +867,6 @@ export interface ListOrganizationsResponse {
 }
 
 /**
- * Response message for ListPlanGroupChangePaths.
- */
-export interface ListPlanGroupChangePathsResponse {
-  /**
-   * The list of change paths.
-   */
-  planGroupChangePaths: PlanGroupChangePath[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-}
-
-/**
- * Response message for ListPlanGroupRevisions.
- */
-export interface ListPlanGroupRevisionsResponse {
-  /**
-   * The list of revisions.
-   */
-  planGroupRevisions: PlanGroupRevision[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-}
-
-/**
- * Response message for ListPlanGroupTags.
- */
-export interface ListPlanGroupTagsResponse {
-  /**
-   * The list of plan group tags.
-   */
-  planGroupTags: PlanGroupTag[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-}
-
-/**
- * Response message for ListPlanGroups.
- */
-export interface ListPlanGroupsResponse {
-  /**
-   * The list of plan groups.
-   */
-  planGroups: PlanGroup[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-}
-
-/**
- * Response message for ListPrices.
- */
-export interface ListPricesResponse {
-  /**
-   * The list of prices.
-   */
-  prices: Price[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-}
-
-/**
- * Response message for ListProducts.
- */
-export interface ListProductsResponse {
-  /**
-   * The list of products.
-   */
-  products: Product[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-}
-
-/**
- * Response message for ListRoles.
- */
-export interface ListRolesResponse {
-  /**
-   * The list of roles.
-   */
-  roles: Role[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-}
-
-/**
  * Response message for ListSubscriptions.
  */
 export interface ListSubscriptionsResponse {
@@ -1455,27 +874,6 @@ export interface ListSubscriptionsResponse {
    * The list of subscriptions.
    */
   subscriptions: Subscription[];
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the next page.
-   * If this field is omitted, there are no subsequent pages.
-   */
-  nextPageToken?: string;
-  /**
-   * A token, which can be sent as `pageToken` to retrieve the previous page.
-   * If this field is absent, there are no preceding pages. If this field is
-   * an empty string then the previous page is the first result.
-   */
-  previousPageToken?: string;
-}
-
-/**
- * Response message for ListTriggers.
- */
-export interface ListTriggersResponse {
-  /**
-   * The list of triggers.
-   */
-  triggers: Trigger[];
   /**
    * A token, which can be sent as `pageToken` to retrieve the next page.
    * If this field is omitted, there are no subsequent pages.
@@ -1696,6 +1094,10 @@ export interface Organization {
    */
   disabled?: boolean;
   /**
+   * The organization view.
+   */
+  view: string;
+  /**
    * The creation time of the organization.
    */
   createTime: Date;
@@ -1784,20 +1186,6 @@ export interface OrganizationInput {
 }
 
 /**
- * Result wrapper for an organization.
- */
-export interface OrganizationResult {
-  /**
-   * The organization.
-   */
-  organization?: Organization | null;
-  /**
-   * The organization error.
-   */
-  error?: apiv1.Status | null;
-}
-
-/**
  * An object to track payments.
  */
 export interface PaymentIntent {
@@ -1876,28 +1264,6 @@ export interface PaymentMethod {
 }
 
 /**
- * Payment method input parameters.
- */
-export interface PaymentMethodInput {
-  /**
-   * The full name of the owner of the payment method (e.g. `Jane Doe`).
-   */
-  fullName?: string;
-  /**
-   * The address for the payment method.
-   */
-  address?: commonv1.Address | null;
-  /**
-   * The card expiration year (e.g. `2030`).
-   */
-  expYear?: number;
-  /**
-   * The card expiration month (e.g. `12`).
-   */
-  expMonth?: number;
-}
-
-/**
  * The plan.
  */
 export interface Plan {
@@ -1905,6 +1271,10 @@ export interface Plan {
    * The system-assigned identifier of the plan.
    */
   id: string;
+  /**
+   * The status of the plan.
+   */
+  state: string;
   /**
    * The name of the plan.
    */
@@ -1914,13 +1284,53 @@ export interface Plan {
    */
   description?: string;
   /**
+   * The tier for the plan.
+   *
+   * This is only available in checkout and pricing.
+   */
+  tier?: string;
+  /**
    * The currency code for the plan (e.g. `USD`).
    */
-  currencyCode?: string;
+  currencyCode: string;
   /**
    * The billing interval for the plan.
    */
   billingInterval: commonv1.Interval;
+  /**
+   * The revision for the plan.
+   */
+  revision: PlanRevision;
+  /**
+   * Whether this is the current plan for the subscription.
+   *
+   * This is only set in checkout.
+   */
+  current?: boolean;
+  /**
+   * Whether this is the selected plan.
+   *
+   * This is only set in checkout.
+   */
+  selected?: boolean;
+  /**
+   * Whether this is the default term for the plan.
+   */
+  default?: boolean;
+  /**
+   * The trial settings.
+   *
+   * For authenticated requests, this will only be set for accounts that
+   * are eligible for a new trial.
+   */
+  trial?: PlanTrial | null;
+  /**
+   * Whether the change is considered an upgrade or
+   * a downgrade.
+   *
+   * This is only set in checkout.
+   */
+  changePath?: string;
   /**
    * The tags associated with the revision.
    */
@@ -1929,242 +1339,20 @@ export interface Plan {
    * The items associated with plan.
    */
   items?: PlanItem[];
+  /**
+   * The subscription view.
+   */
+  view: string;
 }
 
 /**
- * Plan group is a container for plan revisions and billing
- * intervals.
- *
- * A plan group would generally describe a tier of plans offered
- * (e.g. Pro) which might contain two options, a monthly and
- * yearly plan.
+ * The products which the plan includes.
  */
-export interface PlanGroup {
-  /**
-   * The system-assigned identifier of the plan group.
-   */
-  id: string;
-  /**
-   * The client defined unique identifier of the plan group (e.g. `pro`).
-   *
-   * It is restricted to letters, numbers, underscores, and hyphens,
-   * with the first character a letter or a number, and a 255
-   * character maximum.
-   *
-   * ID's starting with `pg_r are reserved.
-   */
-  uniqueId?: string;
-  /**
-   * The customer facing human-readable display name of the plan group.
-   *
-   * The maximum length is 200 characters.
-   */
-  displayName: string;
-  /**
-   * The admin-facing description of the plan group.
-   *
-   * The maximum length is 1000 characters.
-   */
-  description?: string;
-  /**
-   * The type of account the plan can be activated for.
-   */
-  accountType: string;
-  /**
-   * The trial settings.
-   */
-  trial?: PlanGroupTrial | null;
-  /**
-   * The visibility of the plan group.
-   */
-  visibility?: string;
-  /**
-   * The archived status of the plan group.
-   */
-  archived?: boolean;
-  /**
-   * The current revision for the plan group.
-   */
-  revision?: PlanGroupRevision | null;
-  /**
-   * The creation time of the plan group.
-   */
-  createTime: Date;
-  /**
-   * The last update time of the plan group.
-   */
-  updateTime: Date;
-}
-
-/**
- * This defines the upgrade/downgrade paths for a plan group.
- */
-export interface PlanGroupChangePath {
-  /**
-   * The target plan group for this change path.
-   */
-  target?: PlanGroup | null;
-  /**
-   * Whether the change is considered an upgrade or
-   * a downgrade.
-   */
-  direction?: string;
-  /**
-   * The visibility of the change path.
-   */
-  visibility?: string;
-  /**
-   * The creation time of the plan group change path.
-   */
-  createTime: Date;
-  /**
-   * The last update time of the plan group change path.
-   */
-  updateTime: Date;
-}
-
-/**
- * Plan group revisions track the configuration options for a plan group.
- */
-export interface PlanGroupRevision {
-  /**
-   * The system-assigned identifier of the plan group revision.
-   */
-  id: string;
-  /**
-   * The default status of the revision.
-   *
-   * When this is true, the revision will be used as the default when not
-   * explicitly specified.
-   */
-  default: boolean;
-  /**
-   * The supported currency codes (e.g. `USD`).
-   */
-  currencyCodes?: string[];
-  /**
-   * The plans associated with plan group revision.
-   */
-  plans?: PlanGroupRevisionPlan[];
-  /**
-   * The items associated with plan group revision.
-   */
-  items?: PlanGroupRevisionItem[];
-  /**
-   * Whether the revision has been committed.
-   *
-   * After the revision has been committed, it is available for use, but
-   * can no longer be edited.
-   */
-  committed?: boolean;
-  /**
-   * The tags associated with the revision.
-   *
-   * Tags are restricted to letters, numbers, underscores, and hyphens,
-   * with the first character a letter or a number, and a 255
-   * character maximum.
-   *
-   * A revision is limited to 10 tags.
-   */
-  tags?: string[];
-  /**
-   * The revised plan group revision identifier.
-   *
-   * This allows you to track the revision lineage.
-   */
-  sourceRevisionId?: string;
-  /**
-   * The creation time of the plan group revision.
-   */
-  createTime: Date;
-  /**
-   * The last update time of the plan group revision.
-   */
-  updateTime: Date;
-}
-
-/**
- * The products which the plan group includes.
- */
-export interface PlanGroupRevisionItem {
-  /**
-   * The product associated with the item.
-   */
-  product: Product;
+export interface PlanItem {
   /**
    * The plan item type.
    */
   type: string;
-}
-
-/**
- * The actual plan within the plan group. This defines the associated
- * connection and billing interval.
- */
-export interface PlanGroupRevisionPlan {
-  /**
-   * The client defined unique identifier for the plan (e.g. `monthly`).
-   */
-  uniqueId?: string;
-  /**
-   * The details of the associated connection.
-   */
-  connection?: Connection | null;
-  /**
-   * The billing interval for the plan.
-   */
-  interval: commonv1.Interval;
-  /**
-   * The customer facing human-readable display name for the plan.
-   */
-  displayName?: string;
-  /**
-   * The admin-facing description of the plan.
-   *
-   * The maximum length is 1000 characters.
-   */
-  description?: string;
-  /**
-   * The prices associated with the plan.
-   *
-   * There should be a price for each product/currency
-   * combination.
-   */
-  prices?: Price[];
-  /**
-   * The visibility of the plan.
-   */
-  visibility?: string;
-}
-
-/**
- * A tag which references a specific plan group revision.
- */
-export interface PlanGroupTag {
-  /**
-   * The client defined tag (e.g. `2023`).
-   */
-  tag: string;
-  /**
-   * The system-assigned identifier of the plan group revision.
-   */
-  revisionId: string;
-}
-
-/**
- * The trial settings.
- */
-export interface PlanGroupTrial {
-  /**
-   * The default number of days in the trial.
-   */
-  days?: number;
-}
-
-/**
- * The plan products.
- */
-export interface PlanItem {
   /**
    * The product associated with the item.
    */
@@ -2173,10 +1361,50 @@ export interface PlanItem {
    * The price associated with them item.
    */
   price: Price;
+}
+
+/**
+ * The revision information for the plan.
+ */
+export interface PlanRevision {
   /**
-   * The plan item type.
+   * The system-assigned identifier of the plan revision.
    */
-  type: string;
+  id: string;
+  /**
+   * Whether this is the current revision for the subscription.
+   *
+   * This is only set in checkout.
+   */
+  current?: boolean;
+  /**
+   * Whether this is the selected revision.
+   *
+   * This is only set in checkout.
+   */
+  selected?: boolean;
+  /**
+   * Whether this is the latest revision for the plan.
+   *
+   * This is only set for a current or selected plan in checkout.
+   */
+  latest?: boolean;
+  /**
+   * The tag for the revision.
+   *
+   * This will only be set in checkout for plans set using a tag.
+   */
+  tag?: string;
+}
+
+/**
+ * The trial details.
+ */
+export interface PlanTrial {
+  /**
+   * The number of days in the trial.
+   */
+  days: number;
 }
 
 /**
@@ -2269,6 +1497,10 @@ export interface Price {
    */
   pushTime?: Date | null;
   /**
+   * The price view.
+   */
+  view: string;
+  /**
    * The creation time of the price.
    */
   createTime: Date;
@@ -2276,6 +1508,10 @@ export interface Price {
    * The last update time of the price.
    */
   updateTime: Date;
+  /**
+   * The price is dependent on the quantity.
+   */
+  empty?: PriceEmptyPrice | null;
   /**
    * The price is fixed per quantity.
    */
@@ -2285,6 +1521,11 @@ export interface Price {
    */
   tiered?: PriceTieredPrice | null;
 }
+
+/**
+ * An empty price.
+ */
+export interface PriceEmptyPrice {}
 
 /**
  * A pricing strategy that defines a constant price per
@@ -2396,6 +1637,10 @@ export interface Product {
    */
   productConnections?: ProductConnection[];
   /**
+   * The product view.
+   */
+  view: string;
+  /**
    * The creation time of the product.
    */
   createTime: Date;
@@ -2485,6 +1730,10 @@ export interface Role {
    * The maximum length is 1000 characters.
    */
   description?: string;
+  /**
+   * The policy that defines how a member is assigned a seat.
+   */
+  seatPolicy?: string;
   /**
    * The additional permissions allowed by the role.
    */
@@ -2667,6 +1916,10 @@ export interface Subscription {
    */
   pushTime?: Date | null;
   /**
+   * The subscription view.
+   */
+  view: string;
+  /**
    * The creation time of the subscription.
    */
   createTime: Date;
@@ -2717,32 +1970,50 @@ export interface SubscriptionItem {
  */
 export interface SubscriptionSeatInfo {
   /**
+   * Whether a seat can be assigned or reserved.
+   */
+  state?: string;
+  /**
+   * The code that best describes the reason for the state.
+   */
+  stateReason?: string;
+  /**
    * The seat product.
    */
   product?: Product | null;
   /**
-   * The quantity which has been invoiced for the current billing period.
+   * The number of seats expected to be invoiced for the current billing period.
    *
    * This might be less than the total quantity while a subscription change
    * is pending or if the subscription is over-provisioned.
    */
   currentPeriodQuantity?: number;
   /**
-   * The quantity scheduled to appear on the next invoice.
+   * The number of seats scheduled to appear on the next invoice.
    *
    * This will only be set when different from current period quantity.
    */
   nextPeriodQuantity?: number;
   /**
-   * The quantity currently in use.
+   * The number of seats currently assigned.
    */
   assignedQuantity?: number;
   /**
-   * The quantity available for use.
+   * The number of seats not assigned.
    */
   unassignedQuantity?: number;
   /**
-   * The sum of the assigned and unassigned quantities.
+   * The number of seats currently reserved because of pending invitations.
+   *
+   * These can be made available by cancelling outstanding invitations.
+   */
+  reservedQuantity?: number;
+  /**
+   * The number of seats which can be assigned or reserved.
+   */
+  availableQuantity?: number;
+  /**
+   * The total number of seats for the current period.
    */
   totalQuantity?: number;
 }
@@ -2774,43 +2045,6 @@ export interface SubscriptionTrial {
    * of the trial and null when the trial expires.
    */
   remainingDays?: number;
-}
-
-/**
- * A trigger is a way to run connection functionality when specific events
- * occur.
- */
-export interface Trigger {
-  /**
-   * The connection.
-   */
-  connection: Connection;
-  /**
-   * The event type.
-   */
-  eventType: string;
-  /**
-   * The creation time of the trigger.
-   */
-  createTime: Date;
-  /**
-   * The last update time of the trigger.
-   */
-  updateTime: Date;
-}
-
-/**
- * Result wrapper for a trigger.
- */
-export interface TriggerResult {
-  /**
-   * The trigger.
-   */
-  trigger?: Trigger | null;
-  /**
-   * The trigger error.
-   */
-  error?: apiv1.Status | null;
 }
 
 /**
@@ -2901,6 +2135,10 @@ export interface User {
    */
   disabled?: boolean;
   /**
+   * The user view.
+   */
+  view: string;
+  /**
    * The creation time of the user.
    */
   createTime: Date;
@@ -2986,20 +2224,6 @@ export interface UserInput {
    * Whether the user is disabled.
    */
   disabled?: boolean;
-}
-
-/**
- * The user or error.
- */
-export interface UserResult {
-  /**
-   * The user.
-   */
-  user?: User | null;
-  /**
-   * The result error.
-   */
-  error?: apiv1.Status | null;
 }
 
 /**
