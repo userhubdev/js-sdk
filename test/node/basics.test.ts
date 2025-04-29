@@ -75,6 +75,9 @@ test("API GET", async () => {
   expect(requests[0].method).equal("GET");
   expect(requests[0].url).equal("/admin/v1/users/usr_1");
   expect(requests[0].headers["accept"]).equal("application/json");
+  expect(requests[0].headers["userhub-api-version"]).equal(
+    constants.API_VERSION,
+  );
   expect(requests[0].headers["authorization"]).equal("Bearer sk_test");
   expect(requests[0].headers["content-type"]).toBeUndefined();
   expect(requests[0].headers["user-agent"]).equal(constants.USER_AGENT);
@@ -101,6 +104,9 @@ test("API POST", async () => {
   expect(requests[0].method).equal("POST");
   expect(requests[0].url).equal("/admin/v1/users");
   expect(requests[0].headers["accept"]).equal("application/json");
+  expect(requests[0].headers["userhub-api-version"]).equal(
+    constants.API_VERSION,
+  );
   expect(requests[0].headers["authorization"]).equal("Bearer sk_test");
   expect(requests[0].headers["content-type"]).equal("application/json");
   expect(requests[0].headers["user-agent"]).equal(constants.USER_AGENT);
@@ -128,6 +134,9 @@ test("API PATCH", async () => {
   expect(requests[0].method).equal("PATCH");
   expect(requests[0].url).equal("/admin/v1/users/usr_1?allowMissing=true");
   expect(requests[0].headers["accept"]).equal("application/json");
+  expect(requests[0].headers["userhub-api-version"]).equal(
+    constants.API_VERSION,
+  );
   expect(requests[0].headers["authorization"]).equal("Bearer sk_test");
   expect(requests[0].headers["content-type"]).equal("application/json");
   expect(requests[0].headers["user-agent"]).equal(constants.USER_AGENT);
@@ -158,6 +167,9 @@ test("API DELETE", async () => {
   expect(requests[0].method).equal("DELETE");
   expect(requests[0].url).equal("/admin/v1/users/usr_1");
   expect(requests[0].headers["accept"]).equal("application/json");
+  expect(requests[0].headers["userhub-api-version"]).equal(
+    constants.API_VERSION,
+  );
   expect(requests[0].headers["authorization"]).equal("Bearer sk_test");
   expect(requests[0].headers["content-type"]).toBeUndefined();
   expect(requests[0].headers["user-agent"]).equal(constants.USER_AGENT);

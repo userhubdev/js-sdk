@@ -6,6 +6,7 @@ import { Client as BaseUserApi } from "./userapi.ts";
 
 interface AdminApiOptions {
   adminKey: string;
+  apiVersion?: string;
   baseUrl?: string;
 }
 
@@ -39,6 +40,10 @@ export class AdminApi extends BaseAdminApi {
     }
 
     const headers: Headers = new Headers();
+    headers.set(
+      constants.API_VERSION_HEADER,
+      options.apiVersion || constants.API_VERSION,
+    );
     headers.set(constants.AUTH_HEADER, "Bearer " + adminKey);
 
     super(new HttpTransport({ headers, baseUrl: options.baseUrl }));
@@ -48,6 +53,7 @@ export class AdminApi extends BaseAdminApi {
 interface UserApiOptions {
   userKey: string;
   accessToken?: string;
+  apiVersion?: string;
   baseUrl?: string;
 }
 
@@ -103,6 +109,10 @@ export class UserApi extends BaseUserApi {
     }
 
     const headers: Headers = new Headers();
+    headers.set(
+      constants.API_VERSION_HEADER,
+      options.apiVersion || constants.API_VERSION,
+    );
     headers.set(constants.API_KEY_HEADER, userKey);
     if (accessToken) {
       headers.set(constants.AUTH_HEADER, "Bearer " + accessToken);
