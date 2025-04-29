@@ -227,6 +227,12 @@ export interface CardPaymentMethod {
    */
   brand?: string;
   /**
+   * The expiration date of the card.
+   *
+   * @deprecated Use `expYear` and `expMonth` instead.
+   */
+  expiration?: CardPaymentMethodExpiration | null;
+  /**
    * The last for digits of the card.
    */
   last4?: string;
