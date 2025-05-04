@@ -14,6 +14,13 @@ export class Client {
   }
 
   /**
+   * The checkout methods.
+   */
+  public get checkouts(): Checkouts {
+    return new Checkouts(this.transport);
+  }
+
+  /**
    * The flow methods.
    */
   public get flows(): Flows {
@@ -35,6 +42,27 @@ export class Client {
   }
 
   /**
+   * The payment method methods.
+   */
+  public get paymentMethods(): PaymentMethods {
+    return new PaymentMethods(this.transport);
+  }
+
+  /**
+   * The pricing methods.
+   */
+  public get pricing(): Pricing {
+    return new Pricing(this.transport);
+  }
+
+  /**
+   * The role methods.
+   */
+  public get roles(): Roles {
+    return new Roles(this.transport);
+  }
+
+  /**
    * The subscription methods.
    */
   public get subscriptions(): Subscriptions {
@@ -50,6 +78,306 @@ export class Client {
 }
 
 /**
+ * The checkout methods.
+ */
+class Checkouts {
+  private readonly transport: Transport;
+
+  constructor(transport: Transport) {
+    this.transport = transport;
+  }
+
+  /**
+   * Create a checkout.
+   */
+  async create(input?: CheckoutCreateInput): Promise<adminv1.Checkout>;
+  async create(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.create",
+      method: "POST",
+      path: "/admin/v1/checkouts",
+      query: ["submit"],
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Get a checkout.
+   */
+  async get(
+    checkoutId: string,
+    input?: Omit<CheckoutGetInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async get(input: CheckoutGetInput): Promise<adminv1.Checkout>;
+  async get(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.get",
+      method: "GET",
+      path: "/admin/v1/checkouts/{checkoutId}",
+      idempotent: true,
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Set plan for a checkout.
+   */
+  async setPlan(
+    checkoutId: string,
+    input?: Omit<CheckoutSetPlanInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async setPlan(input: CheckoutSetPlanInput): Promise<adminv1.Checkout>;
+  async setPlan(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.setPlan",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:setPlan",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Set terms for a checkout.
+   *
+   * This is generally used to select a billing cycle for
+   * the plan.
+   */
+  async setTerms(
+    checkoutId: string,
+    input?: Omit<CheckoutSetTermsInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async setTerms(input: CheckoutSetTermsInput): Promise<adminv1.Checkout>;
+  async setTerms(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.setTerms",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:setTerms",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Set trial settings for a checkout.
+   */
+  async setTrial(
+    checkoutId: string,
+    input?: Omit<CheckoutSetTrialInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async setTrial(input: CheckoutSetTrialInput): Promise<adminv1.Checkout>;
+  async setTrial(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.setTrial",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:setTrial",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Set item quantities for a checkout.
+   */
+  async setItems(
+    checkoutId: string,
+    input?: Omit<CheckoutSetItemsInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async setItems(input: CheckoutSetItemsInput): Promise<adminv1.Checkout>;
+  async setItems(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.setItems",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:setItems",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Set payment method for a checkout.
+   */
+  async setPaymentMethod(
+    checkoutId: string,
+    input?: Omit<CheckoutSetPaymentMethodInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async setPaymentMethod(
+    input: CheckoutSetPaymentMethodInput,
+  ): Promise<adminv1.Checkout>;
+  async setPaymentMethod(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.setPaymentMethod",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:setPaymentMethod",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Set billing details for a checkout.
+   */
+  async setBillingDetails(
+    checkoutId: string,
+    input?: Omit<CheckoutSetBillingDetailsInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async setBillingDetails(
+    input: CheckoutSetBillingDetailsInput,
+  ): Promise<adminv1.Checkout>;
+  async setBillingDetails(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.setBillingDetails",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:setBillingDetails",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Add discount to a checkout.
+   */
+  async addDiscount(
+    checkoutId: string,
+    input?: Omit<CheckoutAddDiscountInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async addDiscount(input: CheckoutAddDiscountInput): Promise<adminv1.Checkout>;
+  async addDiscount(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.addDiscount",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:addDiscount",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Remove discount from a checkout.
+   */
+  async removeDiscount(
+    checkoutId: string,
+    input: Omit<CheckoutRemoveDiscountInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async removeDiscount(
+    input: CheckoutRemoveDiscountInput,
+  ): Promise<adminv1.Checkout>;
+  async removeDiscount(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.removeDiscount",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:removeDiscount",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Complete payment for a checkout.
+   */
+  async completePayment(
+    checkoutId: string,
+    input?: Omit<CheckoutCompletePaymentInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async completePayment(
+    input: CheckoutCompletePaymentInput,
+  ): Promise<adminv1.Checkout>;
+  async completePayment(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.completePayment",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:completePayment",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Set cancel type for a checkout.
+   */
+  async setCancel(
+    checkoutId: string,
+    input?: Omit<CheckoutSetCancelInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async setCancel(input: CheckoutSetCancelInput): Promise<adminv1.Checkout>;
+  async setCancel(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.setCancel",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:setCancel",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Submit a checkout for processing.
+   */
+  async submit(
+    checkoutId: string,
+    input?: Omit<CheckoutSubmitInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async submit(input: CheckoutSubmitInput): Promise<adminv1.Checkout>;
+  async submit(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.submit",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:submit",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+
+  /**
+   * Cancel a checkout.
+   */
+  async cancel(
+    checkoutId: string,
+    input?: Omit<CheckoutCancelInput, "checkoutId">,
+  ): Promise<adminv1.Checkout>;
+  async cancel(input: CheckoutCancelInput): Promise<adminv1.Checkout>;
+  async cancel(...args: any[]): Promise<adminv1.Checkout> {
+    const req = build({
+      call: "admin.checkouts.cancel",
+      method: "POST",
+      path: "/admin/v1/checkouts/{checkoutId}:cancel",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Checkout;
+  }
+}
+
+/**
  * The flow methods.
  */
 class Flows {
@@ -60,7 +388,7 @@ class Flows {
   }
 
   /**
-   * Lists flows.
+   * List flows.
    */
   async list(input?: FlowListInput): Promise<adminv1.ListFlowsResponse>;
   async list(...args: any[]): Promise<adminv1.ListFlowsResponse> {
@@ -108,6 +436,29 @@ class Flows {
   }
 
   /**
+   * Update a join organization flow.
+   */
+  async updateJoinOrganization(
+    flowId: string,
+    input?: Omit<FlowUpdateJoinOrganizationInput, "flowId">,
+  ): Promise<adminv1.Flow>;
+  async updateJoinOrganization(
+    input: FlowUpdateJoinOrganizationInput,
+  ): Promise<adminv1.Flow>;
+  async updateJoinOrganization(...args: any[]): Promise<adminv1.Flow> {
+    const req = build({
+      call: "admin.flows.updateJoinOrganization",
+      method: "PATCH",
+      path: "/admin/v1/flows/{flowId}:updateJoinOrganization",
+      idempotent: true,
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Flow;
+  }
+
+  /**
    * Create a signup flow.
    *
    * This invites a person to join the app.
@@ -126,7 +477,7 @@ class Flows {
   }
 
   /**
-   * Retrieves specified flow.
+   * Get a flow.
    */
   async get(
     flowId: string,
@@ -147,7 +498,7 @@ class Flows {
   }
 
   /**
-   * Cancels specified flow.
+   * Cancel a flow.
    */
   async cancel(
     flowId: string,
@@ -179,7 +530,7 @@ class Invoices {
   }
 
   /**
-   * Lists invoices.
+   * List invoices.
    */
   async list(input?: InvoiceListInput): Promise<adminv1.ListInvoicesResponse>;
   async list(...args: any[]): Promise<adminv1.ListInvoicesResponse> {
@@ -187,7 +538,14 @@ class Invoices {
       call: "admin.invoices.list",
       method: "GET",
       path: "/admin/v1/invoices",
-      query: ["organizationId", "userId", "pageSize", "pageToken", "orderBy"],
+      query: [
+        "organizationId",
+        "userId",
+        "pageSize",
+        "pageToken",
+        "orderBy",
+        "view",
+      ],
       idempotent: true,
       args,
     });
@@ -197,7 +555,7 @@ class Invoices {
   }
 
   /**
-   * Retrieves specified invoice.
+   * Get an invoice.
    */
   async get(
     invoiceId: string,
@@ -217,6 +575,26 @@ class Invoices {
     const res = await this.transport.execute(req);
     return res.body as adminv1.Invoice;
   }
+
+  /**
+   * Pay an invoice.
+   */
+  async pay(
+    invoiceId: string,
+    input?: Omit<InvoicePayInput, "invoiceId">,
+  ): Promise<adminv1.Invoice>;
+  async pay(input: InvoicePayInput): Promise<adminv1.Invoice>;
+  async pay(...args: any[]): Promise<adminv1.Invoice> {
+    const req = build({
+      call: "admin.invoices.pay",
+      method: "POST",
+      path: "/admin/v1/invoices/{invoiceId}:pay",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Invoice;
+  }
 }
 
 /**
@@ -230,7 +608,7 @@ class Organizations {
   }
 
   /**
-   * Lists organizations.
+   * List organizations.
    */
   async list(
     input?: OrganizationListInput,
@@ -258,7 +636,7 @@ class Organizations {
   }
 
   /**
-   * Creates a new organization.
+   * Create an organization.
    */
   async create(input?: OrganizationCreateInput): Promise<adminv1.Organization>;
   async create(...args: any[]): Promise<adminv1.Organization> {
@@ -274,7 +652,7 @@ class Organizations {
   }
 
   /**
-   * Retrieves specified organization.
+   * Get an organization.
    */
   async get(
     organizationId: string,
@@ -295,7 +673,7 @@ class Organizations {
   }
 
   /**
-   * Updates specified organization.
+   * Update an organization.
    */
   async update(
     organizationId: string,
@@ -317,7 +695,13 @@ class Organizations {
   }
 
   /**
-   * Marks specified organization for deletion.
+   * Delete an organization.
+   *
+   * This marks the organization for deletion and can be restored during
+   * a grace period.
+   *
+   * To immediately delete an organization, you must also call purge
+   * organization.
    */
   async delete(
     organizationId: string,
@@ -338,7 +722,7 @@ class Organizations {
   }
 
   /**
-   * Un-marks specified organization for deletion.
+   * Restore an organization.
    */
   async undelete(
     organizationId: string,
@@ -361,7 +745,7 @@ class Organizations {
   }
 
   /**
-   * Hard delete the specified organization.
+   * Purge a deleted organization.
    *
    * The organization must be marked for deletion before it can be purged.
    */
@@ -385,7 +769,7 @@ class Organizations {
   }
 
   /**
-   * Connect specified organization to external account.
+   * Connect an organization to an external account.
    */
   async connect(
     organizationId: string,
@@ -405,7 +789,30 @@ class Organizations {
   }
 
   /**
-   * Disconnect specified organization from external account.
+   * Update an organization's external account.
+   */
+  async updateConnection(
+    organizationId: string,
+    input: Omit<OrganizationUpdateConnectionInput, "organizationId">,
+  ): Promise<adminv1.Organization>;
+  async updateConnection(
+    input: OrganizationUpdateConnectionInput,
+  ): Promise<adminv1.Organization>;
+  async updateConnection(...args: any[]): Promise<adminv1.Organization> {
+    const req = build({
+      call: "admin.organizations.updateConnection",
+      method: "PATCH",
+      path: "/admin/v1/organizations/{organizationId}:updateConnection",
+      idempotent: true,
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Organization;
+  }
+
+  /**
+   * Disconnect an organization from an external account.
    *
    * This will delete all the data associated with the connected account, including
    * payment methods, invoices, and subscriptions.
@@ -436,7 +843,7 @@ class Organizations {
   }
 
   /**
-   * Lists organization members.
+   * List organization members.
    */
   async listMembers(
     organizationId: string,
@@ -467,7 +874,7 @@ class Organizations {
   }
 
   /**
-   * Creates a new organization member.
+   * Create an organization member.
    */
   async addMember(
     organizationId: string,
@@ -487,7 +894,7 @@ class Organizations {
   }
 
   /**
-   * Retrieves specified organization member.
+   * Get an organization member.
    */
   async getMember(
     organizationId: string,
@@ -509,7 +916,7 @@ class Organizations {
   }
 
   /**
-   * Updates specified organization member.
+   * Update an organization member.
    */
   async updateMember(
     organizationId: string,
@@ -534,7 +941,7 @@ class Organizations {
   }
 
   /**
-   * Deletes specified organization member.
+   * Delete an organization member.
    */
   async removeMember(
     organizationId: string,
@@ -558,6 +965,199 @@ class Organizations {
 }
 
 /**
+ * The payment method methods.
+ */
+class PaymentMethods {
+  private readonly transport: Transport;
+
+  constructor(transport: Transport) {
+    this.transport = transport;
+  }
+
+  /**
+   * Create a payment method.
+   */
+  async create(input: PaymentMethodCreateInput): Promise<adminv1.PaymentMethod>;
+  async create(...args: any[]): Promise<adminv1.PaymentMethod> {
+    const req = build({
+      call: "admin.payment_methods.create",
+      method: "POST",
+      path: "/admin/v1/paymentMethods",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.PaymentMethod;
+  }
+
+  /**
+   * Create a payment method intent.
+   *
+   * This can be used with a third-party billing provider API
+   * to store a payment method.
+   */
+  async createIntent(
+    input: PaymentMethodCreateIntentInput,
+  ): Promise<adminv1.PaymentMethodIntent>;
+  async createIntent(...args: any[]): Promise<adminv1.PaymentMethodIntent> {
+    const req = build({
+      call: "admin.payment_methods.createIntent",
+      method: "POST",
+      path: "/admin/v1/paymentMethods:createIntent",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.PaymentMethodIntent;
+  }
+
+  /**
+   * Get a payment method.
+   */
+  async get(
+    paymentMethodId: string,
+    input?: Omit<PaymentMethodGetInput, "paymentMethodId">,
+  ): Promise<adminv1.PaymentMethod>;
+  async get(input: PaymentMethodGetInput): Promise<adminv1.PaymentMethod>;
+  async get(...args: any[]): Promise<adminv1.PaymentMethod> {
+    const req = build({
+      call: "admin.payment_methods.get",
+      method: "GET",
+      path: "/admin/v1/paymentMethods/{paymentMethodId}",
+      query: ["organizationId", "userId"],
+      idempotent: true,
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.PaymentMethod;
+  }
+
+  /**
+   * Update a payment method.
+   */
+  async update(
+    paymentMethodId: string,
+    input?: Omit<PaymentMethodUpdateInput, "paymentMethodId">,
+  ): Promise<adminv1.PaymentMethod>;
+  async update(input: PaymentMethodUpdateInput): Promise<adminv1.PaymentMethod>;
+  async update(...args: any[]): Promise<adminv1.PaymentMethod> {
+    const req = build({
+      call: "admin.payment_methods.update",
+      method: "PATCH",
+      path: "/admin/v1/paymentMethods/{paymentMethodId}",
+      query: ["organizationId", "userId"],
+      idempotent: true,
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.PaymentMethod;
+  }
+
+  /**
+   * Set a default payment method for an account.
+   */
+  async setDefault(
+    paymentMethodId: string,
+    input?: Omit<PaymentMethodSetDefaultInput, "paymentMethodId">,
+  ): Promise<adminv1.PaymentMethod>;
+  async setDefault(
+    input: PaymentMethodSetDefaultInput,
+  ): Promise<adminv1.PaymentMethod>;
+  async setDefault(...args: any[]): Promise<adminv1.PaymentMethod> {
+    const req = build({
+      call: "admin.payment_methods.setDefault",
+      method: "POST",
+      path: "/admin/v1/paymentMethods/{paymentMethodId}:setDefault",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.PaymentMethod;
+  }
+
+  /**
+   * Delete a payment method.
+   */
+  async delete(
+    paymentMethodId: string,
+    input?: Omit<PaymentMethodDeleteInput, "paymentMethodId">,
+  ): Promise<apiv1.EmptyResponse>;
+  async delete(input: PaymentMethodDeleteInput): Promise<apiv1.EmptyResponse>;
+  async delete(...args: any[]): Promise<apiv1.EmptyResponse> {
+    const req = build({
+      call: "admin.payment_methods.delete",
+      method: "DELETE",
+      path: "/admin/v1/paymentMethods/{paymentMethodId}",
+      query: ["organizationId", "userId"],
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as apiv1.EmptyResponse;
+  }
+}
+
+/**
+ * The pricing methods.
+ */
+class Pricing {
+  private readonly transport: Transport;
+
+  constructor(transport: Transport) {
+    this.transport = transport;
+  }
+
+  /**
+   * Get pricing.
+   */
+  async get(input?: PricingGetInput): Promise<adminv1.Pricing>;
+  async get(...args: any[]): Promise<adminv1.Pricing> {
+    const req = build({
+      call: "admin.pricing.get",
+      method: "GET",
+      path: "/admin/v1/pricing",
+      query: ["accountType", "organizationId", "userId"],
+      idempotent: true,
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.Pricing;
+  }
+}
+
+/**
+ * The role methods.
+ */
+class Roles {
+  private readonly transport: Transport;
+
+  constructor(transport: Transport) {
+    this.transport = transport;
+  }
+
+  /**
+   * List roles.
+   */
+  async list(input?: RoleListInput): Promise<adminv1.ListRolesResponse>;
+  async list(...args: any[]): Promise<adminv1.ListRolesResponse> {
+    const req = build({
+      call: "admin.roles.list",
+      method: "GET",
+      path: "/admin/v1/roles",
+      query: ["pageSize", "pageToken", "orderBy"],
+      idempotent: true,
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.ListRolesResponse;
+  }
+}
+
+/**
  * The subscription methods.
  */
 class Subscriptions {
@@ -568,7 +1168,7 @@ class Subscriptions {
   }
 
   /**
-   * Lists subscriptions.
+   * List subscriptions.
    */
   async list(
     input?: SubscriptionListInput,
@@ -597,7 +1197,7 @@ class Subscriptions {
   }
 
   /**
-   * Retrieves specified subscription.
+   * Get a subscription.
    */
   async get(
     subscriptionId: string,
@@ -630,7 +1230,7 @@ class Users {
   }
 
   /**
-   * Lists users.
+   * List users.
    */
   async list(input?: UserListInput): Promise<adminv1.ListUsersResponse>;
   async list(...args: any[]): Promise<adminv1.ListUsersResponse> {
@@ -656,7 +1256,7 @@ class Users {
   }
 
   /**
-   * Creates a new user.
+   * Create a user.
    */
   async create(input?: UserCreateInput): Promise<adminv1.User>;
   async create(...args: any[]): Promise<adminv1.User> {
@@ -672,7 +1272,7 @@ class Users {
   }
 
   /**
-   * Retrieves specified user.
+   * Get a user.
    */
   async get(
     userId: string,
@@ -693,7 +1293,7 @@ class Users {
   }
 
   /**
-   * Updates specified user.
+   * Update a user.
    */
   async update(
     userId: string,
@@ -715,7 +1315,12 @@ class Users {
   }
 
   /**
-   * Marks specified user for deletion.
+   * Delete a user.
+   *
+   * This marks the user for deletion and can be restored during
+   * a grace period.
+   *
+   * To immediately delete a user, you must also call purge user.
    */
   async delete(
     userId: string,
@@ -735,7 +1340,7 @@ class Users {
   }
 
   /**
-   * Un-marks specified user for deletion.
+   * Restore a user.
    */
   async undelete(
     userId: string,
@@ -755,7 +1360,7 @@ class Users {
   }
 
   /**
-   * Hard delete the specified user.
+   * Purge a deleted user.
    *
    * The user must be marked for deletion before it can be purged.
    */
@@ -777,7 +1382,7 @@ class Users {
   }
 
   /**
-   * Connect specified user to external account.
+   * Connect a user to an external account.
    */
   async connect(
     userId: string,
@@ -797,7 +1402,30 @@ class Users {
   }
 
   /**
-   * Disconnect specified user from external account.
+   * Update a user's external account.
+   */
+  async updateConnection(
+    userId: string,
+    input: Omit<UserUpdateConnectionInput, "userId">,
+  ): Promise<adminv1.User>;
+  async updateConnection(
+    input: UserUpdateConnectionInput,
+  ): Promise<adminv1.User>;
+  async updateConnection(...args: any[]): Promise<adminv1.User> {
+    const req = build({
+      call: "admin.users.updateConnection",
+      method: "PATCH",
+      path: "/admin/v1/users/{userId}:updateConnection",
+      idempotent: true,
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.User;
+  }
+
+  /**
+   * Disconnect a user from an external account.
    *
    * This will delete all the data associated with the connected account, including
    * payment methods, invoices, and subscriptions.
@@ -826,10 +1454,9 @@ class Users {
   }
 
   /**
-   * Import user from external identity provider if they don't already
-   * exist.
+   * Import a user from a user provider.
    *
-   * If the user already exists in UserHub, this is a no-op.
+   * If the user already exists, this is a no-op.
    */
   async importAccount(
     userId: string,
@@ -875,7 +1502,7 @@ class Users {
   }
 
   /**
-   * Create Portal session.
+   * Create a Portal session.
    */
   async createPortalSession(
     userId: string,
@@ -898,6 +1525,202 @@ class Users {
     const res = await this.transport.execute(req);
     return res.body as adminv1.CreatePortalSessionResponse;
   }
+}
+
+/**
+ * The input options for the `checkouts.create` method.
+ */
+interface CheckoutCreateInput extends RequestOptions {
+  // The identifier of the organization.
+  //
+  // This is required if the user identifier is not specified.
+  organizationId?: string;
+  // The identifier of the user.
+  //
+  // This is required if the organization identifier is not specified.
+  userId?: string;
+  // The type of the checkout.
+  type?: string;
+  // The identifier of the plan.
+  //
+  // This allows you to specify the currently selected plan.
+  planId?: string;
+  // The identifier of the subscriptions.
+  //
+  // This allows you to specify a non-default subscription.
+  subscriptionId?: string;
+  // The identifier of the connection.
+  //
+  // This allows you to specify a non-default billing connection.
+  connectionId?: string;
+
+  // Attempt to submit checkout if ready and due amount is zero.
+  submit?: boolean;
+}
+
+/**
+ * The input options for the `checkouts.get` method.
+ */
+interface CheckoutGetInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+}
+
+/**
+ * The input options for the `checkouts.setPlan` method.
+ */
+interface CheckoutSetPlanInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+
+  // The identifier of the plan.
+  //
+  // This is required if completed isn't set to true.
+  planId?: string;
+  // Mark the step completed if it is optional.
+  completed?: boolean;
+}
+
+/**
+ * The input options for the `checkouts.setTerms` method.
+ */
+interface CheckoutSetTermsInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+
+  // The identifier of the plan.
+  //
+  // This is required if completed isn't set to true.
+  planId?: string;
+  // Mark the step completed if it is optional.
+  completed?: boolean;
+}
+
+/**
+ * The input options for the `checkouts.setTrial` method.
+ */
+interface CheckoutSetTrialInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+
+  // Whether to start, continue, or stop a trial.
+  type?: string;
+  // The number of days to trial.
+  days?: number;
+  // Mark the step completed if it is optional.
+  completed?: boolean;
+}
+
+/**
+ * The input options for the `checkouts.setItems` method.
+ */
+interface CheckoutSetItemsInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+
+  // The items to update.
+  items?: adminv1.CheckoutItemInput[];
+  // Mark the step completed if it is optional.
+  completed?: boolean;
+}
+
+/**
+ * The input options for the `checkouts.setPaymentMethod` method.
+ */
+interface CheckoutSetPaymentMethodInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+
+  // The identifier of the payment method.
+  //
+  // This is required if external ID isn't specified or completed
+  // isn't set to true.
+  paymentMethodId?: string;
+  // The external identifier of the payment method to connect.
+  //
+  // This is required if payment method ID isn't specified or
+  // completed isn't set to true.
+  externalId?: string;
+  // Mark the step completed if it is optional.
+  completed?: boolean;
+}
+
+/**
+ * The input options for the `checkouts.setBillingDetails` method.
+ */
+interface CheckoutSetBillingDetailsInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+
+  // The company or individual's full name.
+  //
+  // The maximum length is 200 characters.
+  fullName?: string;
+  // The billing details address.
+  address?: commonv1.Address | null;
+  // Mark the step completed if it is optional.
+  completed?: boolean;
+}
+
+/**
+ * The input options for the `checkouts.addDiscount` method.
+ */
+interface CheckoutAddDiscountInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+
+  // The discount code.
+  code?: string;
+  // Mark the step completed if it is optional.
+  completed?: boolean;
+}
+
+/**
+ * The input options for the `checkouts.removeDiscount` method.
+ */
+interface CheckoutRemoveDiscountInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+
+  // The identifier of the checkout discount.
+  checkoutDiscountId?: string;
+}
+
+/**
+ * The input options for the `checkouts.completePayment` method.
+ */
+interface CheckoutCompletePaymentInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+}
+
+/**
+ * The input options for the `checkouts.setCancel` method.
+ */
+interface CheckoutSetCancelInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+
+  // Whether to cancel at the end of the billing period or immediately.
+  type?: string;
+  // Mark the step completed if it is optional.
+  completed?: boolean;
+}
+
+/**
+ * The input options for the `checkouts.submit` method.
+ */
+interface CheckoutSubmitInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
+}
+
+/**
+ * The input options for the `checkouts.cancel` method.
+ */
+interface CheckoutCancelInput extends RequestOptions {
+  // The identifier of the checkout.
+  checkoutId: string;
 }
 
 /**
@@ -931,9 +1754,6 @@ interface FlowListInput extends RequestOptions {
   // the call that provided the page token.
   pageToken?: string;
   // A comma-separated list of fields to order by.
-  //
-  // Supports:
-  // - `createTime desc`
   orderBy?: string;
   // The Flow view to return in the results.
   //
@@ -953,7 +1773,7 @@ interface FlowCreateJoinOrganizationInput extends RequestOptions {
   userId?: string;
   // The email address of the person to invite.
   //
-  // This is required if user is not specified or the user
+  // This is required if the user is not specified or
   // does not have an email address.
   email?: string;
   // The display name of the person to invite.
@@ -973,6 +1793,17 @@ interface FlowCreateJoinOrganizationInput extends RequestOptions {
   //
   // This field is not allowed if `expireTime` is specified.
   ttl?: string;
+}
+
+/**
+ * The input options for the `flows.updateJoinOrganization` method.
+ */
+interface FlowUpdateJoinOrganizationInput extends RequestOptions {
+  // The identifier of the flow.
+  flowId: string;
+
+  // The identifier of the role.
+  roleId?: string;
 }
 
 /**
@@ -1022,11 +1853,11 @@ interface FlowCancelInput extends RequestOptions {
 interface InvoiceListInput extends RequestOptions {
   // Filter results by organization identifier.
   //
-  // This is required if user identifier is not specified.
+  // This is required if the user identifier is not specified.
   organizationId?: string;
   // Filter results by user identifier.
   //
-  // This is required if organization identifier is not specified.
+  // This is required if the organization identifier is not specified.
   userId?: string;
   // The maximum number of invoices to return. The API may return fewer than
   // this value.
@@ -1041,11 +1872,11 @@ interface InvoiceListInput extends RequestOptions {
   // the call that provided the page token.
   pageToken?: string;
   // A comma-separated list of fields to order by.
-  //
-  // Supports:
-  // - `createTime asc`
-  // - `createTime desc`
   orderBy?: string;
+  // The Invoice view to return in the results.
+  //
+  // This defaults to the `BASIC` view.
+  view?: string;
 }
 
 /**
@@ -1059,6 +1890,23 @@ interface InvoiceGetInput extends RequestOptions {
   organizationId?: string;
   // Restrict by user identifier.
   userId?: string;
+}
+
+/**
+ * The input options for the `invoices.pay` method.
+ */
+interface InvoicePayInput extends RequestOptions {
+  // The identifier of the invoice.
+  invoiceId: string;
+
+  // Restrict by organization identifier.
+  organizationId?: string;
+  // Restrict by user identifier.
+  userId?: string;
+  // The identifier of the payment method.
+  //
+  // The default payment method will be used if not specified.
+  paymentMethodId?: string;
 }
 
 /**
@@ -1094,13 +1942,6 @@ interface OrganizationListInput extends RequestOptions {
   // the call that provided the page token.
   pageToken?: string;
   // A comma-separated list of fields to order by.
-  //
-  // Supports:
-  // - `displayName asc`
-  // - `email asc`
-  // - `signupTime desc`
-  // - `createTime desc`
-  // - `deleteTime desc`
   orderBy?: string;
   // Whether to show deleted organizations.
   showDeleted?: boolean;
@@ -1259,6 +2100,41 @@ interface OrganizationConnectInput extends RequestOptions {
 }
 
 /**
+ * The input options for the `organizations.updateConnection` method.
+ */
+interface OrganizationUpdateConnectionInput extends RequestOptions {
+  // The identifier of the organization.
+  organizationId: string;
+
+  // The system-assigned identifier for the connection of the external account.
+  connectionId?: string;
+  // The human-readable display name of the external account.
+  //
+  // The maximum length is 200 characters.
+  //
+  // This might be further restricted by the external provider.
+  displayName?: string;
+  // The email address of the external account.
+  //
+  // The maximum length is 320 characters.
+  //
+  // This might be further restricted by the external provider.
+  email?: string;
+  // Whether the external account's email address has been verified.
+  emailVerified?: boolean;
+  // The E164 phone number for the external account (e.g. `+12125550123`).
+  phoneNumber?: string;
+  // Whether the external account's phone number has been verified.
+  phoneNumberVerified?: boolean;
+  // The default ISO-4217 currency code for the external account (e.g. `USD`).
+  currencyCode?: string;
+  // The billing address for the external account.
+  address?: commonv1.Address | null;
+  // Whether the external account is disabled.
+  disabled?: boolean;
+}
+
+/**
  * The input options for the `organizations.disconnect` method.
  */
 interface OrganizationDisconnectInput extends RequestOptions {
@@ -1310,11 +2186,6 @@ interface OrganizationListMembersInput extends RequestOptions {
   // the call that provided the page token.
   pageToken?: string;
   // A comma-separated list of fields to order by.
-  //
-  // Supports:
-  // - `displayName asc`
-  // - `email asc`
-  // - `createTime desc`
   orderBy?: string;
 }
 
@@ -1368,6 +2239,165 @@ interface OrganizationRemoveMemberInput extends RequestOptions {
 }
 
 /**
+ * The input options for the `paymentMethods.create` method.
+ */
+interface PaymentMethodCreateInput extends RequestOptions {
+  // The identifier of the organization.
+  //
+  // This is required if the user identifier not specified.
+  organizationId?: string;
+  // The identifier of the user.
+  //
+  // This is required if the organization identifier not specified.
+  userId?: string;
+  // The identifier of the connection.
+  connectionId?: string;
+  // The external identifier of the payment method to connect.
+  externalId?: string;
+  // Whether to set the payment method as the default.
+  //
+  // This defaults to true.
+  default?: boolean;
+}
+
+/**
+ * The input options for the `paymentMethods.createIntent` method.
+ */
+interface PaymentMethodCreateIntentInput extends RequestOptions {
+  // The identifier of the organization.
+  //
+  // This is required if the user identifier is not specified.
+  organizationId?: string;
+  // The identifier of the user.
+  //
+  // This is required if the organization identifier is not not
+  // specified.
+  userId?: string;
+  // The identifier of the connection.
+  connectionId?: string;
+}
+
+/**
+ * The input options for the `paymentMethods.get` method.
+ */
+interface PaymentMethodGetInput extends RequestOptions {
+  // The identifier of the payment method.
+  paymentMethodId: string;
+
+  // The identifier of the organization.
+  //
+  // Optionally restrict update to payment methods owned by
+  // this organization.
+  organizationId?: string;
+  // The identifier of the user.
+  //
+  // Optionally restrict update to payment methods owned by
+  // this user.
+  userId?: string;
+}
+
+/**
+ * The input options for the `paymentMethods.update` method.
+ */
+interface PaymentMethodUpdateInput extends RequestOptions {
+  // The identifier of the payment method.
+  paymentMethodId: string;
+
+  // The full name of the owner of the payment method (e.g. `Jane Doe`).
+  fullName?: string;
+  // The address for the payment method.
+  address?: commonv1.Address | null;
+  // The card expiration year (e.g. `2030`).
+  expYear?: number;
+  // The card expiration month (e.g. `12`).
+  expMonth?: number;
+
+  // The identifier of the organization.
+  //
+  // Optionally restrict update to payment methods owned by
+  // this organization.
+  organizationId?: string;
+  // The identifier of the user.
+  //
+  // Optionally restrict update to payment methods owned by
+  // this user.
+  userId?: string;
+}
+
+/**
+ * The input options for the `paymentMethods.setDefault` method.
+ */
+interface PaymentMethodSetDefaultInput extends RequestOptions {
+  // The identifier of the payment method.
+  paymentMethodId: string;
+
+  // The identifier of the organization.
+  //
+  // Optionally restrict set default to payment methods owned by
+  // this organization.
+  organizationId?: string;
+  // The identifier of the user.
+  //
+  // Optionally restrict set default to payment methods owned by
+  // this user.
+  userId?: string;
+}
+
+/**
+ * The input options for the `paymentMethods.delete` method.
+ */
+interface PaymentMethodDeleteInput extends RequestOptions {
+  // The identifier of the payment method.
+  paymentMethodId: string;
+
+  // The identifier of the organization.
+  //
+  // Optionally restrict delete to payment methods owned by
+  // this organization.
+  organizationId?: string;
+  // The identifier of the user.
+  //
+  // Optionally restrict delete to payment methods owned by
+  // this user.
+  userId?: string;
+}
+
+/**
+ * The input options for the `pricing.get` method.
+ */
+interface PricingGetInput extends RequestOptions {
+  // Whether to get pricing for users or organizations.
+  //
+  // This is not required if either user ID or organization ID is specified
+  // and will default to user if no options are specified.
+  accountType?: string;
+  // Show pricing for specified organization.
+  organizationId?: string;
+  // Show pricing for the specified user.
+  userId?: string;
+}
+
+/**
+ * The input options for the `roles.list` method.
+ */
+interface RoleListInput extends RequestOptions {
+  // The maximum number of roles to return. The API may return fewer than
+  // this value.
+  //
+  // If unspecified, at most 20 roles will be returned.
+  // The maximum value is 100; values above 100 will be coerced to 100.
+  pageSize?: number;
+  // A page token, received from a previous list roles call.
+  // Provide this to retrieve the subsequent page.
+  //
+  // When paginating, all other parameters provided to list roles must match
+  // the call that provided the page token.
+  pageToken?: string;
+  // A comma-separated list of fields to order by.
+  orderBy?: string;
+}
+
+/**
  * The input options for the `subscriptions.list` method.
  */
 interface SubscriptionListInput extends RequestOptions {
@@ -1396,11 +2426,6 @@ interface SubscriptionListInput extends RequestOptions {
   // A comma-separated list of fields to order by.
   //
   // This is only supported when either `organizationId` or `userId` is specified.
-  //
-  // Supports:
-  // - `active desc`
-  // - `createTime desc`
-  // - `startTime desc`
   orderBy?: string;
   // The Subscription view to return in the results.
   //
@@ -1454,13 +2479,6 @@ interface UserListInput extends RequestOptions {
   // the call that provided the page token.
   pageToken?: string;
   // A comma-separated list of fields to order by.
-  //
-  // Supports:
-  // - `displayName asc`
-  // - `email asc`
-  // - `signupTime desc`
-  // - `createTime desc`
-  // - `deleteTime desc`
   orderBy?: string;
   // Whether to show deleted users.
   showDeleted?: boolean;
@@ -1619,6 +2637,41 @@ interface UserConnectInput extends RequestOptions {
 }
 
 /**
+ * The input options for the `users.updateConnection` method.
+ */
+interface UserUpdateConnectionInput extends RequestOptions {
+  // The identifier of the user.
+  userId: string;
+
+  // The system-assigned identifier for the connection of the external account.
+  connectionId?: string;
+  // The human-readable display name of the external account.
+  //
+  // The maximum length is 200 characters.
+  //
+  // This might be further restricted by the external provider.
+  displayName?: string;
+  // The email address of the external account.
+  //
+  // The maximum length is 320 characters.
+  //
+  // This might be further restricted by the external provider.
+  email?: string;
+  // Whether the external account's email address has been verified.
+  emailVerified?: boolean;
+  // The E164 phone number for the external account (e.g. `+12125550123`).
+  phoneNumber?: string;
+  // Whether the external account's phone number has been verified.
+  phoneNumberVerified?: boolean;
+  // The default ISO-4217 currency code for the external account (e.g. `USD`).
+  currencyCode?: string;
+  // The billing address for the external account.
+  address?: commonv1.Address | null;
+  // Whether the external account is disabled.
+  disabled?: boolean;
+}
+
+/**
  * The input options for the `users.disconnect` method.
  */
 interface UserDisconnectInput extends RequestOptions {
@@ -1678,8 +2731,6 @@ interface UserCreatePortalSessionInput extends RequestOptions {
   //
   // Examples:
   // * `/{accountId}` - the billing dashboard
-  // * `/{accountId}/checkout` - start a checkout
-  // * `/{accountId}/checkout/<some-plan-id>` - start a checkout with a specified plan
   // * `/{accountId}/cancel` - cancel current plan
   // * `/{accountId}/members` - manage organization members
   // * `/{accountId}/invite` - invite a user to an organization

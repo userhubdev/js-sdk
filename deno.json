@@ -1,6 +1,6 @@
 {
   "name": "@userhub/sdk",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "exports": "./src/mod.ts",
   "lint": {
     "include": ["src/", "test/deno"],
@@ -10,6 +10,9 @@
       "include": [],
       "exclude": ["no-explicit-any", "no-empty-interface"]
     }
+  },
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "deno.ns"]
   },
   "publish": {
     "include": ["LICENSE", "README.md", "deno.json", "src"]
