@@ -66,7 +66,7 @@ test("API GET", async () => {
     },
   });
 
-  const adminApi = new AdminApi("sk_test", { baseUrl });
+  const adminApi = new AdminApi("userhub_admin_test", { baseUrl });
 
   const res = await adminApi.users.get({ userId: "usr_1" });
   expect(res).toHaveProperty("id", "usr_1");
@@ -78,7 +78,9 @@ test("API GET", async () => {
   expect(requests[0].headers["userhub-api-version"]).equal(
     constants.API_VERSION,
   );
-  expect(requests[0].headers["authorization"]).equal("Bearer sk_test");
+  expect(requests[0].headers["authorization"]).equal(
+    "Bearer userhub_admin_test",
+  );
   expect(requests[0].headers["content-type"]).toBeUndefined();
   expect(requests[0].headers["user-agent"]).equal(constants.USER_AGENT);
 
@@ -95,7 +97,7 @@ test("API POST", async () => {
     },
   });
 
-  const adminApi = new AdminApi("sk_test", { baseUrl });
+  const adminApi = new AdminApi("userhub_admin_test", { baseUrl });
 
   const res = await adminApi.users.create({ displayName: "Jane Doe" });
   expect(res).toHaveProperty("id", "usr_1");
@@ -107,7 +109,9 @@ test("API POST", async () => {
   expect(requests[0].headers["userhub-api-version"]).equal(
     constants.API_VERSION,
   );
-  expect(requests[0].headers["authorization"]).equal("Bearer sk_test");
+  expect(requests[0].headers["authorization"]).equal(
+    "Bearer userhub_admin_test",
+  );
   expect(requests[0].headers["content-type"]).equal("application/json");
   expect(requests[0].headers["user-agent"]).equal(constants.USER_AGENT);
   expect(JSON.parse(requests[0].body)).eql({ displayName: "Jane Doe" });
@@ -121,7 +125,7 @@ test("API PATCH", async () => {
     },
   });
 
-  const adminApi = new AdminApi("sk_test", { baseUrl });
+  const adminApi = new AdminApi("userhub_admin_test", { baseUrl });
 
   const res = await adminApi.users.update({
     userId: "usr_1",
@@ -137,7 +141,9 @@ test("API PATCH", async () => {
   expect(requests[0].headers["userhub-api-version"]).equal(
     constants.API_VERSION,
   );
-  expect(requests[0].headers["authorization"]).equal("Bearer sk_test");
+  expect(requests[0].headers["authorization"]).equal(
+    "Bearer userhub_admin_test",
+  );
   expect(requests[0].headers["content-type"]).equal("application/json");
   expect(requests[0].headers["user-agent"]).equal(constants.USER_AGENT);
   expect(JSON.parse(requests[0].body)).eql({ displayName: "" });
@@ -158,7 +164,7 @@ test("API DELETE", async () => {
     },
   });
 
-  const adminApi = new AdminApi("sk_test", { baseUrl });
+  const adminApi = new AdminApi("userhub_admin_test", { baseUrl });
 
   const res = await adminApi.users.delete({ userId: "usr_1" });
   expect(res).toHaveProperty("id", "usr_1");
@@ -170,7 +176,9 @@ test("API DELETE", async () => {
   expect(requests[0].headers["userhub-api-version"]).equal(
     constants.API_VERSION,
   );
-  expect(requests[0].headers["authorization"]).equal("Bearer sk_test");
+  expect(requests[0].headers["authorization"]).equal(
+    "Bearer userhub_admin_test",
+  );
   expect(requests[0].headers["content-type"]).toBeUndefined();
   expect(requests[0].headers["user-agent"]).equal(constants.USER_AGENT);
   expect(requests[0].body).equal("");
@@ -193,7 +201,7 @@ test("API error", async () => {
     statusCode: 404,
   });
 
-  const adminApi = new AdminApi("sk_test", { baseUrl });
+  const adminApi = new AdminApi("userhub_admin_test", { baseUrl });
 
   let error: unknown;
   try {
@@ -223,7 +231,7 @@ testSlow("API rate limited", async () => {
     statusCode: 429,
   });
 
-  const adminApi = new AdminApi("sk_test", { baseUrl });
+  const adminApi = new AdminApi("userhub_admin_test", { baseUrl });
 
   const startTime = Date.now();
 
@@ -260,7 +268,7 @@ test("Abort retry", async () => {
     statusCode: 429,
   });
 
-  const adminApi = new AdminApi("sk_test", { baseUrl });
+  const adminApi = new AdminApi("userhub_admin_test", { baseUrl });
   const signal = AbortSignal.timeout(50);
   const startTime = Date.now();
 
@@ -291,7 +299,7 @@ test("Abort request", async () => {
     delay: 1000,
   });
 
-  const adminApi = new AdminApi("sk_test", { baseUrl });
+  const adminApi = new AdminApi("userhub_admin_test", { baseUrl });
   const signal = AbortSignal.timeout(50);
 
   let error: unknown;
@@ -314,7 +322,7 @@ test("Retry network error", async () => {
     closeImmediately: true,
   });
 
-  const adminApi = new AdminApi("sk_test", { baseUrl });
+  const adminApi = new AdminApi("userhub_admin_test", { baseUrl });
 
   const controller = new AbortController();
   const timeout = setTimeout(controller.abort.bind(controller), 200);

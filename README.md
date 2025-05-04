@@ -5,8 +5,6 @@
 
 The official [UserHub](https://userhub.com) JavaScript SDK.
 
-Stability: alpha
-
 ### Requirements
 
 - Node 18 or later
@@ -26,7 +24,7 @@ Example
 ```ts
 import { AdminApi } from "@userhub/sdk";
 
-const adminApi = new AdminApi("sk_123");
+const adminApi = new AdminApi("userhub_admin_123");
 
 const res = await adminApi.users.list({ pageSize: 5 });
 
