@@ -69,14 +69,6 @@ export interface AccountConnection {
    */
   paymentMethods?: PaymentMethod[];
   /**
-   * The last time the account was pulled from the connection.
-   */
-  pullTime?: Date | null;
-  /**
-   * The last time the account was pushed to the connection.
-   */
-  pushTime?: Date | null;
-  /**
    * The creation time of the account connection.
    */
   createTime: Date;
@@ -84,6 +76,56 @@ export interface AccountConnection {
    * The last update time of the account connection.
    */
   updateTime: Date;
+}
+
+/**
+ * AccountConnection input parameters.
+ */
+export interface AccountConnectionInput {
+  /**
+   * The system-assigned identifier for the connection of the external account.
+   */
+  connectionId: string;
+  /**
+   * The human-readable display name of the external account.
+   *
+   * The maximum length is 200 characters.
+   *
+   * This might be further restricted by the external provider.
+   */
+  displayName?: string;
+  /**
+   * The email address of the external account.
+   *
+   * The maximum length is 320 characters.
+   *
+   * This might be further restricted by the external provider.
+   */
+  email?: string;
+  /**
+   * Whether the external account's email address has been verified.
+   */
+  emailVerified?: boolean;
+  /**
+   * The E164 phone number for the external account (e.g. `+12125550123`).
+   */
+  phoneNumber?: string;
+  /**
+   * Whether the external account's phone number has been verified.
+   */
+  phoneNumberVerified?: boolean;
+  /**
+   * The default ISO-4217 currency code for the external account (e.g. `USD`).
+   */
+  currencyCode?: string;
+  /**
+   * The billing address for the external account.
+   */
+  address?: commonv1.Address | null;
+  /**
+   * Whether the external account is disabled.
+   */
+  disabled?: boolean;
 }
 
 /**
@@ -227,12 +269,6 @@ export interface CardPaymentMethod {
    */
   brand?: string;
   /**
-   * The expiration date of the card.
-   *
-   * @deprecated Use `expYear` and `expMonth` instead.
-   */
-  expiration?: CardPaymentMethodExpiration | null;
-  /**
    * The last for digits of the card.
    */
   last4?: string;
@@ -251,17 +287,325 @@ export interface CardPaymentMethod {
 }
 
 /**
- * The expiration date for the card.
+ * The checkout.
  */
-export interface CardPaymentMethodExpiration {
+export interface Checkout {
   /**
-   * The expiration year.
+   * The system-assigned identifier of the checkout.
    */
-  year?: number;
+  id: string;
   /**
-   * The expiration month.
+   * The type of checkout.
    */
-  month?: number;
+  type: string;
+  /**
+   * The state of the checkout.
+   */
+  state: string;
+  /**
+   * The checkout error.
+   */
+  error?: apiv1.Status | null;
+  /**
+   * The currently selected currency code.
+   */
+  currencyCode: string;
+  /**
+   * The plans available for checkout.
+   */
+  plans?: Plan[];
+  /**
+   * The payment method for the checkout.
+   */
+  paymentMethod?: PaymentMethod | null;
+  /**
+   * The company or individual's full name.
+   */
+  fullName?: string;
+  /**
+   * The billing address.
+   */
+  address?: commonv1.Address | null;
+  /**
+   * The steps required to complete the checkout.
+   */
+  steps?: CheckoutStep[];
+  /**
+   * The products included in the checkout.
+   */
+  items?: CheckoutItem[];
+  /**
+   * The discounts applied to the checkout.
+   */
+  discounts?: CheckoutDiscount[];
+  /**
+   * The subtotal amount for the checkout.
+   *
+   * This includes item-level discounts.
+   */
+  subtotalAmount?: string;
+  /**
+   * The top-level discount amount.
+   *
+   * This does not include item level discounts.
+   */
+  discountAmount?: string;
+  /**
+   * The tax amount for the checkout.
+   *
+   * This is for rendering purposes only and is
+   * not the reported tax amount.
+   */
+  taxAmount?: string;
+  /**
+   * The total amount for the checkout.
+   */
+  totalAmount?: string;
+  /**
+   * The amount applied to the checkout from the balance.
+   *
+   * A negative amount means a debit from the account balance.
+   * A positive amount means a credit to the account balance.
+   */
+  balanceAppliedAmount?: string;
+  /**
+   * The total amount minus any credits automatically
+   * associated with the invoice.
+   */
+  dueAmount?: string;
+  /**
+   * The normal total recurring amount.
+   *
+   * This does not include any time-limited discounts.
+   */
+  renewAmount?: string;
+}
+
+/**
+ * The cancel step details.
+ */
+export interface CheckoutCancelStep {
+  /**
+   * The type of cancellation.
+   */
+  type?: string;
+}
+
+/**
+ * The complete payment step details.
+ */
+export interface CheckoutCompletePaymentStep {
+  /**
+   * The payment intent for the checkout.
+   */
+  paymentIntent?: PaymentIntent | null;
+}
+
+/**
+ * The discount.
+ */
+export interface CheckoutDiscount {
+  /**
+   * The checkout discount identifier.
+   */
+  id: string;
+  /**
+   * The discount code.
+   */
+  code?: string;
+}
+
+/**
+ * Checkout input parameters.
+ */
+export interface CheckoutInput {
+  /**
+   * The identifier of the organization.
+   *
+   * This is required if the user identifier is not specified.
+   */
+  organizationId?: string;
+  /**
+   * The identifier of the user.
+   *
+   * This is required if the organization identifier is not specified.
+   */
+  userId?: string;
+  /**
+   * The type of the checkout.
+   */
+  type?: string;
+  /**
+   * The identifier of the plan.
+   *
+   * This allows you to specify the currently selected plan.
+   */
+  planId?: string;
+  /**
+   * The identifier of the subscriptions.
+   *
+   * This allows you to specify a non-default subscription.
+   */
+  subscriptionId?: string;
+  /**
+   * The identifier of the connection.
+   *
+   * This allows you to specify a non-default billing connection.
+   */
+  connectionId?: string;
+}
+
+/**
+ * The checkout item.
+ */
+export interface CheckoutItem {
+  /**
+   * The item identifier.
+   */
+  id: string;
+  /**
+   * The display name for the item.
+   */
+  displayName: string;
+  /**
+   * The input type of the item.
+   */
+  inputType: string;
+  /**
+   * The type of the item.
+   */
+  type?: string;
+  /**
+   * The unit for the item.
+   */
+  unit?: string;
+  /**
+   * The price for the item.
+   */
+  price?: Price | null;
+  /**
+   * The quantity for the item.
+   */
+  quantity?: number;
+  /**
+   * The minimum quantity allowed.
+   *
+   * This will only be set when quantity is settable.
+   */
+  minQuantity?: number;
+  /**
+   * The maximum quantity allowed.
+   *
+   * This will only be set when the quantity is settable and there is a
+   * discrete (non-infinity) maximum.
+   */
+  maxQuantity?: number;
+  /**
+   * The quantity at which the plan will renew.
+   *
+   * This will only be set when different from quantity and the
+   * subscription is set to renew.
+   */
+  renewQuantity?: number;
+  /**
+   * The minimum renew quantity allowed.
+   *
+   * This will only be set when renew quantity is settable.
+   */
+  minRenewQuantity?: number;
+  /**
+   * The maximum renew quantity allowed.
+   *
+   * This will only be set when the new quantity is settable and there is a
+   * discrete (non-infinity) maximum.
+   */
+  maxRenewQuantity?: number;
+  /**
+   * The billing period for the item.
+   */
+  period?: commonv1.Period | null;
+  /**
+   * The subtotal amount at checkout.
+   */
+  subtotalAmount?: string;
+  /**
+   * The item-level discount amount at checkout.
+   */
+  discountAmount?: string;
+  /**
+   * The normal recurring amount.
+   *
+   * This does not include any time-limited discounts.
+   */
+  renewAmount?: string;
+  /**
+   * Whether this is a preview-only item.
+   *
+   * Preview-only items are generally prorations or other pending
+   * charges or credits.
+   */
+  preview?: boolean;
+  /**
+   * The item identifier for which you can group this item.
+   *
+   * This allows you to group credits and other preview items
+   * with the related plan, seat, or add-on item.
+   */
+  groupItemId?: string;
+}
+
+/**
+ * Checkout item input.
+ */
+export interface CheckoutItemInput {
+  /**
+   * The identifier of the item.
+   */
+  id: string;
+  /**
+   * The quantity for the item.
+   */
+  quantity?: number;
+}
+
+/**
+ * The checkout step.
+ */
+export interface CheckoutStep {
+  /**
+   * The type of step.
+   */
+  type: string;
+  /**
+   * The state of the step.
+   */
+  state: string;
+  /**
+   * The trial step details.
+   */
+  trial?: CheckoutTrialStep | null;
+  /**
+   * The cancel step details.
+   */
+  cancel?: CheckoutCancelStep | null;
+  /**
+   * The complete payment step details.
+   */
+  completePayment?: CheckoutCompletePaymentStep | null;
+}
+
+/**
+ * The trial step details.
+ */
+export interface CheckoutTrialStep {
+  /**
+   * Whether to start or continue a trial.
+   */
+  type?: string;
+  /**
+   * The number of days in the trial.
+   */
+  days?: number;
 }
 
 /**
@@ -309,18 +653,6 @@ export interface Connection {
    */
   providers: ConnectionProvider[];
   /**
-   * The connection view.
-   */
-  view: string;
-  /**
-   * The creation time of the connection.
-   */
-  createTime: Date;
-  /**
-   * The last update time of the connection.
-   */
-  updateTime: Date;
-  /**
    * The Amazon Cognito connection data.
    */
   amazonCognito?: AmazonCognitoConnection | null;
@@ -348,6 +680,18 @@ export interface Connection {
    * The webhooks configuration data.
    */
   webhook?: WebhookConnection | null;
+  /**
+   * The connection view.
+   */
+  view: string;
+  /**
+   * The creation time of the connection.
+   */
+  createTime: Date;
+  /**
+   * The last update time of the connection.
+   */
+  updateTime: Date;
 }
 
 /**
@@ -475,6 +819,14 @@ export interface Flow {
    */
   secret?: string;
   /**
+   * The join organization flow type specific data.
+   */
+  joinOrganization?: JoinOrganizationFlow | null;
+  /**
+   * The signup flow type specific data
+   */
+  signup?: SignupFlow | null;
+  /**
    * The flow view.
    */
   view: string;
@@ -486,14 +838,6 @@ export interface Flow {
    * The last update time of the flow.
    */
   updateTime: Date;
-  /**
-   * The join organization flow type specific data.
-   */
-  joinOrganization?: JoinOrganizationFlow | null;
-  /**
-   * The signup flow type specific data
-   */
-  signup?: SignupFlow | null;
 }
 
 /**
@@ -627,9 +971,9 @@ export interface Invoice {
    */
   changes?: InvoiceChange[];
   /**
-   * The last time the invoice was pulled from the connection.
+   * The invoice view.
    */
-  pullTime?: Date | null;
+  view: string;
   /**
    * The creation time of the invoice.
    */
@@ -873,6 +1217,27 @@ export interface ListOrganizationsResponse {
 }
 
 /**
+ * Response message for ListRoles.
+ */
+export interface ListRolesResponse {
+  /**
+   * The list of roles.
+   */
+  roles: Role[];
+  /**
+   * A token, which can be sent as `pageToken` to retrieve the next page.
+   * If this field is omitted, there are no subsequent pages.
+   */
+  nextPageToken?: string;
+  /**
+   * A token, which can be sent as `pageToken` to retrieve the previous page.
+   * If this field is absent, there are no preceding pages. If this field is
+   * an empty string then the previous page is the first result.
+   */
+  previousPageToken?: string;
+}
+
+/**
  * Response message for ListSubscriptions.
  */
 export interface ListSubscriptionsResponse {
@@ -938,6 +1303,10 @@ export interface Member {
    * has not been assigned a seat.
    */
   seat?: AccountSubscriptionSeat | null;
+  /**
+   * The member view.
+   */
+  view: string;
   /**
    * The creation time of the membership.
    */
@@ -1252,9 +1621,13 @@ export interface PaymentMethod {
    */
   lastPaymentError?: apiv1.Status | null;
   /**
-   * The last time the payment method was pulled from the connection.
+   * Card payment method (e.g. Visa credit card).
    */
-  pullTime?: Date | null;
+  card?: CardPaymentMethod | null;
+  /**
+   * The payment method view.
+   */
+  view: string;
   /**
    * The creation time of the payment method connection.
    */
@@ -1263,10 +1636,38 @@ export interface PaymentMethod {
    * The last update time of the payment method connection.
    */
   updateTime: Date;
+}
+
+/**
+ * Payment method input parameters.
+ */
+export interface PaymentMethodInput {
   /**
-   * Card payment method (e.g. Visa credit card).
+   * The full name of the owner of the payment method (e.g. `Jane Doe`).
    */
-  card?: CardPaymentMethod | null;
+  fullName?: string;
+  /**
+   * The address for the payment method.
+   */
+  address?: commonv1.Address | null;
+  /**
+   * The card expiration year (e.g. `2030`).
+   */
+  expYear?: number;
+  /**
+   * The card expiration month (e.g. `12`).
+   */
+  expMonth?: number;
+}
+
+/**
+ * Configuration for setting up a payment method.
+ */
+export interface PaymentMethodIntent {
+  /**
+   * A Stripe Setup Intent.
+   */
+  stripe?: StripePaymentMethodIntent | null;
 }
 
 /**
@@ -1281,6 +1682,10 @@ export interface Plan {
    * The status of the plan.
    */
   state: string;
+  /**
+   * The client defined unique identifier of the plan.
+   */
+  uniqueId?: string;
   /**
    * The name of the plan.
    */
@@ -1298,15 +1703,15 @@ export interface Plan {
   /**
    * The currency code for the plan (e.g. `USD`).
    */
-  currencyCode: string;
+  currencyCode?: string;
   /**
    * The billing interval for the plan.
    */
-  billingInterval: commonv1.Interval;
+  interval?: commonv1.Interval | null;
   /**
    * The revision for the plan.
    */
-  revision: PlanRevision;
+  revision?: PlanRevision | null;
   /**
    * Whether this is the current plan for the subscription.
    *
@@ -1352,7 +1757,7 @@ export interface Plan {
 }
 
 /**
- * The products which the plan includes.
+ * The products included in the plan.
  */
 export interface PlanItem {
   /**
@@ -1364,7 +1769,7 @@ export interface PlanItem {
    */
   product: Product;
   /**
-   * The price associated with them item.
+   * The price associated with the item.
    */
   price: Price;
 }
@@ -1398,7 +1803,7 @@ export interface PlanRevision {
   /**
    * The tag for the revision.
    *
-   * This will only be set in checkout for plans set using a tag.
+   * This is only set in checkout for plans selected using a tag.
    */
   tag?: string;
 }
@@ -1489,19 +1894,23 @@ export interface Price {
    */
   product?: Product | null;
   /**
+   * The price is dependent on the quantity.
+   */
+  empty?: PriceEmptyPrice | null;
+  /**
+   * The price is fixed per quantity.
+   */
+  fixed?: PriceFixedPrice | null;
+  /**
+   * The price is dependent on the quantity.
+   */
+  tiered?: PriceTieredPrice | null;
+  /**
    * The archived status of the price.
    *
    * It determines if the price can be used.
    */
   archived?: boolean;
-  /**
-   * The last time the price was pulled from the connection.
-   */
-  pullTime?: Date | null;
-  /**
-   * The last time the price was pushed to the connection.
-   */
-  pushTime?: Date | null;
   /**
    * The price view.
    */
@@ -1514,18 +1923,6 @@ export interface Price {
    * The last update time of the price.
    */
   updateTime: Date;
-  /**
-   * The price is dependent on the quantity.
-   */
-  empty?: PriceEmptyPrice | null;
-  /**
-   * The price is fixed per quantity.
-   */
-  fixed?: PriceFixedPrice | null;
-  /**
-   * The price is dependent on the quantity.
-   */
-  tiered?: PriceTieredPrice | null;
 }
 
 /**
@@ -1593,6 +1990,16 @@ export interface PriceTransformQuantity {
    * Whether to round the result up or down.
    */
   round: string;
+}
+
+/**
+ * The plans available in checkout.
+ */
+export interface Pricing {
+  /**
+   * The list of plans.
+   */
+  plans: Plan[];
 }
 
 /**
@@ -1677,14 +2084,6 @@ export interface ProductConnection {
    */
   stateReason?: string;
   /**
-   * The last time the product was pulled from the connection.
-   */
-  pullTime?: Date | null;
-  /**
-   * The last time the product was pushed to the connection.
-   */
-  pushTime?: Date | null;
-  /**
    * The creation time of the product connection.
    */
   createTime: Date;
@@ -1752,6 +2151,10 @@ export interface Role {
    * The archived status of the role.
    */
   archived?: boolean;
+  /**
+   * The role view.
+   */
+  view: string;
   /**
    * The creation time of the role.
    */
@@ -1827,6 +2230,28 @@ export interface StripePaymentIntent {
 }
 
 /**
+ * A Stripe Setup Intent.
+ */
+export interface StripePaymentMethodIntent {
+  /**
+   * The Stripe account ID (e.g. `acct_1LcUvxQYGbxD2SPK`)
+   */
+  accountId: string;
+  /**
+   * Whether the Stripe Setup Intent was created in live mode.
+   */
+  live: boolean;
+  /**
+   * The Stripe Setup Intent client secret.
+   */
+  clientSecret: string;
+  /**
+   * The Stripe.js Payment Element options.
+   */
+  paymentElementOptions?: Record<string, any>;
+}
+
+/**
  * The representation of an activated plan.
  */
 export interface Subscription {
@@ -1874,6 +2299,13 @@ export interface Subscription {
    * Whether the subscription is scheduled to be canceled
    * at the end of the current billing period.
    */
+  renewCanceled?: boolean;
+  /**
+   * Whether the subscription is scheduled to be canceled
+   * at the end of the current billing period.
+   *
+   * @deprecated Use `renewCanceled` instead.
+   */
   cancelPeriodEnd?: boolean;
   /**
    * The anchor time for the billing cycle.
@@ -1897,30 +2329,16 @@ export interface Subscription {
   currentPeriod?: SubscriptionCurrentPeriod | null;
   /**
    * The organization owner of the subscription.
-   *
-   * The ID field of this object must be populated if
-   * if user isn't specified.
    */
   organization?: Organization | null;
   /**
    * The user owner of the subscription.
-   *
-   * The ID field of this object must be populated if
-   * if organization isn't specified.
    */
   user?: User | null;
   /**
    * Whether the subscription is the default for the account.
    */
   default?: boolean;
-  /**
-   * The last time the subscription was pulled from the connection.
-   */
-  pullTime?: Date | null;
-  /**
-   * The last time the subscription was pushed to the connection.
-   */
-  pushTime?: Date | null;
   /**
    * The subscription view.
    */
@@ -1993,13 +2411,13 @@ export interface SubscriptionSeatInfo {
    * This might be less than the total quantity while a subscription change
    * is pending or if the subscription is over-provisioned.
    */
-  currentPeriodQuantity?: number;
+  currentQuantity?: number;
   /**
-   * The number of seats scheduled to appear on the next invoice.
+   * The number of seats expected at renewal.
    *
-   * This will only be set when different from current period quantity.
+   * This will only be set when different from current quantity.
    */
-  nextPeriodQuantity?: number;
+  renewQuantity?: number;
   /**
    * The number of seats currently assigned.
    */
@@ -2019,7 +2437,7 @@ export interface SubscriptionSeatInfo {
    */
   availableQuantity?: number;
   /**
-   * The total number of seats for the current period.
+   * The total number of seats associated with the subscription.
    */
   totalQuantity?: number;
 }
@@ -2051,6 +2469,16 @@ export interface SubscriptionTrial {
    * of the trial and null when the trial expires.
    */
   remainingDays?: number;
+}
+
+/**
+ * Input message for UpdateJoinOrganizationFlow.
+ */
+export interface UpdateJoinOrganizationFlowInput {
+  /**
+   * The identifier of the role.
+   */
+  roleId?: string;
 }
 
 /**
