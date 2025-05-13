@@ -1477,6 +1477,35 @@ class Users {
   }
 
   /**
+   * Report a user action.
+   *
+   * If the `<externalId>@<connectionId>` user identifier syntax is
+   * used and the user doesn't exist, they will be imported.
+   *
+   * By default, the action is processed asynchronously.
+   */
+  async reportAction(
+    userId: string,
+    input: Omit<UserReportActionInput, "userId">,
+  ): Promise<adminv1.ReportUserActionResponse>;
+  async reportAction(
+    input: UserReportActionInput,
+  ): Promise<adminv1.ReportUserActionResponse>;
+  async reportAction(
+    ...args: any[]
+  ): Promise<adminv1.ReportUserActionResponse> {
+    const req = build({
+      call: "admin.users.reportAction",
+      method: "POST",
+      path: "/admin/v1/users/{userId}:reportAction",
+      args,
+    });
+
+    const res = await this.transport.execute(req);
+    return res.body as adminv1.ReportUserActionResponse;
+  }
+
+  /**
    * Create a User API session.
    */
   async createApiSession(
@@ -2693,8 +2722,28 @@ interface UserImportAccountInput extends RequestOptions {
   //
   // This must be in the format `<externalId>@<connectionId>` where
   // `externalId` is the identity provider user identifier and
-  // and `connectionId` is the User Provider connection identifier.
+  // and `connectionId` is the User provider connection identifier.
   userId: string;
+}
+
+/**
+ * The input options for the `users.reportAction` method.
+ */
+interface UserReportActionInput extends RequestOptions {
+  // The identifier of the user.
+  //
+  // This can be in the format `<externalId>@<connectionId>` where
+  // `externalId` is the identity provider user identifier and
+  // and `connectionId` is the User provider connection identifier.
+  userId: string;
+
+  // The type of action.
+  action?: string;
+  // Process the user action synchronously.
+  //
+  // Otherwise the action is processed in the background and errors
+  // won't be returned.
+  wait?: boolean;
 }
 
 /**
@@ -2712,7 +2761,7 @@ interface UserCreatePortalSessionInput extends RequestOptions {
   // The user ID.
   //
   // In addition to supporting the UserHub user ID,
-  // you can also pass in the User Provider external identifier in the
+  // you can also pass in the User provider external identifier in the
   // format `<externalId>@<connectionId>` and if the user doesn't
   // exist in UserHub they will automatically be imported.
   userId: string;
