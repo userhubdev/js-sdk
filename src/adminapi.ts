@@ -980,7 +980,7 @@ class PaymentMethods {
   async create(input: PaymentMethodCreateInput): Promise<adminv1.PaymentMethod>;
   async create(...args: any[]): Promise<adminv1.PaymentMethod> {
     const req = build({
-      call: "admin.payment_methods.create",
+      call: "admin.paymentMethods.create",
       method: "POST",
       path: "/admin/v1/paymentMethods",
       args,
@@ -1001,7 +1001,7 @@ class PaymentMethods {
   ): Promise<adminv1.PaymentMethodIntent>;
   async createIntent(...args: any[]): Promise<adminv1.PaymentMethodIntent> {
     const req = build({
-      call: "admin.payment_methods.createIntent",
+      call: "admin.paymentMethods.createIntent",
       method: "POST",
       path: "/admin/v1/paymentMethods:createIntent",
       args,
@@ -1021,7 +1021,7 @@ class PaymentMethods {
   async get(input: PaymentMethodGetInput): Promise<adminv1.PaymentMethod>;
   async get(...args: any[]): Promise<adminv1.PaymentMethod> {
     const req = build({
-      call: "admin.payment_methods.get",
+      call: "admin.paymentMethods.get",
       method: "GET",
       path: "/admin/v1/paymentMethods/{paymentMethodId}",
       query: ["organizationId", "userId"],
@@ -1043,7 +1043,7 @@ class PaymentMethods {
   async update(input: PaymentMethodUpdateInput): Promise<adminv1.PaymentMethod>;
   async update(...args: any[]): Promise<adminv1.PaymentMethod> {
     const req = build({
-      call: "admin.payment_methods.update",
+      call: "admin.paymentMethods.update",
       method: "PATCH",
       path: "/admin/v1/paymentMethods/{paymentMethodId}",
       query: ["organizationId", "userId"],
@@ -1067,7 +1067,7 @@ class PaymentMethods {
   ): Promise<adminv1.PaymentMethod>;
   async setDefault(...args: any[]): Promise<adminv1.PaymentMethod> {
     const req = build({
-      call: "admin.payment_methods.setDefault",
+      call: "admin.paymentMethods.setDefault",
       method: "POST",
       path: "/admin/v1/paymentMethods/{paymentMethodId}:setDefault",
       args,
@@ -1087,7 +1087,7 @@ class PaymentMethods {
   async delete(input: PaymentMethodDeleteInput): Promise<apiv1.EmptyResponse>;
   async delete(...args: any[]): Promise<apiv1.EmptyResponse> {
     const req = build({
-      call: "admin.payment_methods.delete",
+      call: "admin.paymentMethods.delete",
       method: "DELETE",
       path: "/admin/v1/paymentMethods/{paymentMethodId}",
       query: ["organizationId", "userId"],
@@ -1477,32 +1477,30 @@ class Users {
   }
 
   /**
-   * Report a user action.
+   * Report a user event.
    *
    * If the `<externalId>@<connectionId>` user identifier syntax is
    * used and the user doesn't exist, they will be imported.
    *
-   * By default, the action is processed asynchronously.
+   * By default, the event is processed asynchronously.
    */
-  async reportAction(
+  async reportEvent(
     userId: string,
-    input: Omit<UserReportActionInput, "userId">,
-  ): Promise<adminv1.ReportUserActionResponse>;
-  async reportAction(
-    input: UserReportActionInput,
-  ): Promise<adminv1.ReportUserActionResponse>;
-  async reportAction(
-    ...args: any[]
-  ): Promise<adminv1.ReportUserActionResponse> {
+    input?: Omit<UserReportEventInput, "userId">,
+  ): Promise<adminv1.ReportUserEventResponse>;
+  async reportEvent(
+    input: UserReportEventInput,
+  ): Promise<adminv1.ReportUserEventResponse>;
+  async reportEvent(...args: any[]): Promise<adminv1.ReportUserEventResponse> {
     const req = build({
-      call: "admin.users.reportAction",
+      call: "admin.users.reportEvent",
       method: "POST",
-      path: "/admin/v1/users/{userId}:reportAction",
+      path: "/admin/v1/users/{userId}:event",
       args,
     });
 
     const res = await this.transport.execute(req);
-    return res.body as adminv1.ReportUserActionResponse;
+    return res.body as adminv1.ReportUserEventResponse;
   }
 
   /**
@@ -2727,9 +2725,9 @@ interface UserImportAccountInput extends RequestOptions {
 }
 
 /**
- * The input options for the `users.reportAction` method.
+ * The input options for the `users.reportEvent` method.
  */
-interface UserReportActionInput extends RequestOptions {
+interface UserReportEventInput extends RequestOptions {
   // The identifier of the user.
   //
   // This can be in the format `<externalId>@<connectionId>` where
@@ -2737,8 +2735,10 @@ interface UserReportActionInput extends RequestOptions {
   // and `connectionId` is the User provider connection identifier.
   userId: string;
 
-  // The type of action.
-  action?: string;
+  // The event type.
+  //
+  // If not specified, this defaults to `CHANGED`.
+  type?: string;
   // Process the user action synchronously.
   //
   // Otherwise the action is processed in the background and errors

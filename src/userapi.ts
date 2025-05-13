@@ -93,7 +93,7 @@ class BillingAccount {
   async get(input?: BillingAccountGetInput): Promise<userv1.BillingAccount>;
   async get(...args: any[]): Promise<userv1.BillingAccount> {
     const req = build({
-      call: "user.billing_account.get",
+      call: "user.billingAccount.get",
       method: "GET",
       path: "/user/v1/billingAccount",
       query: ["organizationId"],
@@ -113,7 +113,7 @@ class BillingAccount {
   ): Promise<userv1.BillingAccount>;
   async update(...args: any[]): Promise<userv1.BillingAccount> {
     const req = build({
-      call: "user.billing_account.update",
+      call: "user.billingAccount.update",
       method: "PATCH",
       path: "/user/v1/billingAccount",
       query: ["organizationId"],
@@ -920,7 +920,7 @@ class PaymentMethods {
   ): Promise<userv1.ListPaymentMethodsResponse>;
   async list(...args: any[]): Promise<userv1.ListPaymentMethodsResponse> {
     const req = build({
-      call: "user.payment_methods.list",
+      call: "user.paymentMethods.list",
       method: "GET",
       path: "/user/v1/paymentMethods",
       query: ["organizationId", "pageSize", "pageToken"],
@@ -938,7 +938,7 @@ class PaymentMethods {
   async create(input: PaymentMethodCreateInput): Promise<userv1.PaymentMethod>;
   async create(...args: any[]): Promise<userv1.PaymentMethod> {
     const req = build({
-      call: "user.payment_methods.create",
+      call: "user.paymentMethods.create",
       method: "POST",
       path: "/user/v1/paymentMethods",
       args,
@@ -959,7 +959,7 @@ class PaymentMethods {
   ): Promise<userv1.PaymentMethodIntent>;
   async createIntent(...args: any[]): Promise<userv1.PaymentMethodIntent> {
     const req = build({
-      call: "user.payment_methods.createIntent",
+      call: "user.paymentMethods.createIntent",
       method: "POST",
       path: "/user/v1/paymentMethods:createIntent",
       args,
@@ -979,7 +979,7 @@ class PaymentMethods {
   async get(input: PaymentMethodGetInput): Promise<userv1.PaymentMethod>;
   async get(...args: any[]): Promise<userv1.PaymentMethod> {
     const req = build({
-      call: "user.payment_methods.get",
+      call: "user.paymentMethods.get",
       method: "GET",
       path: "/user/v1/paymentMethods/{paymentMethodId}",
       idempotent: true,
@@ -1000,7 +1000,7 @@ class PaymentMethods {
   async update(input: PaymentMethodUpdateInput): Promise<userv1.PaymentMethod>;
   async update(...args: any[]): Promise<userv1.PaymentMethod> {
     const req = build({
-      call: "user.payment_methods.update",
+      call: "user.paymentMethods.update",
       method: "PATCH",
       path: "/user/v1/paymentMethods/{paymentMethodId}",
       idempotent: true,
@@ -1023,7 +1023,7 @@ class PaymentMethods {
   ): Promise<userv1.PaymentMethod>;
   async setDefault(...args: any[]): Promise<userv1.PaymentMethod> {
     const req = build({
-      call: "user.payment_methods.setDefault",
+      call: "user.paymentMethods.setDefault",
       method: "POST",
       path: "/user/v1/paymentMethods/{paymentMethodId}:setDefault",
       args,
@@ -1043,7 +1043,7 @@ class PaymentMethods {
   async delete(input: PaymentMethodDeleteInput): Promise<apiv1.EmptyResponse>;
   async delete(...args: any[]): Promise<apiv1.EmptyResponse> {
     const req = build({
-      call: "user.payment_methods.delete",
+      call: "user.paymentMethods.delete",
       method: "DELETE",
       path: "/user/v1/paymentMethods/{paymentMethodId}",
       args,

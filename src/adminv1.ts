@@ -2095,9 +2095,9 @@ export interface PurgeOrganizationResponse {}
 export interface PurgeUserResponse {}
 
 /**
- * Response message for ReportUserAction.
+ * Response message for ReportUserEvent.
  */
-export interface ReportUserActionResponse {}
+export interface ReportUserEventResponse {}
 
 /**
  * A member's role within an organization.

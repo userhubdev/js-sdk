@@ -2,8 +2,8 @@
 
 export const API_BASE_URL = "https://api.userhub.com";
 export const API_VERSION = "2025-05-01";
-export const USER_AGENT = "UserHub-JavaScript/0.8.1";
-export const VERSION = "0.8.1";
+export const USER_AGENT = "UserHub-JavaScript/0.8.2";
+export const VERSION = "0.8.2";
 
 export const AUTH_HEADER = "Authorization";
 export const API_KEY_HEADER = "UserHub-Api-Key";
