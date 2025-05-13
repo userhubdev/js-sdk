@@ -253,12 +253,7 @@ export interface Auth0Connection {
 /**
  * The builtin email specific connection data.
  */
-export interface BuiltinEmailConnection {
-  /**
-   * The allowed email list.
-   */
-  allowedEmails: string[];
-}
+export interface BuiltinEmailConnection {}
 
 /**
  * A card payment method (e.g. credit, debit, etc...).
@@ -1843,10 +1838,6 @@ export interface PostmarkConnection {
    * The reply to email address.
    */
   replyTo?: commonv1.Email | null;
-  /**
-   * The allowed email list.
-   */
-  allowedEmails?: string[];
 }
 
 /**
@@ -2102,6 +2093,11 @@ export interface PurgeOrganizationResponse {}
  * Response message for PurgeUser.
  */
 export interface PurgeUserResponse {}
+
+/**
+ * Response message for ReportUserAction.
+ */
+export interface ReportUserActionResponse {}
 
 /**
  * A member's role within an organization.
